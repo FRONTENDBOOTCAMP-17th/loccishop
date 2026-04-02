@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+@theme {
+  /* 브랜드 컬러 */
+  --color-brand-cream: #f5f0eb; /* 배경 베이지 */
+  --color-brand-dark: #1a1a1a; /* 기본 텍스트 */
+  --color-brand-brown: #3d2b1f; /* 진한 브라운 */
+  --color-brand-gold: #c8a96e; /* 골드 포인트 */
+  --color-brand-warm: #e8ddd4; /* 따뜻한 베이지 */
+
+  /* UI 컬러 */
+  --color-ui-gray-light: #f0eeec; /* 연한 회색 배경 */
+  --color-ui-gray: #d4cdc8; /* 구분선 */
+  --color-ui-gray-dark: #888078; /* 보조 텍스트 */
+  --color-ui-white: #ffffff; /* 흰색 */
+
+  /* 버튼 */
+  --color-btn-primary: #1a1a1a; /* 구매버튼 배경 */
+  --color-btn-primary-text: #ffffff; /* 구매버튼 텍스트 */
+
+  /* 별점 */
+  --color-star: #c8a96e; /* 별점 색상 */
+
+  /* 폰트 */
+  --font-sans: "Noto Sans KR", sans-serif;
+
+  /* 간격 */
+  --spacing-section: 80px;
+  --spacing-container: 24px;
+}
