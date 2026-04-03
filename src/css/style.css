@@ -1,30 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  /* 브랜드 컬러 */
-  --color-brand-cream: #f5f0eb; /* 배경 베이지 */
-  --color-brand-dark: #1a1a1a; /* 기본 텍스트 */
-  --color-brand-brown: #3d2b1f; /* 진한 브라운 */
-  --color-brand-gold: #c8a96e; /* 골드 포인트 */
-  --color-brand-warm: #e8ddd4; /* 따뜻한 베이지 */
+  /* 로그인 배경1(전체배경) */
+  --color--grey-99: #fffefa;
 
-  /* UI 컬러 */
-  --color-ui-gray-light: #f0eeec; /* 연한 회색 배경 */
-  --color-ui-gray: #d4cdc8; /* 구분선 */
-  --color-ui-gray-dark: #888078; /* 보조 텍스트 */
-  --color-ui-white: #ffffff; /* 흰색 */
+  /* 로그인 배경2(샌드컬러) */
+  --color-grey-96: #f9f5f0;
 
-  /* 버튼 */
-  --color-btn-primary: #1a1a1a; /* 구매버튼 배경 */
-  --color-btn-primary-text: #ffffff; /* 구매버튼 텍스트 */
+  /* 로그인/회원가입 & 이메일 주소를 입력하세요 글자 색상 */
+  --color-brand-woody: #3f2b2e;
 
-  /* 별점 */
-  --color-star: #c8a96e; /* 별점 색상 */
+  /* 필수항목,이메일 주소, 비밀번호 글자 색상 */
+  --color-grey-abbey: #484e51;
 
-  /* 폰트 */
-  --font-sans: "Noto Sans KR", sans-serif;
+  /* 로그인 input */
+  --color-grey-99: #fffefa; /* 배경색 */
+  --color-grey-45: #6a767b; /* 테두리 색상 */
 
-  /* 간격 */
-  --spacing-section: 80px;
-  --spacing-container: 24px;
+  /* 흰색 */
+  --color-white-solid: #ffffff;
 }
