@@ -1,0 +1,208 @@
+<article
+  class="content-wrapper flex gap-20 my-7 min-h-screen w-full px-16 mx-auto max-w-7xl"
+>
+  <!-- 좌측 이미지 영역 -->
+  <figure id="product-gallery " class="flex flex-col gap-2 w-[60%] max-w-182">
+    <div id="main-thumbnail">
+      <img class="bg-merino" src="/src/assets/images/product1_0.webp" alt="" />
+    </div>
+    <ul id="sub-thumbnail" class="grid grid-cols-2 gap-2">
+      <li>
+        <img
+          class="bg-merino"
+          src="/src/assets/images/product1_1.webp"
+          alt=""
+        />
+      </li>
+      <li>
+        <img
+          class="bg-merino"
+          src="/src/assets/images/product1_2.webp"
+          alt=""
+        />
+      </li>
+      <li>
+        <img
+          class="bg-merino"
+          src="/src/assets/images/product1_3.webp"
+          alt=""
+        />
+      </li>
+      <li>
+        <img
+          class="bg-merino"
+          src="/src/assets/images/product1_4.webp"
+          alt=""
+        />
+      </li>
+      <li>
+        <img
+          class="bg-merino"
+          src="/src/assets/images/product1_5.webp"
+          alt=""
+        />
+      </li>
+      <li>
+        <img
+          class="bg-merino"
+          src="/src/assets/images/product1_6.webp"
+          alt=""
+        />
+      </li>
+      <li>
+        <img
+          class="bg-merino"
+          src="/src/assets/images/product1_7.webp"
+          alt=""
+        />
+      </li>
+    </ul>
+  </figure>
+
+  <!-- 우측 정보영역 -->
+  <section
+    id="product-main"
+    class="flex flex-col gap-4 flex-1 max-w-120 sticky top-0 self-start"
+  >
+    <header class="flex flex-col gap-4">
+      <!-- 뱃지 + 별점 -->
+      <div id="badge-rating-wrapper" class="flex items-center justify-between">
+        <strong
+          id="badge"
+          class="text-xs px-2 py-1 rounded-sm uppercase bg-[#F2E9DB] text-stone-800"
+        >
+          NEW
+        </strong>
+        <div id="rating" class="flex items-center gap-2">
+          <div id="rating-stars" class="flex">
+            <img src="/src/assets/icon/star.svg" />
+            <img src="/src/assets/icon/star.svg" />
+            <img src="/src/assets/icon/star.svg" />
+            <img src="/src/assets/icon/star.svg" />
+            <img src="/src/assets/icon/star.svg" />
+          </div>
+          <span id="review-count" class="underline text-sm">113</span>
+        </div>
+      </div>
+
+      <!-- 상품명 -->
+      <h1 id="product-title" class="text-5xl font-medium leading-12">상품명</h1>
+
+      <!-- 설명 -->
+      <p id="short-description" class="text-xl leading-7 text-stone-500">
+        상품 간단 설명
+      </p>
+
+      <!-- 가격 -->
+      <div id="price-wrapper">
+        <p
+          id="product-Price"
+          class="text-sm font-nomal line-through text-stone-500"
+        >
+          30,000
+        </p>
+        <div class="flex gap-2 items-center">
+          <p id="product-discountRate" class="text-xl font-semibold">20%</p>
+          <p id="product-discountPrice" class="text-2xl font-bold">24,000</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 용량 옵션 -->
+    <section class="flex flex-col gap-1">
+      <span id="options-title" class="text-zambezi">용량</span>
+      <div id="optionsBtn" class="flex gap-2">
+        <button class="px-4 py-2.5 border border-empress rounded-sm text-sm">
+          30 ml
+        </button>
+        <button
+          class="px-4 py-2.5 border border-empress rounded-sm text-sm bg-ferra text-spring-wood"
+        >
+          75 ml
+        </button>
+        <button class="px-4 py-2.5 border border-empress rounded-sm text-sm">
+          150 ml
+        </button>
+      </div>
+    </section>
+
+    <!-- 장바구니 버튼 -->
+    <button
+      id="cart-button"
+      class="w-full bg-woody-brown text-spring-wood py-4 rounded-md text-sm my-6"
+    >
+      장바구니 담기
+    </button>
+
+    <section>
+      <p id="description" class="leading-5 my-6">상품 설명</p>
+    </section>
+
+    <!-- 제품 정보 -->
+
+    <div class="productInfo-wrapper flex flex-col gap-1">
+      <button
+        id="howToUse"
+        class="flex justify-between item-center w-full px-3 py-2.5 rounded-sm leading-5 text-sm bg-merino"
+        data-type="usage"
+      >
+        사용 방법 <span>›</span>
+      </button>
+      <button
+        id="ingredients"
+        class="flex justify-between item-center w-full px-3 py-2.5 rounded-sm leading-5 text-sm bg-merino"
+        data-type="ingredients"
+      >
+        원료 <span>›</span>
+      </button>
+      <button
+        id="productDisclosure"
+        class="flex justify-between item-center w-full px-3 py-2.5 rounded-sm leading-5 text-sm bg-merino"
+        data-type="info"
+      >
+        상품정보 제공고시 <span>›</span>
+      </button>
+    </div>
+
+    <!-- 사이드 패널 -->
+    <div id="panel" class="panel">
+      <div class="panel-header">
+        <h2 id="panelTitle"></h2>
+        <button id="closeBtn">✕</button>
+      </div>
+      <div id="panelContent"></div>
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <!-- 리뷰 -->
+    <section id="best-review-section" class="flex flex-col gap-4">
+      <h2 class="text-xl leading-7">베스트리뷰</h2>
+      <article class="bg-rose-white p-3">
+        <header class="flex flex-col gap-4">
+          <div id="rating-stars" class="flex">
+            <img src="/src/assets/icon/star.svg" />
+            <img src="/src/assets/icon/star.svg" />
+            <img src="/src/assets/icon/star.svg" />
+            <img src="/src/assets/icon/star.svg" />
+            <img src="/src/assets/icon/star.svg" />
+          </div>
+          <h3 id="review-title" class="leading-5">리뷰제목</h3>
+        </header>
+        <p id="review-content" class="text-sm leading-5 my-0.5 text-zambezi">
+          리뷰본문
+        </p>
+        <footer class="flex justify-between py-3.5">
+          <span id="author" class="text-xs leading-4 tracking-[.03em]"
+            >닉네임</span
+          >
+          <a
+            href="#reviews"
+            class="text-xs leading-4 tracking-[.03em] underline"
+            >전체 리뷰보기</a
+          >
+        </footer>
+      </article>
+    </section>
+  </section>
+</article>
