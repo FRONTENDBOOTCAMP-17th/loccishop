@@ -13,17 +13,11 @@
   --color-zambezi: #655558;
   --color-woody-brown: #3f2b2e;
   --color-ferra: #7f4e61;
-  --color-empress: #7E717;
+  --color-empress: #7e7173;
   --color-tundora: #424242;
-
-  /* 로그인 배경1(전체배경) */
-  --color--grey-99: #fffefa;
 
   /* 로그인 배경2(샌드컬러) */
   --color-grey-96: #f9f5f0;
-
-  /* 로그인/회원가입 & 이메일 주소를 입력하세요 글자 색상 */
-  --color-brand-woody: #3f2b2e;
 
   /* 필수항목,이메일 주소, 비밀번호 글자 색상 */
   --color-grey-abbey: #484e51;
@@ -38,7 +32,7 @@
 
 @layer base {
   body {
-    @apply bg-[var(--color-spring-wood)];
-    @apply text-[var(--color-woody-brown)];
+    @apply bg-spring-wood;
+    @apply text-woody-brown;
   }
 }
