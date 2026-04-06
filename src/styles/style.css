@@ -50,8 +50,14 @@
 }
 
 @layer base {
+  /* 기본 스타일 */
   body {
     @apply bg-spring-wood;
     @apply text-woody-brown;
+  }
+
+  /* 특정 클래스가 붙은 body 스타일 */
+  body.special-page {
+    @apply bg-grey-99;
   }
 }
