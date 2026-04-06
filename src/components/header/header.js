@@ -4,7 +4,7 @@ export const headerComponent = () => html`
       class="header-inner h-full flex items-center justify-between max-inline-360 mx-auto"
     >
       <img src="/src/assets/icon/Hamburger.svg" alt="" />
-      <img src="/src/assets/logo/Logo.svg" alt="" class="" />
+      <img src="/src/assets/logo/Loccitane.svg" alt="" class="" />
       <ul class="flex gap-4">
         <img src="/src/assets/icon/myPage.svg" alt="" />
         <img src="/src/assets/icon/Items.svg" alt="" />
