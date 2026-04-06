@@ -44,7 +44,7 @@
 
 @layer base {
   body {
-    @apply bg-[var(--color-spring-wood)];
-    @apply text-[var(--color-woody-brown)];
+    @apply bg-spring-wood;
+    @apply text-woody-brown;
   }
 }
