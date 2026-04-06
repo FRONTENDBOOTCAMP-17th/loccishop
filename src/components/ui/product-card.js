@@ -9,18 +9,21 @@ export function createProductCard({
   name,
   originalPrice,
   discountRate = null,
-  discountPrice = null,
   isSelected = false, // 가로형 - 현재 선택된 상품
   isWished = false,
   layout = "vertical", //"vertical" | "horizontal"
 } = {}) {
+  const discountPrice = Math.floor(originalPrice * (1 - discountRate / 100));
+
   //---------------가로형----------------
   if (layout === "horizontal") {
     const card = document.createElement("article");
     card.className = [
       "relative flex flex-row w-[420px] min-h-[170px] h-full p-3 items-start gap-3 self-stretch grow shrink-0 basis-0",
       "bg-rose-white rounded overflow-hidden cursor-pointer ",
-      isSelected ? "border border-woody-brown" : "outline-0 shadow-[0_0_6px_0_rgba(0,0,0,0.05)]",
+      isSelected
+        ? "border border-woody-brown"
+        : "outline-0 shadow-[0_0_6px_0_rgba(0,0,0,0.05)]",
     ].join(" ");
 
     //이미지 영역
@@ -37,7 +40,8 @@ export function createProductCard({
 
     // 텍스트 영역
     const infoWrapper = document.createElement("div");
-    infoWrapper.className = "flex flex-col justify-between px-3 py-2 w-full h-full";
+    infoWrapper.className =
+      "flex flex-col justify-between px-3 py-2 w-full h-full";
 
     const topWrapper = document.createElement("div");
     topWrapper.className = "flex flex-col gap-1";
