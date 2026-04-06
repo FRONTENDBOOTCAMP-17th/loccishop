@@ -58,6 +58,13 @@ async function initProductPage() {
   document.querySelector("#productDisclosure").addEventListener("click", () => {
     disclosureDrawer.open();
   });
+
+  // best-reveiw 로드
+  const bestRes = await fetch(
+    "/src/pages/product/detail/components/detail-best-review.html",
+  );
+  document.querySelector("#product-best-review").innerHTML =
+    await bestRes.text();
 }
 
 document.addEventListener("DOMContentLoaded", initProductPage);
