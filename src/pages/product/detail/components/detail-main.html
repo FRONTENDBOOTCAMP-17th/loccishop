@@ -2,37 +2,41 @@
   class="content-wrapper flex gap-20 my-7 min-h-screen w-full px-16 mx-auto max-w-7xl"
 >
   <!-- 좌측 이미지 영역 -->
-  <figure id="product-gallery " class="flex flex-col gap-2 w-[60%] max-w-182">
+  <figure id="product-gallery" class="flex flex-col gap-2 w-[60%] max-w-182">
     <div id="main-thumbnail">
-      <img class="bg-merino" src="/src/assets/images/product1_0.webp" alt="" />
+      <img
+        class="bg-merino"
+        src="/src/assets/images/product1_0.webp"
+        alt="상품 메인 이미지"
+      />
     </div>
     <ul id="sub-thumbnail" class="grid grid-cols-2 gap-2">
       <li>
         <img
           class="bg-merino"
           src="/src/assets/images/product1_1.webp"
-          alt=""
+          alt="상품 상세 이미지 1"
         />
       </li>
       <li>
         <img
           class="bg-merino"
           src="/src/assets/images/product1_2.webp"
-          alt=""
+          alt="상품 상세 이미지 2"
         />
       </li>
       <li>
         <img
           class="bg-merino"
           src="/src/assets/images/product1_3.webp"
-          alt=""
+          alt="상품 상세 이미지 3"
         />
       </li>
       <li>
         <img
           class="bg-merino"
           src="/src/assets/images/product1_4.webp"
-          alt=""
+          alt="상품 상세 이미지 4"
         />
       </li>
       <li>
@@ -69,12 +73,17 @@
       <div id="badge-rating-wrapper" class="flex items-center justify-between">
         <strong id="badge"></strong>
         <div id="rating" class="flex items-center gap-2">
-          <div id="rating-stars" class="flex">
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
+          <div
+            id="rating-stars"
+            class="flex"
+            role="img"
+            aria-label="별점 5점 만점에 5점"
+          >
+            <img src="/src/assets/icon/star.svg" alt="" aria-hidden="true" />
+            <img src="/src/assets/icon/star.svg" alt="" aria-hidden="true" />
+            <img src="/src/assets/icon/star.svg" alt="" aria-hidden="true" />
+            <img src="/src/assets/icon/star.svg" alt="" aria-hidden="true" />
+            <img src="/src/assets/icon/star.svg" alt="" aria-hidden="true" />
           </div>
           <span id="review-count" class="underline text-sm">113</span>
         </div>
