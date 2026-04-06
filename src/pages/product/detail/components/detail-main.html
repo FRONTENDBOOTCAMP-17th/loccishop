@@ -67,12 +67,7 @@
     <header class="flex flex-col gap-4">
       <!-- 뱃지 + 별점 -->
       <div id="badge-rating-wrapper" class="flex items-center justify-between">
-        <strong
-          id="badge"
-          class="text-xs px-2 py-1 rounded-sm uppercase bg-[#F2E9DB] text-stone-800"
-        >
-          NEW
-        </strong>
+        <strong id="badge"></strong>
         <div id="rating" class="flex items-center gap-2">
           <div id="rating-stars" class="flex">
             <img src="/src/assets/icon/star.svg" />
@@ -127,82 +122,9 @@
     </section>
 
     <!-- 장바구니 버튼 -->
-    <button
-      id="cart-button"
-      class="w-full bg-woody-brown text-spring-wood py-4 rounded-md text-sm my-6"
-    >
-      장바구니 담기
-    </button>
-
-    <section>
-      <p id="description" class="leading-5 my-6">상품 설명</p>
-    </section>
+    <div id="cart-button"></div>
 
     <!-- 제품 정보 -->
-
-    <div class="productInfo-wrapper flex flex-col gap-1">
-      <button
-        id="howToUse"
-        class="flex justify-between item-center w-full px-3 py-2.5 rounded-sm leading-5 text-sm bg-merino"
-        data-type="usage"
-      >
-        사용 방법 <span>›</span>
-      </button>
-      <button
-        id="ingredients"
-        class="flex justify-between item-center w-full px-3 py-2.5 rounded-sm leading-5 text-sm bg-merino"
-        data-type="ingredients"
-      >
-        원료 <span>›</span>
-      </button>
-      <button
-        id="productDisclosure"
-        class="flex justify-between item-center w-full px-3 py-2.5 rounded-sm leading-5 text-sm bg-merino"
-        data-type="info"
-      >
-        상품정보 제공고시 <span>›</span>
-      </button>
-    </div>
-
-    <!-- 사이드 패널 -->
-    <div id="panel" class="panel">
-      <div class="panel-header">
-        <h2 id="panelTitle"></h2>
-        <button id="closeBtn">✕</button>
-      </div>
-      <div id="panelContent"></div>
-    </div>
-
-    <div id="overlay" class="overlay"></div>
-
-    <!-- 리뷰 -->
-    <section id="best-review-section" class="flex flex-col gap-4">
-      <h2 class="text-xl leading-7">베스트리뷰</h2>
-      <article class="bg-rose-white p-3">
-        <header class="flex flex-col gap-4">
-          <div id="rating-stars" class="flex">
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-          </div>
-          <h3 id="review-title" class="leading-5">리뷰제목</h3>
-        </header>
-        <p id="review-content" class="text-sm leading-5 my-0.5 text-zambezi">
-          리뷰본문
-        </p>
-        <footer class="flex justify-between py-3.5">
-          <span id="author" class="text-xs leading-4 tracking-[.03em]"
-            >닉네임</span
-          >
-          <a
-            href="#reviews"
-            class="text-xs leading-4 tracking-[.03em] underline"
-            >전체 리뷰보기</a
-          >
-        </footer>
-      </article>
-    </section>
+    <div id="product-info"></div>
   </section>
 </article>
