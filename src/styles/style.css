@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  /*detailPage*/
   /* 베이지계열 */
   --color-rose-white: #fffefe;
   --color-spring-wood: #fbf9f6;

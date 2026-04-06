@@ -1,6 +1,5 @@
 import { createButton } from "/src/components/ui/button.js";
 import { createBadge } from "/src/components/ui/badge.js";
-import { createProductCard } from "/src/components/ui/product-card.js";
 import { createDrawer } from "/src/components/ui/drawer.js";
 
 async function initProductPage() {
@@ -23,10 +22,6 @@ async function initProductPage() {
     variant: "primary",
     size: "md",
     fullWidth: true,
-  });
-
-  cartBtn.addEventListener("click", () => {
-    console.log("장바구니 추가!");
   });
 
   document.querySelector("#cart-button").append(cartBtn);
@@ -58,6 +53,19 @@ async function initProductPage() {
   document.querySelector("#productDisclosure").addEventListener("click", () => {
     disclosureDrawer.open();
   });
+
+  // best-reveiw 로드
+  const bestRes = await fetch(
+    "/src/pages/product/detail/components/detail-best-review.html",
+  );
+  document.querySelector("#product-best-review").innerHTML =
+    await bestRes.text();
+
+  // reveiw 로드
+  const reviewsRes = await fetch(
+    "/src/pages/product/detail/components/detail-review.html",
+  );
+  document.querySelector("#detail-reviews").innerHTML = await reviewsRes.text();
 }
 
 document.addEventListener("DOMContentLoaded", initProductPage);
