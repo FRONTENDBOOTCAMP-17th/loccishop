@@ -1,11 +1,14 @@
 import { createButton } from "/src/components/ui/button.js";
 import { createBadge } from "/src/components/ui/badge.js";
 import { createDrawer } from "/src/components/ui/drawer.js";
+import { createProductCard } from "/src/components/ui/product-card.js";
 
 // HTML 파일 로드해서 컨테이너에 삽입
 async function loadHTML(selector, url) {
   const container = document.querySelector(selector);
-  if (!container) return;
+  if (!container) {
+    return;
+  }
   const res = await fetch(url);
   container.innerHTML = await res.text();
 }
@@ -56,6 +59,55 @@ function initDrawers() {
   });
 }
 
+// 상품 카드
+function initProductCard() {
+  const products = [
+    {
+      name: "첫번째 제품명",
+      size: "30 ml",
+      originalPrice: 20000,
+      discountRate: 20,
+      discountPrice: 16000,
+      image: `/src/assets/images/product1_0.webp`,
+      imageAlt: "상품설명",
+      isSelected: true,
+    },
+    {
+      name: "두번째 제품명",
+      size: "50 ml",
+      originalPrice: 20000,
+      discountRate: 20,
+      discountPrice: 16000,
+      image: `/src/assets/images/product1_1.webp`,
+      imageAlt: "상품설명",
+    },
+    {
+      name: "세번째 제품명세번째 제품명세번째 세번째 제품명세번째 제품명세번째 제품명",
+      size: "75 ml",
+      originalPrice: 20000,
+      discountRate: 20,
+      discountPrice: 16000,
+      image: `/src/assets/images/product1_2.webp`,
+      imageAlt: "상품설명",
+    },
+  ];
+
+  const list = document.getElementById("ritual-steps-list");
+
+  products.forEach((product, index) => {
+    const li = document.createElement("li");
+    li.className = "h-full";
+    li.append(
+      createProductCard({
+        layout: "horizontal",
+        badgeText: `${index + 1} 단계`,
+        ...product,
+      }),
+    );
+    list.append(li);
+  });
+}
+
 // 리뷰 더보기 버튼 초기화
 function initMoreReviewButton() {
   const moreReviewBtn = createButton({
@@ -69,7 +121,12 @@ function initMoreReviewButton() {
     "hover:bg-woody-brown",
     "hover:text-cararra",
   );
-  document.querySelector("#more-reviews-btn").append(moreReviewBtn);
+  const container = document.querySelector("#more-reviews-btn");
+  if (container) {
+    container.append(moreReviewBtn);
+  } else {
+    console.warn("#more-reviews-btn 요소가 존재하지 않습니다.");
+  }
 }
 
 // 메인 초기화 — 각 함수 호출만 담당
@@ -88,6 +145,13 @@ async function initProductPage() {
     "/src/pages/product/detail/components/detail-info.html",
   );
   initDrawers();
+
+  //ritual-steps 로드 → 장바구니 버튼 의존
+  await loadHTML(
+    "#detail-ritual-steps",
+    "/src/pages/product/detail/components/detail-ritual-steps.html",
+  );
+  initProductCard();
 
   // 리뷰 로드 → 더보기 버튼 의존
   await loadHTML(
