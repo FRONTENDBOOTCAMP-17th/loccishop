@@ -4,13 +4,106 @@ export function createProductCard({
   image,
   imageAlt = "",
   badgeType = null,
+  badgeText = null, // 가로형에서 "1 단계" 같은 텍스트 배지
   size,
   name,
   originalPrice,
-  discountRate,
-  discountPrice,
+  discountRate = null,
+  discountPrice = null,
+  isSelected = false, // 가로형 - 현재 선택된 상품
   isWished = false,
+  layout = "vertical", //"vertical" | "horizontal"
 } = {}) {
+  //---------------가로형----------------
+  if (layout === "horizontal") {
+    const card = document.createElement("article");
+    card.className = [
+      "relative flex flex-row w-[420px] min-h-[170px] h-full p-3 items-start gap-3 self-stretch grow shrink-0 basis-0",
+      "bg-rose-white rounded overflow-hidden cursor-pointer ",
+      isSelected ? "border border-woody-brown" : "outline-0 shadow-[0_0_6px_0_rgba(0,0,0,0.05)]",
+    ].join(" ");
+
+    //이미지 영역
+    const imageWrapper = document.createElement("div");
+    imageWrapper.className =
+      " w-[128px] h-full rounded flex-shrink-0 bg-gradient-to-b from-grey-96 to-grey-94 flex items-center justify-center overflow-hidden";
+
+    const img = document.createElement("img");
+    img.src = image;
+    img.alt = imageAlt;
+    img.className = "w-full h-full object-contain";
+
+    imageWrapper.append(img);
+
+    // 텍스트 영역
+    const infoWrapper = document.createElement("div");
+    infoWrapper.className = "flex flex-col justify-between px-3 py-2 w-full h-full";
+
+    const topWrapper = document.createElement("div");
+    topWrapper.className = "flex flex-col gap-1";
+
+    //단계 배지
+    if (badgeText) {
+      const badge = document.createElement("div");
+      badge.textContent = badgeText;
+      badge.className =
+        "self-start text-3 leading-4 tracking-[.03rem] bg-cararra px-2 py-1 rounded-sm mb-1";
+      topWrapper.append(badge);
+    }
+
+    const nameEl = document.createElement("p");
+    nameEl.textContent = name;
+    nameEl.className = "text-4 leading-5";
+
+    const sizeText = document.createElement("span");
+    sizeText.textContent = size;
+    sizeText.className = "text-3 text-zambezi";
+
+    // 가격 영역 wrapper
+    const priceWrapper = document.createElement("div");
+    priceWrapper.className = "flex flex-col";
+
+    // 상시가
+    const originalPriceEl = document.createElement("span");
+    originalPriceEl.textContent = `₩${originalPrice.toLocaleString()}`;
+    originalPriceEl.className = "text-xs text-empress line-through";
+
+    // 할인율 + 할인가
+    const discountRow = document.createElement("div");
+    discountRow.className = "flex items-center gap-3";
+
+    if (discountRate) {
+      const discountRateEl = document.createElement("span");
+      discountRateEl.textContent = `${discountRate}%`;
+      discountRateEl.className = "text-md text-burnt-orange font-semibold";
+      discountRow.append(discountRateEl);
+    }
+
+    const discountPriceEl = document.createElement("span");
+    discountPriceEl.textContent = `₩${(discountPrice ?? originalPrice).toLocaleString()}`;
+    discountPriceEl.className = "text-lg text-woody-brown font-medium";
+    discountRow.append(discountPriceEl);
+
+    priceWrapper.append(originalPriceEl, discountRow);
+    topWrapper.append(nameEl, sizeText);
+    infoWrapper.append(topWrapper, priceWrapper);
+
+    // 장바구니 버튼 (우측 하단 절대 위치)
+    const cartBtn = document.createElement("button");
+    cartBtn.className =
+      "absolute bottom-2 right-2 flex justify-center items-center w-7 h-7 rounded-full bg-cararra cursor-pointer";
+
+    const cartIcon = document.createElement("img");
+    cartIcon.src = "/src/assets/icon/cart.svg";
+    cartIcon.alt = "장바구니 추가";
+    cartIcon.className = "w-4 h-4";
+    cartBtn.append(cartIcon);
+
+    card.append(imageWrapper, infoWrapper, cartBtn);
+    return card;
+  }
+
+  //---------------세로형----------------
   const card = document.createElement("article");
   card.className =
     "relative flex flex-col w-[312px] bg-gradient-to-b from-grey-96 to-grey-94";
