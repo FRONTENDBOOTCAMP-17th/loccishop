@@ -6,6 +6,7 @@
   --color-spring-wood: #fbf9f6;
   --color-merino: #f7f2ea;
   --color-cararra: #f2e9db;
+  --color-grey-94: #f6f0e7;
 
   /* 브라운계열 */
   --color-abbey: #484e51;
@@ -14,6 +15,13 @@
   --color-ferra: #7f4e61;
   --color-empress: #7E717;
   --color-tundora: #424242;
+  --color-dark-woody: #2d1f21;
+
+  /* 레드계열 */
+  --color-burnt-orange: #c1440e;
+
+  /* 그린계열 */
+  --color-teal-green: #3d8b7a;
 
   /* 로그인,회원가입 배경1(전체배경) */
   --color--grey-99: #fffefa;
@@ -42,8 +50,14 @@
 }
 
 @layer base {
+  /* 기본 스타일 */
   body {
     @apply bg-spring-wood;
     @apply text-woody-brown;
+  }
+
+  /* 특정 클래스가 붙은 body 스타일 */
+  body.special-page {
+    @apply bg-grey-99;
   }
 }
