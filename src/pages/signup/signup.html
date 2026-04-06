@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>L’OcciShop 클론 프로젝트</title>
+    <link rel="stylesheet" href="/src/styles/style.css" />
+  </head>
+  <body class="bg-grey-99">
+    <main class="flex justify-center items-center">
+      <div class="w-161 h-417 px-2 flex flex-col">
+        <h2 class="text-[24px] font-normal leading-10 text-center pb-2">
+          회원가입
+        </h2>
+        <hr class="w-12.5 h-0.5 mx-auto" />
+        <p class="text-grey-abbey text-[12px] font-medium leading-4 my-6">
+          필수항목*
+        </p>
+
+        <form id="signupForm" class="flex flex-col">
+          <div class="flex flex-col">
+            <label for="userId" class="text-[14px] font-medium leading-5"
+              >아이디*</label
+            >
+            <div class="relative">
+              <input
+                type="text"
+                id="userId"
+                name="userId"
+                class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                required
+              />
+              <img
+                src="/src/assets/icon/error.svg"
+                alt="아이디 에러"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="idErrorIcon"
+              />
+              <img
+                src="/src/assets/icon/check.svg"
+                alt="아이디 통과"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="idCheckIcon"
+              />
+            </div>
+            <p
+              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              id="idErrorText"
+            >
+              잘못된 형식입니다.
+            </p>
+          </div>
+
+          <div class="flex flex-col">
+            <label for="userPw" class="text-[14px] font-medium leading-5"
+              >비밀번호*</label
+            >
+            <div class="relative">
+              <input
+                type="password"
+                id="userPw"
+                name="userPw"
+                class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                required
+              />
+              <div class="flex absolute right-3 top-1/2 -translate-y-1/2 gap-3">
+                <div class="relative w-4 h-4">
+                  <img
+                    src="/src/assets/icon/error.svg"
+                    alt="비밀번호 에러"
+                    id="pwErrorIcon"
+                    class="absolute inset-0 w-full h-full"
+                  />
+                  <img
+                    src="/src/assets/icon/check.svg"
+                    alt="비밀번호 통과"
+                    id="pwCheckIcon"
+                    class="absolute inset-0 w-full h-full"
+                  />
+                </div>
+                <button id="togglePassword" type="button">
+                  <img
+                    src="/src/assets/icon/passwordEye.svg"
+                    alt="비밀번호 보기"
+                  />
+                </button>
+              </div>
+            </div>
+            <p
+              id="pwGuideText"
+              class="text-grey-abbey text-[12px] font-medium leading-4 mb-4"
+            >
+              숫자 포함 8글자 이상
+            </p>
+            <p
+              id="pwErrorText"
+              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+            >
+              Password is not acceptable
+            </p>
+          </div>
+
+          <div class="flex flex-col">
+            <label for="userPwConfirm" class="text-[14px] font-medium leading-5"
+              >비밀번호 확인*</label
+            >
+            <div class="relative">
+              <input
+                type="password"
+                id="userPwConfirm"
+                name="userPwConfirm"
+                class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                required
+              />
+              <div class="flex absolute right-3 top-1/2 -translate-y-1/2 gap-3">
+                <div class="relative w-4 h-4">
+                  <img
+                    src="/src/assets/icon/error.svg"
+                    alt="비밀번호 확인 에러"
+                    id="pwConfirmErrorIcon"
+                    class="absolute inset-0 w-full h-full"
+                  />
+                  <img
+                    src="/src/assets/icon/check.svg"
+                    alt="비밀번호 확인 통과"
+                    id="pwConfirmCheckIcon"
+                    class="absolute inset-0 w-full h-full"
+                  />
+                </div>
+                <button id="togglePasswordConfirm" type="button">
+                  <img
+                    src="/src/assets/icon/passwordEye.svg"
+                    alt="비밀번호 확인 보기"
+                  />
+                </button>
+              </div>
+            </div>
+            <p
+              id="pwConfirmErrorText"
+              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+            >
+              The confirmation of your password is different from your original
+              password
+            </p>
+          </div>
+
+          <div class="flex flex-col">
+            <label for="userName" class="text-[14px] font-medium leading-5"
+              >이름*</label
+            >
+            <div class="relative">
+              <input
+                type="text"
+                id="userName"
+                name="userName"
+                class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                required
+              />
+              <img
+                src="/src/assets/icon/error.svg"
+                alt="이름 에러"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="nameErrorIcon"
+              />
+              <img
+                src="/src/assets/icon/check.svg"
+                alt="이름 통과"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="nameCheckIcon"
+              />
+            </div>
+            <p
+              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              id="nameErrorText"
+            >
+              Please enter your last name.
+            </p>
+          </div>
+
+          <div class="flex flex-col">
+            <label for="userPhone" class="text-[14px] font-medium leading-5"
+              >휴대폰 번호*</label
+            >
+            <div class="relative">
+              <input
+                type="text"
+                id="userPhone"
+                name="userPhone"
+                placeholder="000-0000-0000"
+                class="bg-grey-96 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                required
+              />
+              <img
+                src="/src/assets/icon/error.svg"
+                alt="휴대폰 번호 에러"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="phoneErrorIcon"
+              />
+              <img
+                src="/src/assets/icon/check.svg"
+                alt="휴대폰 번호 통과"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="phoneCheckIcon"
+              />
+            </div>
+            <p
+              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              id="phoneErrorText"
+            >
+              Please enter a valid phone number.
+            </p>
+          </div>
+
+          <div class="flex flex-col">
+            <label for="userAddress" class="text-[14px] font-medium leading-5"
+              >주소</label
+            >
+            <div class="relative mb-4">
+              <input
+                type="text"
+                id="userAddress"
+                name="userAddress"
+                class="bg-grey-96 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                required
+              />
+              <img
+                src="/src/assets/icon/error.svg"
+                alt="주소 에러"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="addressErrorIcon"
+              />
+              <img
+                src="/src/assets/icon/check.svg"
+                alt="주소 통과"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="addressCheckIcon"
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-col">
+            <label
+              for="userDetailAddress"
+              class="text-[14px] font-medium leading-5"
+              >상세주소</label
+            >
+            <div class="relative mb-4">
+              <input
+                type="text"
+                id="userDetailAddress"
+                name="userDetailAddress"
+                class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                required
+              />
+              <img
+                src="/src/assets/icon/error.svg"
+                alt="상세주소 에러"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="detailAddressErrorIcon"
+              />
+              <img
+                src="/src/assets/icon/check.svg"
+                alt="상세주소 통과"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="detailAddressCheckIcon"
+              />
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button type="submit" class="px-26.75 py-2 bg-orange-90">
+              확인
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
