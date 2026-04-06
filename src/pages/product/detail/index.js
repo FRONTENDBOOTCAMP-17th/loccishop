@@ -66,6 +66,21 @@ async function initProductPage() {
     "/src/pages/product/detail/components/detail-review.html",
   );
   document.querySelector("#detail-reviews").innerHTML = await reviewsRes.text();
+
+  const moreReviewBtn = createButton({
+    text: "리뷰 더보기",
+    variant: "outline",
+    size: "sm",
+    fullWidth: false,
+  });
+
+  moreReviewBtn.classList.add(
+    "mt-5",
+    "hover:bg-woody-brown",
+    "hover:text-cararra",
+  );
+
+  document.querySelector("#more-reviews-btn").append(moreReviewBtn);
 }
 
 document.addEventListener("DOMContentLoaded", initProductPage);
