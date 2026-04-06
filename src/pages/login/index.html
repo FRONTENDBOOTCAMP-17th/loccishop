@@ -10,21 +10,22 @@
     <main>
       <div
         id="loginModal"
-        class="fixed inset-0 z-50 flex justify-center items-center"
+        class="fixed inset-0 z-50 flex justify-center items-center px-4"
       >
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
 
-        <div class="relative pr-2.5 bg-grey-99 z-10 w-200 h-fit">
-          <button class="px-[21.67px] py-[21.67px] absolute right-0">
+        <div class="relative bg-grey-99 z-10 w-full max-w-200 h-fit">
+          <button class="absolute right-0 top-0 p-[21.67px]">
             <img
               src="/src/assets/icon/login_xBtn.svg"
               alt="로그인/회원가입 창 닫기버튼"
             />
           </button>
+
           <div
-            class="my-[71.99px] w-160 mx-9.25 flex flex-col justify-start items-start"
+            class="flex flex-col my-10 md:my-18 px-6 md:px-9.25 w-full mx-auto"
           >
-            <div class="">
+            <div class="w-full">
               <h1
                 class="text-woody-brown text-[30px] font-normal leading-normal mb-2"
               >
@@ -36,73 +37,80 @@
               <p
                 class="pt-10 pb-6 text-woody-brown text-[12px] font-bold leading-4 tracking-[1.2px] uppercase"
               >
-                이메일 주소를 입력하세요.
+                아이디/비밀번호를 입력하세요.
               </p>
-              <form action="">
-                <div class="px-10 py-4 bg-grey-96 w-181.5 flex flex-col gap-4">
-                  <div
-                    class="flex flex-col text-grey-abbey text-[14px] font-semibold leading-5"
-                  >
-                    <label for="email">아이디* </label>
-                    <div class="relative mt-2">
-                      <input
-                        type="text"
-                        id="email"
-                        name="user_email"
-                        class="bg-grey-99 border border-grey-45 h-10 w-full"
-                        required
-                      />
-                      <img
-                        src="/src/assets/icon/error.svg"
-                        alt="아이디 에러"
-                        id="idErrorIcon"
-                        class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 hidden"
-                      />
-                    </div>
-                    <p
-                      id="idErrorText"
-                      class="text-error-red text-[12px] font-medium leading-4 mt-1 hidden"
-                    >
-                      잘못된 형식입니다.
-                    </p>
-                  </div>
-                  <div
-                    class="flex flex-col text-grey-abbey text-[14px] font-semibold leading-5"
-                  >
-                    <label for="password">비밀번호*</label>
-
-                    <div class="relative mt-2 w-full">
-                      <input
-                        type="password"
-                        id="password"
-                        class="w-full bg-grey-99 border border-grey-45 h-10 pr-10"
-                        required
-                      />
-                      <button
-                        type="button"
-                        id="togglePassword"
-                        class="absolute right-3 top-1/2 -translate-y-1/2 hidden"
-                      >
-                        <img
-                          src="/src/assets/icon/passwordEye.svg"
-                          alt="비밀번호 보기"
-                          class="w-5 h-5"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                  <div class="flex justify-between items-center">
-                    <button
-                      type="submit"
-                      class="w-60 h-10 bg--woody-brown text-white-solid text-[14px] font-medium leading-6 mt-4"
-                    >
-                      로그인
-                    </button>
-                    <a href="/src/pages/signup/signup.html">회원가입</a>
-                  </div>
-                </div>
-              </form>
             </div>
+
+            <form
+              id="loginForm"
+              class="w-full bg-grey-96 px-6 md:px-10 py-6 flex flex-col gap-4"
+            >
+              <div
+                class="flex flex-col text-grey-abbey text-[14px] font-semibold leading-5"
+              >
+                <label for="email">아이디*</label>
+                <div class="relative mt-2">
+                  <input
+                    type="text"
+                    id="email"
+                    name="user_email"
+                    class="bg-grey-99 border border-grey-45 h-10 w-full px-3"
+                    required
+                  />
+                  <img
+                    src="/src/assets/icon/error.svg"
+                    alt="아이디 에러"
+                    id="idErrorIcon"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 hidden"
+                  />
+                </div>
+                <p
+                  id="idErrorText"
+                  class="text-error-red text-[12px] font-medium leading-4 mt-1 hidden"
+                >
+                  잘못된 형식입니다.
+                </p>
+              </div>
+
+              <div
+                class="flex flex-col text-grey-abbey text-[14px] font-semibold leading-5"
+              >
+                <label for="password">비밀번호*</label>
+                <div class="relative mt-2 w-full">
+                  <input
+                    type="password"
+                    id="password"
+                    class="w-full bg-grey-99 border border-grey-45 h-10 px-3 pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    id="togglePassword"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 hidden"
+                  >
+                    <img
+                      src="/src/assets/icon/passwordEye.svg"
+                      alt="비밀번호 보기"
+                      class="w-5 h-5"
+                    />
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-center mt-2">
+                <button
+                  type="submit"
+                  class="w-1/2 md:w-60 h-10 bg-woody-brown text-white-solid text-[14px] font-medium leading-6"
+                >
+                  로그인
+                </button>
+                <a
+                  href="/src/pages/signup/signup.html"
+                  class="text-[14px] font-medium hover:underline"
+                  >회원가입</a
+                >
+              </div>
+            </form>
           </div>
         </div>
       </div>
