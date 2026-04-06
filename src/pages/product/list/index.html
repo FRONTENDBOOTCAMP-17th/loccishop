@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>L’OcciShop 클론 프로젝트</title>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/pages/product/list/index.js"></script>
+  </head>
+  <body>
+    <section
+      class="relative w-full h-119 bg-[url('/src/assets/images/handcareHero.webp')] bg-cover bg-center flex justify-center"
+    >
+      <h2
+        class="text-[64px] font-medium leading-14 tracking-[1px] uppercase text-rose-white mt-95"
+      >
+        핸드 케어
+      </h2>
+    </section>
+    <div class="px-[232.5px] pt-10 flex flex-col">
+      <p class="text-[18px] font-normal leading-6 text-center text-woody-brown">
+        이 핸드 크림은 20% 시어 버터를 함유해 손에 깊은 영양과 보습을 선사하며
+        피부 장벽을 강화해 줍니다. 96% 천연 유래 지수*의 시어 핸드 크림은 리치한
+        텍스처지만 빠르게 흡수되며, 건조한 손 을 눈에 띄게 부드럽고 매끈하게
+        변화시켜 줍니다. 96% 천연 유래 지수* | 실리콘 무첨가 *ISO 16128
+        가이드라인에 따라 계산한 지수임
+      </p>
+      <button class="py-2.5 px-4">
+        <span class="border-b-1 border-b-woody-brown">자세히 보기</span>
+      </button>
+      <h2
+        class="px-13 pt-6 pb-3 text-[18px] font-normal leading-6 text-woody-brown"
+      >
+        제품 카테고리
+      </h2>
+      <ul class="flex gap-1.5 py-1 px-13">
+        <li>
+          <a
+            href=""
+            class="bg-spring-wood text-[18px] font-normal leading-5 border-[1px] border-empress rounded-[4px] text-woody-brown text-[12px] whitespace-nowrap py-[6px] px-[10px]"
+            >핸드 케어 전체 보기</a
+          >
+        </li>
+        <li>
+          <a
+            href=""
+            class="bg-spring-wood text-[18px] font-normal leading-5 border-[1px] border-empress rounded-[4px] text-woody-brown text-[12px] whitespace-nowrap py-[6px] px-[10px]"
+            >핸드 크림</a
+          >
+        </li>
+        <li>
+          <a
+            href=""
+            class="bg-spring-wood text-[18px] font-normal leading-5 border-[1px] border-empress rounded-[4px] text-woody-brown text-[12px] whitespace-nowrap py-[6px] px-[10px]"
+            >핸드 워시 & 솝</a
+          >
+        </li>
+        <li>
+          <a
+            href=""
+            class="bg-spring-wood text-[18px] font-normal leading-5 border-[1px] border-empress rounded-[4px] text-woody-brown text-[12px] whitespace-nowrap py-[6px] px-[10px]"
+            >핸드 & 네일 케어</a
+          >
+        </li>
+        <li>
+          <a
+            href=""
+            class="bg-spring-wood text-[18px] font-normal leading-5 border-[1px] border-empress rounded-[4px] text-woody-brown text-[12px] whitespace-nowrap py-[6px] px-[10px]"
+            >핸드 케어 리필</a
+          >
+        </li>
+        <li>
+          <a
+            href=""
+            class="bg-spring-wood text-[18px] font-normal leading-5 border-[1px] border-empress rounded-[4px] text-woody-brown text-[12px] whitespace-nowrap py-[6px] px-[10px]"
+            >핸드 케어 기프트</a
+          >
+        </li>
+      </ul>
+
+      <section>
+        <h2
+          class="text-[44px] font-medium leading-[48px] tracking-[1px] uppercase text-center text-woody-brown pt-6 pb-4"
+        >
+          핸드 크림 컬렉션
+        </h2>
+        <ul
+          class="py-[6px] flex justify-center text-woody-brown text-[12px] font-normal tracking-[0.12px] leading-4"
+        >
+          <li class="px-3 py-2">시어 버터</li>
+          <li class="px-3 py-2">아몬드</li>
+          <li class="px-3 py-2">프래그런스</li>
+        </ul>
+        <!-- 상품카드 -->
+        <div
+          id="product-list-container"
+          class="flex gap-2 pt-16 items-center overflow-x-auto"
+        ></div>
+      </section>
+    </div>
+  </body>
+</html>
