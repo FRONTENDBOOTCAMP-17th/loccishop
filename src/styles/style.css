@@ -7,25 +7,23 @@
   --color-spring-wood: #fbf9f6;
   --color-merino: #f7f2ea;
   --color-cararra: #f2e9db;
-  --color-grey-94: #f6f0e7;
 
   /* 브라운계열 */
   --color-abbey: #484e51;
   --color-zambezi: #655558;
   --color-woody-brown: #3f2b2e;
   --color-ferra: #7f4e61;
-  --color-empress: #7e7173;
+  --color-empress: #7E717;
   --color-tundora: #424242;
-  --color-dark-woody: #2d1f21;
 
-  /* 레드계열 */
-  --color-burnt-orange: #c1440e;
+  /* 로그인,회원가입 배경1(전체배경) */
+  --color--grey-99: #fffefa;
 
-  /* 그린계열 */
-  --color-teal-green: #3d8b7a;
-
-  /* 로그인 배경2(샌드컬러) */
+  /* 로그인,회원가입 배경2(샌드컬러) */
   --color-grey-96: #f9f5f0;
+
+  /* 로그인/회원가입 & 이메일 주소를 입력하세요 글자 색상 */
+  --color-brand-woody: #3f2b2e;
 
   /* 필수항목,이메일 주소, 비밀번호 글자 색상 */
   --color-grey-abbey: #484e51;
@@ -36,6 +34,12 @@
 
   /* 흰색 */
   --color-white-solid: #ffffff;
+
+  /* 에러메서지 빨간색 */
+  --color-error-red: #d0021b;
+
+  /* 회원가입 확인 버튼색 */
+  --color-orange-90: #e8e4e2;
 }
 
 @layer base {
