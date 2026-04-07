@@ -15,12 +15,24 @@ export function renderProductCards(products) {
     "[&::-webkit-scrollbar-thumb]:rounded-full",
   );
 
+  // 스크롤 필요할 때만 grab 적용
+  function updateCursor() {
+    if (container.scrollWidth > container.clientWidth) {
+      container.style.cursor = "grab";
+    } else {
+      container.style.cursor = "default";
+    }
+  }
+
   let isDown = false;
   let startX;
   let scrollLeft;
 
-  //마우스 눌렀을때
+  // 마우스 눌렀을때
   container.addEventListener("mousedown", (e) => {
+    if (container.scrollWidth <= container.clientWidth) {
+      return;
+    }
     e.preventDefault();
     isDown = true;
     container.style.cursor = "grabbing";
@@ -30,18 +42,17 @@ export function renderProductCards(products) {
 
   container.addEventListener("mouseleave", () => {
     isDown = false;
-    container.style.cursor = "grab";
+    updateCursor();
   });
 
   container.addEventListener("mouseup", () => {
     isDown = false;
-    container.style.cursor = "grab";
+    updateCursor();
   });
 
-  //마우스 움직일때
+  // 마우스 움직일때
   container.addEventListener("mousemove", (e) => {
     if (!isDown) {
-      // 원치 않는 텍스트 선택 등 방지
       return;
     }
     e.preventDefault();
@@ -50,14 +61,34 @@ export function renderProductCards(products) {
     container.scrollLeft = scrollLeft - walk;
   });
 
-  container.style.cursor = "grab";
+  // 카드 너비 업데이트
+  function updateCardWidths() {
+    const containerWidth = container.clientWidth;
+    const gap = 16;
 
-  //상품 카드 렌더링
+    let count;
+    if (window.innerWidth < 768) count = 2;
+    else if (window.innerWidth < 1024) count = 3;
+    else count = 4;
+
+    const cardWidth = (containerWidth - gap * (count - 1)) / count;
+
+    container.querySelectorAll("article").forEach((card) => {
+      card.style.width = `${cardWidth}px`;
+      card.style.flexShrink = "0";
+    });
+  }
+
   container.innerHTML = "";
-
   products.forEach((product) => {
     const cardElement = createProductCard(product);
-
     container.appendChild(cardElement);
+    cardElement.style.cursor = "pointer";
   });
+
+  updateCardWidths();
+  updateCursor();
+
+  window.addEventListener("resize", updateCursor);
+  window.addEventListener("resize", updateCardWidths);
 }
