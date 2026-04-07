@@ -8,7 +8,8 @@ export function renderHeader() {
       <img src="/src/assets/logo/Loccitane.svg" alt="" />
       <ul class="flex gap-4">
         <img src="/src/assets/icon/myPage.svg" alt="" />
-        <img src="/src/assets/icon/Items.svg" alt="" />
+        <img src="/src/assets/icon/heart-empty.svg" alt="" />
+        <img src="/src/assets/icon/cart.svg" alt="" />
       </ul>
     </div>
   `;

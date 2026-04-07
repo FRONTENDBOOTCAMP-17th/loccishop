@@ -6,7 +6,7 @@ export function renderFooter() {
   footer.innerHTML = `
     <div class="max-w-360 mx-auto px-10">
       <div class="py-6 mb-8 border-b border-gray-200 flex flex-wrap justify-between items-center gap-6 text-[12px] font-medium text-gray-600">
-        <img src="/src/assets/logo/Loccitane.svg" class="w-40 h-auto" alt="L'Occitane Logo" />
+        <img src="/src/assets/logo/Loccitane.svg" class="w-40 h-auto mx-auto" alt="L'Occitane Logo" />
       </div>
 
       <div class="text-center text-[11px] text-gray-500 leading-relaxed">
