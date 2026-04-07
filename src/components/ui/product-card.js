@@ -20,7 +20,9 @@ export function createProductCard({
     card.className = [
       "relative flex flex-row w-[420px] min-h-[170px] h-full p-3 items-start gap-3 self-stretch grow shrink-0 basis-0",
       "bg-rose-white rounded overflow-hidden cursor-pointer ",
-      isSelected ? "border border-woody-brown" : "outline-0 shadow-[0_0_6px_0_rgba(0,0,0,0.05)]",
+      isSelected
+        ? "border border-woody-brown"
+        : "outline-0 shadow-[0_0_6px_0_rgba(0,0,0,0.05)]",
     ].join(" ");
 
     //이미지 영역
@@ -37,7 +39,8 @@ export function createProductCard({
 
     // 텍스트 영역
     const infoWrapper = document.createElement("div");
-    infoWrapper.className = "flex flex-col justify-between px-3 py-2 w-full h-full";
+    infoWrapper.className =
+      "flex flex-col justify-between px-3 py-2 w-full h-full";
 
     const topWrapper = document.createElement("div");
     topWrapper.className = "flex flex-col gap-1";
@@ -63,28 +66,34 @@ export function createProductCard({
     const priceWrapper = document.createElement("div");
     priceWrapper.className = "flex flex-col";
 
-    // 상시가
-    const originalPriceEl = document.createElement("span");
-    originalPriceEl.textContent = `₩${originalPrice.toLocaleString()}`;
-    originalPriceEl.className = "text-xs text-empress line-through";
-
     // 할인율 + 할인가
     const discountRow = document.createElement("div");
     discountRow.className = "flex items-center gap-3";
 
-    if (discountRate) {
+    if (discountRate !== null && discountPrice !== null) {
+      // 상시가 (취소선)
+      const originalPriceEl = document.createElement("span");
+      originalPriceEl.textContent = `₩${originalPrice.toLocaleString()}`;
+      originalPriceEl.className = "text-xs text-empress line-through";
+      priceWrapper.append(originalPriceEl);
+
       const discountRateEl = document.createElement("span");
       discountRateEl.textContent = `${discountRate}%`;
       discountRateEl.className = "text-md text-burnt-orange font-semibold";
       discountRow.append(discountRateEl);
+
+      const discountPriceEl = document.createElement("span");
+      discountPriceEl.textContent = `₩${discountPrice.toLocaleString()}`;
+      discountPriceEl.className = "text-lg text-woody-brown font-medium";
+      discountRow.append(discountPriceEl);
+    } else {
+      const priceEl = document.createElement("span");
+      priceEl.textContent = `₩${originalPrice.toLocaleString()}`;
+      priceEl.className = "text-lg text-woody-brown font-medium";
+      discountRow.append(priceEl);
     }
 
-    const discountPriceEl = document.createElement("span");
-    discountPriceEl.textContent = `₩${(discountPrice ?? originalPrice).toLocaleString()}`;
-    discountPriceEl.className = "text-lg text-woody-brown font-medium";
-    discountRow.append(discountPriceEl);
-
-    priceWrapper.append(originalPriceEl, discountRow);
+    priceWrapper.append(discountRow);
     topWrapper.append(nameEl, sizeText);
     infoWrapper.append(topWrapper, priceWrapper);
 
@@ -175,23 +184,32 @@ export function createProductCard({
   const priceRow = document.createElement("div");
   priceRow.className = "flex justify-between items-center self-stretch h-8";
 
-  const originalPriceEl = document.createElement("span");
-  originalPriceEl.textContent = `${originalPrice.toLocaleString()}원`;
-  originalPriceEl.className = "text-xs text-empress line-through";
-
   const discountWrapper = document.createElement("div");
   discountWrapper.className = "flex items-center gap-1";
 
-  const discountRateEl = document.createElement("span");
-  discountRateEl.textContent = `${discountRate}%`;
-  discountRateEl.className = "text-sm text-burnt-orange font-semibold";
+  if (discountRate !== null && discountPrice !== null) {
+    const originalPriceEl = document.createElement("span");
+    originalPriceEl.textContent = `${originalPrice.toLocaleString()}원`;
+    originalPriceEl.className = "text-xs text-empress line-through";
 
-  const discountPriceEl = document.createElement("span");
-  discountPriceEl.textContent = `${discountPrice.toLocaleString()}원`;
-  discountPriceEl.className = "text-sm text-woody-brown";
+    const discountRateEl = document.createElement("span");
+    discountRateEl.textContent = `${discountRate}%`;
+    discountRateEl.className = "text-sm text-burnt-orange font-semibold";
 
-  discountWrapper.append(discountRateEl, discountPriceEl);
-  priceRow.append(originalPriceEl, discountWrapper);
+    const discountPriceEl = document.createElement("span");
+    discountPriceEl.textContent = `${discountPrice.toLocaleString()}원`;
+    discountPriceEl.className = "text-sm text-woody-brown font-bold";
+
+    discountWrapper.append(discountRateEl, discountPriceEl);
+    priceRow.append(originalPriceEl, discountWrapper);
+  } else {
+    const priceEl = document.createElement("span");
+    priceEl.textContent = `${originalPrice.toLocaleString()}원`;
+    priceEl.className = "text-sm text-woody-brown font-bold";
+    discountWrapper.classList.add("ml-auto");
+    discountWrapper.append(priceEl);
+    priceRow.append(discountWrapper);
+  }
 
   infoWrapper.append(sizeRow, nameEl, priceRow);
   card.append(imageWrapper, infoWrapper);
