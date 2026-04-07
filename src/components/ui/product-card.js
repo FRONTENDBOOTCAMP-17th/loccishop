@@ -4,40 +4,37 @@ export function createProductCard({
   image,
   imageAlt = "",
   badgeType = null,
-  badgeText = null, // 가로형에서 "1 단계" 같은 텍스트 배지
+  badgeText = null,
   size,
   name,
   originalPrice,
   discountRate = null,
   discountPrice = null,
-  isSelected = false, // 가로형 - 현재 선택된 상품
+  isSelected = false,
   isWished = false,
-  layout = "vertical", //"vertical" | "horizontal"
+  layout = "vertical",
 } = {}) {
   //---------------가로형----------------
   if (layout === "horizontal") {
     const card = document.createElement("article");
     card.className = [
       "relative flex flex-row w-[420px] min-h-[170px] h-full p-3 items-start gap-3 self-stretch grow shrink-0 basis-0",
-      "bg-rose-white rounded overflow-hidden cursor-pointer ",
+      "bg-rose-white rounded overflow-hidden cursor-pointer",
       isSelected
         ? "border border-woody-brown"
         : "outline-0 shadow-[0_0_6px_0_rgba(0,0,0,0.05)]",
     ].join(" ");
 
-    //이미지 영역
     const imageWrapper = document.createElement("div");
     imageWrapper.className =
-      " w-[128px] h-full rounded flex-shrink-0 bg-gradient-to-b from-grey-96 to-grey-94 flex items-center justify-center overflow-hidden";
+      "w-[128px] h-full rounded flex-shrink-0 bg-gradient-to-b from-grey-96 to-grey-94 flex items-center justify-center overflow-hidden";
 
     const img = document.createElement("img");
     img.src = image;
     img.alt = imageAlt;
     img.className = "w-full h-full object-contain";
-
     imageWrapper.append(img);
 
-    // 텍스트 영역
     const infoWrapper = document.createElement("div");
     infoWrapper.className =
       "flex flex-col justify-between px-3 py-2 w-full h-full";
@@ -45,7 +42,6 @@ export function createProductCard({
     const topWrapper = document.createElement("div");
     topWrapper.className = "flex flex-col gap-1";
 
-    //단계 배지
     if (badgeText) {
       const badge = document.createElement("div");
       badge.textContent = badgeText;
@@ -62,16 +58,13 @@ export function createProductCard({
     sizeText.textContent = size;
     sizeText.className = "text-3 text-zambezi";
 
-    // 가격 영역 wrapper
     const priceWrapper = document.createElement("div");
     priceWrapper.className = "flex flex-col";
 
-    // 할인율 + 할인가
     const discountRow = document.createElement("div");
     discountRow.className = "flex items-center gap-3";
 
     if (discountRate !== null && discountPrice !== null) {
-      // 상시가 (취소선)
       const originalPriceEl = document.createElement("span");
       originalPriceEl.textContent = `₩${originalPrice.toLocaleString()}`;
       originalPriceEl.className = "text-xs text-empress line-through";
@@ -97,7 +90,6 @@ export function createProductCard({
     topWrapper.append(nameEl, sizeText);
     infoWrapper.append(topWrapper, priceWrapper);
 
-    // 장바구니 버튼 (우측 하단 절대 위치)
     const cartBtn = document.createElement("button");
     cartBtn.className =
       "absolute bottom-2 right-2 flex justify-center items-center w-7 h-7 rounded-full bg-cararra cursor-pointer";
@@ -115,19 +107,18 @@ export function createProductCard({
   //---------------세로형----------------
   const card = document.createElement("article");
   card.className =
-    "relative flex flex-col w-[312px] bg-gradient-to-b from-grey-96 to-grey-94";
+    "relative flex flex-col bg-gradient-to-b from-grey-96 to-grey-94 h-full";
 
   // 이미지 영역
   const imageWrapper = document.createElement("div");
   imageWrapper.className =
-    "relative w-[312px] h-[390px] flex-shrink-0 overflow-hidden";
+    "relative w-full aspect-3/4 flex-shrink-0 overflow-hidden";
 
   const img = document.createElement("img");
   img.src = image;
   img.alt = imageAlt;
   img.className = "w-full h-full object-cover";
 
-  // 배지
   if (badgeType) {
     const badge = createBadge({ type: badgeType });
     badge.className =
@@ -135,7 +126,6 @@ export function createProductCard({
     imageWrapper.append(badge);
   }
 
-  // 찜 버튼 — 이미지 우측 상단
   const wishBtn = document.createElement("button");
   wishBtn.className =
     "absolute top-2 right-3 flex justify-center items-center w-10 h-10 rounded-full bg-white-solid/56 cursor-pointer";
@@ -147,7 +137,6 @@ export function createProductCard({
   heartIcon.alt = isWished ? "찜 해제" : "찜하기";
   heartIcon.className = "w-4 h-4";
 
-  // 장바구니 버튼 — 이미지 우측 하단
   const cartBtn = document.createElement("button");
   cartBtn.className =
     "absolute bottom-2 right-3 flex justify-center items-center w-8 h-8 rounded-full bg-white-solid/56 cursor-pointer";
@@ -163,24 +152,21 @@ export function createProductCard({
 
   // 텍스트 영역
   const infoWrapper = document.createElement("div");
-  infoWrapper.className = "flex flex-col p-2";
+  infoWrapper.className = "flex flex-col p-2 flex-1";
 
-  // 용량 행
   const sizeRow = document.createElement("div");
   sizeRow.className = "flex items-center h-8";
 
   const sizeText = document.createElement("span");
   sizeText.textContent = size;
   sizeText.className = "text-xs text-woody-brown leading-4";
-
   sizeRow.append(sizeText);
 
-  // 상품명
   const nameEl = document.createElement("p");
   nameEl.textContent = name;
-  nameEl.className = "text-base text-woody-brown leading-5";
+  nameEl.className =
+    "text-base text-woody-brown leading-5 line-clamp-2 min-h-[40px]";
 
-  // 가격 영역
   const priceRow = document.createElement("div");
   priceRow.className = "flex justify-between items-center self-stretch h-8";
 
