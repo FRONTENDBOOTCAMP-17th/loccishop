@@ -9,7 +9,7 @@
   </head>
   <body class="special-page">
     <header id="header"></header>
-    <main class="flex justify-center items-center">
+    <main class="flex justify-center items-center min-w-[400px]">
       <div class="w-161 h-417 px-2 flex flex-col">
         <h2 class="text-[24px] font-normal leading-10 text-center pb-2">
           회원가입
@@ -24,32 +24,53 @@
             <label for="userId" class="text-[14px] font-medium leading-5"
               >아이디*</label
             >
-            <div class="relative mb-3">
-              <input
-                type="text"
-                id="userId"
-                name="userId"
-                class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
-                required
-              />
-              <img
-                src="/src/assets/icon/error.svg"
-                alt="아이디 에러"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="idErrorIcon"
-              />
-              <img
-                src="/src/assets/icon/check.svg"
-                alt="아이디 통과"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="idCheckIcon"
-              />
+            <div class="flex gap-2 my-2 items-center">
+              <div class="relative flex-1">
+                <input
+                  type="text"
+                  id="userId"
+                  name="userId"
+                  class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                  required
+                />
+                <img
+                  src="/src/assets/icon/error.svg"
+                  alt="아이디 에러"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                  id="idErrorIcon"
+                />
+                <img
+                  src="/src/assets/icon/check.svg"
+                  alt="아이디 통과"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                  id="idCheckIcon"
+                />
+              </div>
+              <button
+                type="button"
+                id="checkIdBtn"
+                class="h-10 px-4 bg-orange-90 text-[13px] font-medium whitespace-nowrap"
+              >
+                중복확인
+              </button>
             </div>
             <p
-              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              class="text-error-red text-[12px] font-medium leading-4 mb-1"
               id="idErrorText"
             >
               잘못된 형식입니다.
+            </p>
+            <p
+              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              id="idDuplicateText"
+            >
+              이미 사용 중인 아이디입니다.
+            </p>
+            <p
+              class="text-[12px] font-medium leading-4 mb-4"
+              id="idAvailableText"
+            >
+              사용 가능한 아이디입니다.
             </p>
           </div>
 
@@ -255,8 +276,11 @@
             </div>
           </div>
 
-          <div class="flex justify-end">
-            <button type="submit" class="px-26.75 py-2 bg-orange-90">
+          <div class="flex justify-between items-end gap-2">
+            <button type="button" id="backBtn" class="flex-1 py-2 bg-orange-90">
+              뒤로 가기
+            </button>
+            <button type="submit" class="flex-1 py-2 bg-orange-90">
               확인
             </button>
           </div>

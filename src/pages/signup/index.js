@@ -1,5 +1,6 @@
-const API_URL =
-  "https://api.fullstackfamily.com/api/loccishop/v1/auth/signup";
+const API_URL = "https://api.fullstackfamily.com/api/loccishop/v1/auth/signup";
+const CHECK_ID_URL =
+  "https://api.fullstackfamily.com/api/loccishop/v1/auth/check-id";
 
 function isValidUsername(value) {
   return value.length >= 4 && value.length <= 20;
@@ -33,6 +34,16 @@ function clearState(errorIcon, checkIcon, errorText) {
   if (errorText) errorText.style.display = "none";
 }
 
+// 브라우저 뒤로가기로 돌아왔을 때 폼 초기화
+window.addEventListener("pageshow", (e) => {
+  if (e.persisted) {
+    const form = document.getElementById("signupForm");
+    if (form) {
+      form.reset();
+    }
+  }
+});
+
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("signupForm");
   const userId = document.getElementById("userId");
@@ -46,6 +57,10 @@ window.addEventListener("DOMContentLoaded", () => {
   const idErrorIcon = document.getElementById("idErrorIcon");
   const idCheckIcon = document.getElementById("idCheckIcon");
   const idErrorText = document.getElementById("idErrorText");
+  const idDuplicateText = document.getElementById("idDuplicateText");
+  const idAvailableText = document.getElementById("idAvailableText");
+  let isIdChecked = false;
+  let isIdAvailable = false;
 
   const pwErrorIcon = document.getElementById("pwErrorIcon");
   const pwCheckIcon = document.getElementById("pwCheckIcon");
@@ -89,6 +104,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
   [
     idErrorText,
+    idDuplicateText,
+    idAvailableText,
     pwErrorText,
     pwConfirmErrorText,
     nameErrorText,
@@ -110,10 +127,49 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // 실시간 유효성 검사
   userId.addEventListener("input", () => {
-    if (!userId.value) return clearState(idErrorIcon, idCheckIcon, idErrorText);
+    // 아이디가 바뀌면 중복확인 초기화
+    isIdChecked = false;
+    isIdAvailable = false;
+    idDuplicateText.style.display = "none";
+    idAvailableText.style.display = "none";
+
+    if (!userId.value) {
+      return clearState(idErrorIcon, idCheckIcon, idErrorText);
+    }
     isValidUsername(userId.value)
       ? setValid(idErrorIcon, idCheckIcon, idErrorText)
       : setError(idErrorIcon, idCheckIcon, idErrorText);
+  });
+
+  // 중복확인 버튼
+  document.getElementById("checkIdBtn").addEventListener("click", async () => {
+    if (!isValidUsername(userId.value)) {
+      setError(idErrorIcon, idCheckIcon, idErrorText);
+      return userId.focus();
+    }
+
+    try {
+      const response = await fetch(
+        `${CHECK_ID_URL}?username=${encodeURIComponent(userId.value)}`,
+      );
+      const result = await response.json();
+
+      isIdChecked = true;
+      if (result.success && result.data.isAvailable) {
+        isIdAvailable = true;
+        idDuplicateText.style.display = "none";
+        idAvailableText.style.display = "block";
+        setValid(idErrorIcon, idCheckIcon, idErrorText);
+      } else {
+        isIdAvailable = false;
+        idAvailableText.style.display = "none";
+        idDuplicateText.style.display = "block";
+        setError(idErrorIcon, idCheckIcon, null);
+      }
+    } catch (error) {
+      console.error("중복확인 오류:", error);
+      alert("중복확인 중 오류가 발생했습니다.");
+    }
   });
 
   userPw.addEventListener("input", () => {
@@ -175,12 +231,21 @@ window.addEventListener("DOMContentLoaded", () => {
       : "none";
   });
 
+  // 뒤로 가기
+  document.getElementById("backBtn").addEventListener("click", () => {
+    window.location.href = "/src/pages/login/index.html";
+  });
+
   // 폼 제출
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     if (!isValidUsername(userId.value)) {
       setError(idErrorIcon, idCheckIcon, idErrorText);
+      return userId.focus();
+    }
+    if (!isIdChecked || !isIdAvailable) {
+      alert("아이디 중복확인을 해주세요.");
       return userId.focus();
     }
     if (!isValidPassword(userPw.value)) {
@@ -219,7 +284,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
 
       if (result.success) {
-        alert(`회원가입이 완료되었습니다. 환영합니다`);
+        alert(`회원가입이 완료되었습니다.`);
         window.location.href = "/src/pages/login/index.html";
       } else {
         alert("회원가입에 실패했습니다. 다시 시도해주세요.");
