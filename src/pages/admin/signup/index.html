@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>L’OcciShop 클론 프로젝트</title>
     <script type="module" src="/src/js/main.js"></script>
-    <script type="module" src="/src/pages/signup/index.js"></script>
+    <script type="module" src="/src/pages/admin/signup/index.js"></script>
   </head>
   <body class="special-page">
     <header id="header"></header>
-    <main class="flex justify-center items-center min-w-[400px]">
+    <main class="flex justify-center items-center min-w-100">
       <div class="w-161 h-417 px-2 flex flex-col">
         <h2 class="text-[24px] font-normal leading-10 text-center pb-2">
           회원가입
@@ -20,7 +20,7 @@
         </p>
 
         <form id="signupForm" class="flex flex-col">
-          <div class="flex flex-col">
+          <div class="flex flex-col mb-4">
             <label for="userId" class="text-[14px] font-medium leading-5"
               >아이디*</label
             >
@@ -66,10 +66,7 @@
             >
               이미 사용 중인 아이디입니다.
             </p>
-            <p
-              class="text-[12px] font-medium leading-4 mb-4"
-              id="idAvailableText"
-            >
+            <p class="text-[12px] font-medium leading-4" id="idAvailableText">
               사용 가능한 아이디입니다.
             </p>
           </div>
@@ -232,57 +229,44 @@
             </p>
           </div>
 
-          <div class="flex flex-col">
-            <label for="userAddress" class="text-[14px] font-medium leading-5"
-              >주소</label
+          <div class="flex flex-col mb-3">
+            <label for="adminToken" class="text-[14px] font-medium leading-5"
+              >인증토큰*</label
             >
             <div class="relative mb-3">
               <input
                 type="text"
-                id="userAddress"
-                name="userAddress"
+                id="adminToken"
+                name="adminToken"
                 class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                 required
               />
               <img
-                src="/src/assets/icon/check.svg"
-                alt="주소 통과"
+                src="/src/assets/icon/error.svg"
+                alt="토큰 에러"
                 class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="addressCheckIcon"
+                id="tokenErrorIcon"
+              />
+              <img
+                src="/src/assets/icon/check.svg"
+                alt="토큰 인증 성공"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                id="tokenCheckIcon"
               />
             </div>
-          </div>
-
-          <div class="flex flex-col">
-            <label
-              for="userDetailAddress"
-              class="text-[14px] font-medium leading-5"
-              >상세주소</label
+            <p
+              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              id="tokenErrorText"
             >
-            <div class="relative mb-4">
-              <input
-                type="text"
-                id="userDetailAddress"
-                name="userDetailAddress"
-                class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
-                required
-              />
-              <img
-                src="/src/assets/icon/check.svg"
-                alt="상세주소 통과"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="detailAddressCheckIcon"
-              />
-            </div>
+              인증토큰이 올바르지 않습니다.
+            </p>
           </div>
 
           <div class="flex justify-between items-end gap-2">
             <button type="button" id="backBtn" class="flex-1 py-2 bg-orange-90">
               뒤로 가기
             </button>
-            <button type="submit" class="flex-1 py-2 bg-orange-90">
-              확인
-            </button>
+            <button type="submit" class="flex-1 py-2 bg-orange-90">확인</button>
           </div>
         </form>
       </div>

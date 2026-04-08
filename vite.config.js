@@ -21,6 +21,7 @@ export default defineConfig({
         productList: resolve(__dirname, "src/pages/product/list/index.html"),
         login: resolve(__dirname, "src/pages/login/index.html"),
         signup: resolve(__dirname, "src/pages/signup/index.html"),
+        adminSignup: resolve(__dirname, "src/pages/admin/signup/index.html"),
       },
     },
   },
