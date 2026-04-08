@@ -13,8 +13,11 @@ export function fetchRelatedProducts(id, limit = 10) {
 // 리뷰 조회
 export function fetchProductReviews(
   productId,
-  { page = 1, limit = 10, sort = "latest" } = {},
+  { page = 1, limit = 10, sort = "latest", rating = null } = {},
 ) {
   const params = new URLSearchParams({ page, limit, sort });
+  if (rating) {
+    params.set("rating", rating);
+  }
   return fetchAPI(`/products/${productId}/reviews?${params}`);
 }
