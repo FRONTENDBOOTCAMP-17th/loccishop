@@ -6,14 +6,15 @@
     <title>L’OcciShop 클론 프로젝트</title>
     <script type="module" src="/src/js/main.js"></script>
   </head>
-  <body class="bg-grey-99">
+  <body class="special-page">
+    <header id="header"></header>
     <main class="flex justify-center items-center">
       <div class="w-161 h-417 px-2 flex flex-col">
         <h2 class="text-[24px] font-normal leading-10 text-center pb-2">
           회원가입
         </h2>
         <hr class="w-12.5 h-0.5 mx-auto" />
-        <p class="text-grey-abbey text-[12px] font-medium leading-4 my-6">
+        <p class="text-abbey text-[12px] font-medium leading-4 my-6">
           필수항목*
         </p>
 
@@ -88,7 +89,7 @@
             </div>
             <p
               id="pwGuideText"
-              class="text-grey-abbey text-[12px] font-medium leading-4 mb-4"
+              class="text-abbey text-[12px] font-medium leading-4 mb-4"
             >
               숫자 포함 8글자 이상
             </p>
@@ -96,7 +97,7 @@
               id="pwErrorText"
               class="text-error-red text-[12px] font-medium leading-4 mb-4"
             >
-              Password is not acceptable
+              비밀번호 형식이 올바르지 않습니다.
             </p>
           </div>
 
@@ -139,8 +140,7 @@
               id="pwConfirmErrorText"
               class="text-error-red text-[12px] font-medium leading-4 mb-4"
             >
-              The confirmation of your password is different from your original
-              password
+              비밀번호가 일치하지 않습니다.
             </p>
           </div>
 
@@ -173,7 +173,7 @@
               class="text-error-red text-[12px] font-medium leading-4 mb-4"
               id="nameErrorText"
             >
-              Please enter your last name.
+              이름을 입력해주세요.
             </p>
           </div>
 
@@ -187,7 +187,7 @@
                 id="userPhone"
                 name="userPhone"
                 placeholder="000-0000-0000"
-                class="bg-grey-96 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                 required
               />
               <img
@@ -207,7 +207,7 @@
               class="text-error-red text-[12px] font-medium leading-4 mb-4"
               id="phoneErrorText"
             >
-              Please enter a valid phone number.
+              휴대폰 번호를 올바르게 입력해주세요.
             </p>
           </div>
 
@@ -220,7 +220,7 @@
                 type="text"
                 id="userAddress"
                 name="userAddress"
-                class="bg-grey-96 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
+                class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                 required
               />
               <img
@@ -275,5 +275,6 @@
         </form>
       </div>
     </main>
+    <footer id="footer"></footer>
   </body>
 </html>

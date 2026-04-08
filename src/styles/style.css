@@ -1,32 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  /*detailPage*/
   /* 베이지계열 */
   --color-rose-white: #fffefe;
   --color-spring-wood: #fbf9f6;
   --color-merino: #f7f2ea;
   --color-cararra: #f2e9db;
+  --color-grey-94: #f6f0e7;
 
   /* 브라운계열 */
   --color-abbey: #484e51;
   --color-zambezi: #655558;
   --color-woody-brown: #3f2b2e;
   --color-ferra: #7f4e61;
-  --color-empress: #7E717;
+  --color-empress: #7e7173;
   --color-tundora: #424242;
+  --color-dark-woody: #2d1f21;
 
-  /* 로그인,회원가입 배경1(전체배경) */
-  --color--grey-99: #fffefa;
+  /* 레드계열 */
+  --color-burnt-orange: #c1440e;
+
+  /* 그린계열 */
+  --color-teal-green: #3d8b7a;
 
   /* 로그인,회원가입 배경2(샌드컬러) */
   --color-grey-96: #f9f5f0;
-
-  /* 로그인/회원가입 & 이메일 주소를 입력하세요 글자 색상 */
-  --color-brand-woody: #3f2b2e;
-
-  /* 필수항목,이메일 주소, 비밀번호 글자 색상 */
-  --color-grey-abbey: #484e51;
 
   /* 로그인 input */
   --color-grey-99: #fffefa; /* 배경색 */
@@ -43,8 +41,117 @@
 }
 
 @layer base {
+  /* 기본 스타일 */
   body {
     @apply bg-spring-wood;
     @apply text-woody-brown;
+  }
+
+  /* 특정 클래스가 붙은 body 스타일 */
+  body.special-page {
+    @apply bg-grey-99;
+  }
+
+  /* 사이트 헤더 상단 고정 */
+  body > header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+}
+
+@layer components {
+  /* 헤더/푸터 배경 */
+  .bg-header-footer {
+    background-color: #fbf9f6;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* 50 YEARS 섹션 그라데이션 — 따뜻한 앰버/골드 계열 */
+  .years-gradient {
+    background: linear-gradient(
+      to right,
+      #1a0e00 0%,
+      #7a3c04 20%,
+      #c87808 45%,
+      #f0ba18 65%,
+      #c08010 80%,
+      #1a0e00 100%
+    );
+  }
+
+  /* Refill 섹션 배경 — 매우 어두운 웜 브라운 */
+  .refill-bg {
+    background-color: #1c1008;
+  }
+
+  /* 선물 찾기 섹션 배경 — 노란색 → 흰색 그라데이션 */
+  .gift-bg {
+    background: linear-gradient(to bottom, #f9d840 0%, #fffbdc 45%, #fefce8 100%);
+  }
+
+  /* 슬라이더 버튼 */
+  .swiper-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .swiper-btn:hover {
+    background-color: #f9fafb;
+  }
+
+  /* 선물 찾기 장식 요소 */
+  .gift-shape {
+    display: inline-block;
+    width: 3rem;
+    height: 90px;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, #f2e9db 0%, #f7f2ea 100%);
+  }
+}
+
+@layer utilities {
+  /* 헤더/푸터 최대 너비 컨테이너 */
+  .max-inline-360 {
+    max-width: 90rem;
+  }
+  .max-w-360 {
+    max-width: 90rem;
+  }
+
+  /* 브라운 색상 유틸리티 */
+  .text-brown {
+    color: #7f4e61;
+  }
+  .border-brown {
+    border-color: #7f4e61;
+  }
+  .hover\:text-brown:hover {
+    color: #7f4e61;
+  }
+  .hover\:border-brown:hover {
+    border-color: #7f4e61;
+  }
+
+  /* 골드 색상 유틸리티 */
+  .text-gold {
+    color: #b8860b;
+  }
+  .border-gold {
+    border-color: #b8860b;
+  }
+  .hover\:text-gold:hover {
+    color: #b8860b;
+  }
+  .hover\:border-gold:hover {
+    border-color: #b8860b;
   }
 }

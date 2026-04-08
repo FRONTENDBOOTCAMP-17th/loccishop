@@ -1,0 +1,131 @@
+<section
+  class="w-full mx-auto max-w-7xl px-4 lg:px-16 flex flex-col items-center"
+>
+  <!-- 전체리뷰 평점 -->
+  <div class="flex flex-col w-full lg:max-w-none max-w-2xl">
+    <div class="flex justify-between items-center font-bold my-4">
+      <h2>
+        전체 리뷰
+        <span
+          id="all-review-count"
+          class="leading-6 ml-1 text-burnt-orange"
+        ></span>
+      </h2>
+      <button
+        type="button"
+        class="text-sm leading-5 font-medium cursor-pointer border-0 rounded p-1 hover:bg-cararra hover:font-bold"
+      >
+        리뷰 남기기
+      </button>
+    </div>
+
+    <div
+      id="all-review-rating"
+      class="flex flex-col gap-6 bg-rose-white p-6 rounded-md items-center justify-center md:flex-row md:gap-16"
+    >
+      <!-- 별점 + 평균 -->
+      <div
+        class="flex flex-row items-center gap-2 md:pr-16 md:border-r md:border-gray-200 shrink-0"
+      >
+        <div id="rating-stars" class="flex"></div>
+        <span id="rating-average" class="text-3xl font-bold"></span>
+      </div>
+
+      <!-- 별점 바 -->
+      <div class="flex flex-col gap-2 w-full md:w-auto">
+        <div class="flex w-full gap-2 items-center">
+          <span class="text-xs font-bold leading-4 w-6 shrink-0">5점</span>
+          <div class="relative flex-1 md:w-40 h-2">
+            <div class="absolute inset-0 rounded-xl bg-merino"></div>
+            <div
+              id="bar-5"
+              class="absolute inset-0 rounded-xl bg-woody-brown"
+              style="width: 0%"
+            ></div>
+          </div>
+          <span id="count-5" class="text-xs font-bold shrink-0">0</span>
+        </div>
+        <div class="flex w-full gap-2 items-center">
+          <span class="text-xs font-bold leading-4 w-6 shrink-0">4점</span>
+          <div class="relative flex-1 md:w-40 h-2">
+            <div class="absolute inset-0 rounded-xl bg-merino"></div>
+            <div
+              id="bar-4"
+              class="absolute inset-0 rounded-xl bg-woody-brown"
+              style="width: 0%"
+            ></div>
+          </div>
+          <span id="count-4" class="text-xs font-bold shrink-0">0</span>
+        </div>
+        <div class="flex w-full gap-2 items-center">
+          <span class="text-xs font-bold leading-4 w-6 shrink-0">3점</span>
+          <div class="relative flex-1 md:w-40 h-2">
+            <div class="absolute inset-0 rounded-xl bg-merino"></div>
+            <div
+              id="bar-3"
+              class="absolute inset-0 rounded-xl bg-woody-brown"
+              style="width: 0%"
+            ></div>
+          </div>
+          <span id="count-3" class="text-xs font-bold shrink-0">0</span>
+        </div>
+        <div class="flex w-full gap-2 items-center">
+          <span class="text-xs font-bold leading-4 w-6 shrink-0">2점</span>
+          <div class="relative flex-1 md:w-40 h-2">
+            <div class="absolute inset-0 rounded-xl bg-merino"></div>
+            <div
+              id="bar-2"
+              class="absolute inset-0 rounded-xl bg-woody-brown"
+              style="width: 0%"
+            ></div>
+          </div>
+          <span id="count-2" class="text-xs font-bold shrink-0">0</span>
+        </div>
+        <div class="flex w-full gap-2 items-center">
+          <span class="text-xs font-bold leading-4 w-6 shrink-0">1점</span>
+          <div class="relative flex-1 md:w-40 h-2">
+            <div class="absolute inset-0 rounded-xl bg-merino"></div>
+            <div
+              id="bar-1"
+              class="absolute inset-0 rounded-xl bg-woody-brown"
+              style="width: 0%"
+            ></div>
+          </div>
+          <span id="count-1" class="text-xs font-bold shrink-0">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 필터 -->
+  <div
+    class="flex flex-row justify-between items-center w-full mt-6 py-3 px-5 border-b border-b-abbey/20"
+  >
+    <div class="flex flex-row gap-5">
+      <button
+        type="button"
+        class="cursor-pointer hover:text-burnt-orange hover:font-semibold"
+      >
+        베스트순
+      </button>
+      <button
+        type="button"
+        class="cursor-pointer hover:text-burnt-orange hover:font-semibold"
+      >
+        최신순
+      </button>
+    </div>
+    <div
+      class="flex flex-row gap-1 px-2 py-1 rounded-lg hover:bg-cararra hover:font-bold"
+    >
+      <img src="/src/assets/icon/filter.svg" /><span>필터</span>
+    </div>
+  </div>
+
+  <!-- 리뷰리스트 -->
+  <ul
+    id="review-list"
+    class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6 w-full"
+  ></ul>
+  <button id="more-reviews-btn"></button>
+</section>

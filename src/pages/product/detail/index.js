@@ -1,63 +1,154 @@
+import { fetchProduct } from "/src/js/api/product/index.js";
 import { createButton } from "/src/components/ui/button.js";
 import { createBadge } from "/src/components/ui/badge.js";
-import { createProductCard } from "/src/components/ui/product-card.js";
 import { createDrawer } from "/src/components/ui/drawer.js";
+import { renderProductMain } from "./handlers/renderProductMain.js";
+import { initBestReview } from "./handlers/initBestReview.js";
+import { initReviews, initSortButtons } from "./handlers/initReviews.js";
+import { initRecommendedList } from "./handlers/initRecommendedList.js";
 
-async function initProductPage() {
-  const container = document.querySelector("#detail-main");
-  if (!container) return;
-
-  // detail-main 로드
-  const res = await fetch(
-    "/src/pages/product/detail/components/detail-main.html",
-  );
+async function loadHTML(selector, url) {
+  const container = document.querySelector(selector);
+  if (!container) {
+    return;
+  }
+  const res = await fetch(url);
   container.innerHTML = await res.text();
+}
 
-  //배지
+function getProductId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("id");
+}
+
+function initBadge() {
   const badge = createBadge({ type: "NEW" });
   document.querySelector("#badge").replaceWith(badge);
+}
 
-  // 장바구니 추가 버튼 로드
+function initCartButton() {
   const cartBtn = createButton({
     text: "장바구니에 추가",
     variant: "primary",
     size: "md",
     fullWidth: true,
   });
-
-  cartBtn.addEventListener("click", () => {
-    console.log("장바구니 추가!");
-  });
-
   document.querySelector("#cart-button").append(cartBtn);
+}
 
-  // detail-info 로드
-  const infoRes = await fetch(
+function intiOptionButtons(options) {
+  const optionType = document.querySelector("#options-title");
+  const container = document.querySelector("#optionsBtn");
+  optionType.textContent = "용량";
+
+  options.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "px-4 py-2.5 border border-empress rounded-sm text-sm";
+    button.textContent = option.size;
+
+    if (index === 0) {
+      button.classList.add("bg-ferra", "text-spring-wood");
+    }
+
+    button.addEventListener("click", () => {
+      container.querySelectorAll("button").forEach((btn) => {
+        btn.classList.remove("bg-ferra", "text-spring-wood");
+      });
+      button.classList.add("bg-ferra", "text-spring-wood");
+    });
+
+    container.append(button);
+  });
+}
+
+function initDrawers(productInfo) {
+  const drawers = [
+    {
+      title: "사용 방법",
+      btnId: "#howToUse",
+      content: `<p>${productInfo.howToUse}</p>`,
+    },
+    {
+      title: "원료",
+      btnId: "#ingredients",
+      content: `<p>${productInfo.ingredients.fullIngredients}</p>`,
+    },
+    {
+      title: "상품정보 제공고시",
+      btnId: "#productDisclosure",
+      content: `<p>${productInfo.productDisclosure}</p>`,
+    },
+  ];
+
+  drawers.forEach(({ title, btnId, content }) => {
+    const drawer = createDrawer({ title, position: "right" });
+    drawer.content.innerHTML = content;
+    document
+      .querySelector(btnId)
+      .addEventListener("click", () => drawer.open());
+  });
+}
+
+function initMoreReviewButton() {
+  const moreReviewBtn = createButton({
+    text: "리뷰 더보기",
+    variant: "outline",
+    size: "sm",
+    fullWidth: false,
+  });
+  moreReviewBtn.classList.add(
+    "mt-5",
+    "hover:bg-woody-brown",
+    "hover:text-cararra",
+  );
+
+  const container = document.querySelector("#more-reviews-btn");
+  if (container) {
+    container.append(moreReviewBtn);
+  } else {
+    console.warn("#more-reviews-btn 요소가 존재하지 않습니다.");
+  }
+}
+
+async function initProductPage() {
+  const id = getProductId();
+  const product = await fetchProduct(id);
+
+  await loadHTML(
+    "#detail-main",
+    "/src/pages/product/detail/components/detail-main.html",
+  );
+  renderProductMain(product);
+  initBadge();
+  intiOptionButtons(product.options);
+  initCartButton();
+
+  await loadHTML(
+    "#product-info",
     "/src/pages/product/detail/components/detail-info.html",
   );
-  document.querySelector("#product-info").innerHTML = await infoRes.text();
+  document.querySelector("#description").textContent = product.description;
+  initDrawers(product.productInfo);
 
-  // 드로어 초기화
-  const usageDrawer = createDrawer({ title: "사용 방법", position: "right" });
-  usageDrawer.content.innerHTML = "<p>사용 방법 내용</p>";
-  document.querySelector("#howToUse").addEventListener("click", () => {
-    usageDrawer.open();
-  });
+  await loadHTML(
+    "#detail-recommended",
+    "/src/pages/product/detail/components/detail-recommended.html",
+  );
+  await initRecommendedList(id);
 
-  const ingredientsDrawer = createDrawer({ title: "원료", position: "right" });
-  ingredientsDrawer.content.innerHTML = "<p>원료 내용</p>";
-  document.querySelector("#ingredients").addEventListener("click", () => {
-    ingredientsDrawer.open();
-  });
+  await loadHTML(
+    "#product-best-review",
+    "/src/pages/product/detail/components/detail-best-review.html",
+  );
+  await initBestReview(id);
 
-  const disclosureDrawer = createDrawer({
-    title: "상품정보 제공고시",
-    position: "right",
-  });
-  disclosureDrawer.content.innerHTML = "<p>상품정보 내용</p>";
-  document.querySelector("#productDisclosure").addEventListener("click", () => {
-    disclosureDrawer.open();
-  });
+  await loadHTML(
+    "#detail-reviews",
+    "/src/pages/product/detail/components/detail-review.html",
+  );
+  await initReviews(id);
+  initMoreReviewButton();
+  initSortButtons(id);
 }
 
 document.addEventListener("DOMContentLoaded", initProductPage);

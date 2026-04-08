@@ -1,130 +1,88 @@
 <article
-  class="content-wrapper flex gap-20 my-7 min-h-screen w-full px-16 mx-auto max-w-7xl"
+  class="content-wrapper flex flex-col lg:flex-row lg:mt-8 mb-7 w-full mx-auto max-w-7xl"
 >
   <!-- 좌측 이미지 영역 -->
-  <figure id="product-gallery " class="flex flex-col gap-2 w-[60%] max-w-182">
-    <div id="main-thumbnail">
-      <img class="bg-merino" src="/src/assets/images/product1_0.webp" alt="" />
+  <figure id="product-gallery" class="relative w-full lg:w-1/2 overflow-hidden">
+    <!-- 모바일 슬라이더 -->
+    <div class="lg:hidden relative overflow-hidden">
+      <div id="slider-track" class="flex w-full"></div>
+      <button
+        id="slider-prev"
+        class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-white/80 rounded-full shadow"
+      >
+        ‹
+      </button>
+      <button
+        id="slider-next"
+        class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-white/80 rounded-full shadow"
+      >
+        ›
+      </button>
+      <div id="slider-dots" class="flex justify-center gap-2 py-3"></div>
     </div>
-    <ul id="sub-thumbnail" class="grid grid-cols-2 gap-2">
-      <li>
+
+    <!-- 데스크탑: 메인 + 서브 그리드 -->
+    <div class="hidden lg:flex flex-col gap-2">
+      <div id="main-thumbnail" class="aspect-3/4 overflow-hidden">
         <img
-          class="bg-merino"
-          src="/src/assets/images/product1_1.webp"
-          alt=""
+          class="bg-merino w-full h-full object-cover"
+          src=""
+          alt="상품 메인 이미지"
         />
-      </li>
-      <li>
-        <img
-          class="bg-merino"
-          src="/src/assets/images/product1_2.webp"
-          alt=""
-        />
-      </li>
-      <li>
-        <img
-          class="bg-merino"
-          src="/src/assets/images/product1_3.webp"
-          alt=""
-        />
-      </li>
-      <li>
-        <img
-          class="bg-merino"
-          src="/src/assets/images/product1_4.webp"
-          alt=""
-        />
-      </li>
-      <li>
-        <img
-          class="bg-merino"
-          src="/src/assets/images/product1_5.webp"
-          alt=""
-        />
-      </li>
-      <li>
-        <img
-          class="bg-merino"
-          src="/src/assets/images/product1_6.webp"
-          alt=""
-        />
-      </li>
-      <li>
-        <img
-          class="bg-merino"
-          src="/src/assets/images/product1_7.webp"
-          alt=""
-        />
-      </li>
-    </ul>
+      </div>
+      <ul id="sub-thumbnail" class="grid grid-cols-2 gap-2"></ul>
+    </div>
   </figure>
 
   <!-- 우측 정보영역 -->
   <section
     id="product-main"
-    class="flex flex-col gap-4 flex-1 max-w-120 sticky top-0 self-start"
+    class="flex flex-col gap-4 w-full mt-6 px-4 lg:w-1/2 lg:mt-0 lg:px-8 lg:pl-20 lg:sticky lg:top-0 lg:self-start"
   >
     <header class="flex flex-col gap-4">
       <!-- 뱃지 + 별점 -->
       <div id="badge-rating-wrapper" class="flex items-center justify-between">
         <strong id="badge"></strong>
-        <div id="rating" class="flex items-center gap-2">
-          <div id="rating-stars" class="flex">
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-            <img src="/src/assets/icon/star.svg" />
-          </div>
-          <span id="review-count" class="underline text-sm">113</span>
+        <div id="product-rating" class="flex items-center gap-2">
+          <!-- JS에서 동적 삽입 -->
+          <div
+            id="product-rating-stars"
+            class="flex"
+            role="img"
+            aria-label=""
+          ></div>
+          <span id="product-review-count" class="underline text-sm"></span>
         </div>
       </div>
 
-      <!-- 상품명 -->
-      <h1 id="product-title" class="text-5xl font-medium leading-12">상품명</h1>
+      <h1
+        id="product-title"
+        class="text-3xl lg:text-5xl font-medium leading-tight lg:leading-12"
+      ></h1>
+      <p
+        id="short-description"
+        class="text-base lg:text-xl leading-7 text-stone-500"
+      ></p>
 
-      <!-- 설명 -->
-      <p id="short-description" class="text-xl leading-7 text-stone-500">
-        상품 간단 설명
-      </p>
-
-      <!-- 가격 -->
       <div id="price-wrapper">
         <p
           id="product-Price"
-          class="text-sm font-nomal line-through text-stone-500"
-        >
-          30,000
-        </p>
+          class="text-sm font-normal line-through text-stone-500"
+        ></p>
         <div class="flex gap-2 items-center">
-          <p id="product-discountRate" class="text-xl font-semibold">20%</p>
-          <p id="product-discountPrice" class="text-2xl font-bold">24,000</p>
+          <p id="product-discountRate" class="text-xl font-semibold"></p>
+          <p id="product-discountPrice" class="text-2xl font-bold"></p>
         </div>
       </div>
     </header>
 
-    <!-- 용량 옵션 -->
     <section class="flex flex-col gap-1">
-      <span id="options-title" class="text-zambezi">용량</span>
-      <div id="optionsBtn" class="flex gap-2">
-        <button class="px-4 py-2.5 border border-empress rounded-sm text-sm">
-          30 ml
-        </button>
-        <button
-          class="px-4 py-2.5 border border-empress rounded-sm text-sm bg-ferra text-spring-wood"
-        >
-          75 ml
-        </button>
-        <button class="px-4 py-2.5 border border-empress rounded-sm text-sm">
-          150 ml
-        </button>
-      </div>
+      <span id="options-title" class="text-zambezi"></span>
+      <div id="optionsBtn" class="flex gap-2"></div>
     </section>
 
-    <!-- 장바구니 버튼 -->
     <div id="cart-button"></div>
-
-    <!-- 제품 정보 -->
     <div id="product-info"></div>
+    <div id="product-best-review"></div>
   </section>
 </article>

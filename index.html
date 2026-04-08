@@ -3,111 +3,189 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>L'OcciShop 클론 프로젝트</title>
-    <script type="module" src="/src/js/main.js"></script>
-    <script type="module">
-      import { createProductCard } from "/src/components/ui/product-card.js";
-    </script>
+    <title>L'OCCITANE EN PROVENCE</title>
+    <link rel="stylesheet" href="/src/styles/style.css" />
   </head>
-  <body class="bg-gray-50 text-gray-900">
-    <!-- 헤더 불러오기 (JS로 처리할 예정) -->
-    <header></header>
-    <!-- 주요 콘텐츠 -->
-    <main class="w-full bg-[#F7F5F2]">
-      <!-- Hero -->
-      <section class="relative w-full h-screen overflow-hidden">
+  <body>
+    <!-- 헤더 마운트 포인트 (JS: renderHeader()로 교체) -->
+    <div id="header"></div>
+
+    <main>
+      <section class="relative w-full h-[80vh] overflow-hidden bg-[#f4f1ea]">
         <video
-          src="/src/assets/video/Loccitane-main.mp4"
+          src="src/assets/video/Loccitane-main.mp4"
           autoplay
           muted
           loop
           playsinline
-          class="absolute inset-0 w-full h-full object-cover z-0"
+          class="absolute inset-0 w-full h-full object-cover"
         ></video>
         <div
-          class="absolute inset-0 bg-gradient-to-br from-amber-800 via-stone-700 to-stone-900 -z-10"
-        ></div>
-        <div class="absolute inset-0 bg-black/25"></div>
-
-        <div class="relative z-10 h-full flex flex-col justify-end pb-20 px-12">
-          <p class="text-white/80 text-sm tracking-widest mb-3">
-            NEW COLLECTION
-          </p>
+          class="absolute inset-0 flex flex-col items-center justify-center text-center"
+        >
           <h1
-            class="text-white font-serif text-6xl md:text-7xl font-bold leading-none tracking-wide"
+            class="text-white font-serif text-5xl md:text-7xl tracking-[0.2em] uppercase mb-8"
           >
-            AMANDE<br />SUBLIME
+            Amande Sublime
           </h1>
           <a
             href="#"
-            class="mt-5 inline-block text-white text-sm border-b border-white pb-0.5 hover:text-gold hover:border-gold transition-colors"
+            class="text-white text-sm border-b border-white pb-1 hover:opacity-70 transition-opacity"
           >
-            자세히 보기 &gt;
+            자세히 보기 >
           </a>
         </div>
       </section>
-
-      <!-- 아몬드 컬렉션 -->
-      <section class="py-16 bg-white">
-        <div class="max-w-screen-xl mx-auto px-6">
+      <!-- ══════════════════════════════════════════════════════
+           아몬드 컬렉션
+      ═══════════════════════════════════════════════════════════ -->
+      <section class="py-16 bg-white" aria-labelledby="almond-title">
+        <div class="max-w-7xl mx-auto px-6">
           <header class="text-center mb-10">
-            <h2 class="text-2xl font-bold text-gray-900 mb-5">아몬드 컬렉션</h2>
-            <nav class="flex justify-center gap-8 text-sm text-gray-500">
-              <button
-                class="text-brown font-semibold border-b-2 border-brown pb-0.5"
-              >
-                모두보기
-              </button>
-              <button class="hover:text-brown transition-colors">
-                바디 케어
-              </button>
-              <button class="hover:text-brown transition-colors">
-                핸드 케어
-              </button>
-              <button class="hover:text-brown transition-colors">리필</button>
-            </nav>
+            <h2 id="almond-title" class="text-2xl font-bold text-gray-900 mb-5">
+              아몬드 컬렉션
+            </h2>
+            <!-- JS: createTag() 컴포넌트로 채워짐 -->
+            <nav
+              id="almond-tabs"
+              class="flex justify-center gap-2"
+              aria-label="아몬드 컬렉션 카테고리 필터"
+            ></nav>
           </header>
 
           <div class="relative">
+            <button
+              id="almond-prev"
+              class="swiper-btn absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10"
+              aria-label="이전 상품"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <!-- JS: createProductCard() 컴포넌트로 채워짐 -->
             <ul
               id="almond-grid"
               class="grid grid-cols-2 md:grid-cols-4 gap-5"
+              aria-label="아몬드 컬렉션 상품 목록"
             ></ul>
+
+            <button
+              id="almond-next"
+              class="swiper-btn absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10"
+              aria-label="다음 상품"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </section>
 
-      <!-- 언제나 사랑받는 기프트 -->
-      <section class="py-16 bg-white border-t border-gray-100">
-        <div class="max-w-screen-xl mx-auto px-6">
+      <!-- ══════════════════════════════════════════════════════
+           언제나 사랑받는 기프트
+      ═══════════════════════════════════════════════════════════ -->
+      <section
+        class="py-16 bg-white border-t border-gray-100"
+        aria-labelledby="gift-title"
+      >
+        <div class="max-w-7xl mx-auto px-6">
           <header class="text-center mb-10">
-            <h2 class="text-2xl font-bold text-gray-900 mb-5">
+            <h2 id="gift-title" class="text-2xl font-bold text-gray-900 mb-5">
               언제나 사랑받는 기프트
             </h2>
-            <nav class="flex justify-center gap-8 text-sm text-gray-500">
-              <button
-                class="text-brown font-semibold border-b-2 border-brown pb-0.5"
-              >
-                모두보기
-              </button>
-              <button class="hover:text-brown">2만원대</button>
-              <button class="hover:text-brown">3만원대</button>
-              <button class="hover:text-brown">5만원대</button>
-              <button class="hover:text-brown">10만원대</button>
-            </nav>
+            <!-- JS: createTag() 컴포넌트로 채워짐 -->
+            <nav
+              id="gift-tabs"
+              class="flex justify-center gap-2"
+              aria-label="기프트 가격대 필터"
+            ></nav>
           </header>
 
-          <div class="gifts">
+          <div class="relative">
+            <button
+              id="gift-prev"
+              class="swiper-btn absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10"
+              aria-label="이전 상품"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <!-- JS: createProductCard() 컴포넌트로 채워짐 -->
             <ul
               id="gift-grid"
               class="grid grid-cols-2 md:grid-cols-5 gap-4"
+              aria-label="기프트 상품 목록"
             ></ul>
+
+            <button
+              id="gift-next"
+              class="swiper-btn absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10"
+              aria-label="다음 상품"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </section>
 
-      <!-- 50 Years -->
-      <section class="years-gradient relative overflow-hidden">
+      <!-- ══════════════════════════════════════════════════════
+           50 YEARS
+      ═══════════════════════════════════════════════════════════ -->
+      <section
+        class="years-gradient relative overflow-hidden"
+        aria-label="50주년 기념"
+      >
         <div
           class="flex flex-col items-center justify-center py-20 text-center px-4"
         >
@@ -117,9 +195,11 @@
           <p
             class="font-serif font-bold text-white leading-none mt-2"
             style="font-size: 10rem"
+            aria-label="50 YEARS"
           >
             50<span
               class="text-5xl align-top mt-8 inline-block ml-2 tracking-widest"
+              aria-hidden="true"
               >YEARS</span
             >
           </p>
@@ -136,217 +216,321 @@
         </div>
       </section>
 
-      <!-- 카테고리 그리드 -->
-      <section class="bg-white py-4">
-        <ul class="max-w-screen-xl mx-auto px-4 grid grid-cols-4 gap-2">
-          <li class="group cursor-pointer">
-            <figure
-              class="aspect-square overflow-hidden bg-gradient-to-br from-amber-200 to-amber-400"
-            >
+      <!-- ══════════════════════════════════════════════════════
+           카테고리 그리드
+      ═══════════════════════════════════════════════════════════ -->
+      <section class="bg-white py-8" aria-labelledby="category-title">
+        <h2 id="category-title" class="sr-only">상품 카테고리</h2>
+        <nav
+          class="max-w-7xl mx-auto px-4 grid grid-cols-4 gap-3"
+          aria-label="카테고리 목록"
+        >
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
               <img
-                src="assets/images/cat1.jpg"
-                alt="공식몰 혜택"
+                src="/src/assets/images/list_handcream.webp"
+                alt=""
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </figure>
-            <p class="text-xs text-center mt-2 text-gray-700">공식몰 혜택</p>
-          </li>
-          <li class="group cursor-pointer">
-            <figure
-              class="aspect-square overflow-hidden bg-gradient-to-br from-stone-300 to-stone-500"
-            >
+            <p class="text-xs text-center mt-2 text-gray-700">핸드크림</p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
               <img
-                src="assets/images/cat2.jpg"
-                alt="스킨케어"
+                src="/src/assets/images/list_handwash&soap.webp"
+                alt=""
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </figure>
-            <p class="text-xs text-center mt-2 text-gray-700">스킨케어</p>
-          </li>
-          <li class="group cursor-pointer">
-            <figure
-              class="aspect-square overflow-hidden bg-gradient-to-br from-green-200 to-green-400"
-            >
+            <p class="text-xs text-center mt-2 text-gray-700">
+              핸드워시 &amp; 솝
+            </p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
               <img
-                src="assets/images/cat3.jpg"
-                alt="바디 & 목욕"
+                src="/src/assets/images/list_hand&nailcare.webp"
+                alt=""
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </figure>
-            <p class="text-xs text-center mt-2 text-gray-700">바디 & 목욕</p>
-          </li>
-          <li class="group cursor-pointer">
-            <figure
-              class="aspect-square overflow-hidden bg-gradient-to-br from-yellow-200 to-amber-400"
-            >
+            <p class="text-xs text-center mt-2 text-gray-700">
+              핸드 &amp; 네일케어
+            </p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
               <img
-                src="assets/images/cat4.jpg"
-                alt="기프트"
+                src="/src/assets/images/list_handcaregift.webp"
+                alt=""
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </figure>
-            <p class="text-xs text-center mt-2 text-gray-700">기프트</p>
-          </li>
-          <li class="group cursor-pointer">
-            <figure
-              class="aspect-square overflow-hidden bg-gradient-to-br from-gray-400 to-gray-600"
-            >
+            <p class="text-xs text-center mt-2 text-gray-700">
+              핸드케어 기프트
+            </p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
               <img
-                src="assets/images/cat5.jpg"
-                alt="향수 & 홈"
+                src="/src/assets/images/list_handcarerefill.webp"
+                alt=""
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </figure>
-            <p class="text-xs text-center mt-2 text-gray-700">향수 & 홈</p>
-          </li>
-          <li class="group cursor-pointer">
-            <figure
-              class="aspect-square overflow-hidden bg-gradient-to-br from-rose-200 to-rose-400"
-            >
+            <p class="text-xs text-center mt-2 text-gray-700">핸드케어 리필</p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
               <img
-                src="assets/images/cat6.jpg"
-                alt="로즈"
+                src="/src/assets/images/list_step1.webp"
+                alt=""
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </figure>
-            <p class="text-xs text-center mt-2 text-gray-700">로즈</p>
-          </li>
-          <li class="group cursor-pointer">
-            <figure
-              class="aspect-square overflow-hidden bg-gradient-to-br from-blue-200 to-blue-400"
-            >
+            <p class="text-xs text-center mt-2 text-gray-700">STEP 1</p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
               <img
-                src="assets/images/cat7.jpg"
-                alt="남성 케어"
+                src="/src/assets/images/list_step2.webp"
+                alt=""
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </figure>
-            <p class="text-xs text-center mt-2 text-gray-700">남성 케어</p>
-          </li>
-          <li class="group cursor-pointer">
-            <figure
-              class="aspect-square overflow-hidden bg-gradient-to-br from-emerald-200 to-emerald-400"
-            >
+            <p class="text-xs text-center mt-2 text-gray-700">STEP 2</p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
               <img
-                src="assets/images/cat8.jpg"
-                alt="구동목"
+                src="/src/assets/images/list_step3.webp"
+                alt=""
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </figure>
-            <p class="text-xs text-center mt-2 text-gray-700">구동목</p>
-          </li>
-        </ul>
+            <p class="text-xs text-center mt-2 text-gray-700">STEP 3</p>
+          </a>
+        </nav>
       </section>
 
-      <!-- 선물 찾기 -->
-      <section class="gift-bg py-20 text-center">
-        <div class="max-w-screen-xl mx-auto px-6">
-          <div
-            class="flex justify-center gap-3 mb-10 flex-wrap"
-            aria-hidden="true"
-          >
-            <span class="gift-shape shadow-sm"></span>
-            <span class="gift-shape shadow-sm" style="height: 110px"></span>
-            <span class="gift-shape shadow-sm" style="height: 95px"></span>
-            <span class="gift-shape shadow-sm" style="height: 115px"></span>
-            <span class="gift-shape shadow-sm" style="height: 100px"></span>
-            <span class="gift-shape shadow-sm" style="height: 105px"></span>
-            <span class="gift-shape shadow-sm"></span>
-            <span class="gift-shape shadow-sm" style="height: 110px"></span>
+      <!-- ══════════════════════════════════════════════════════
+           선물 찾기
+      ═══════════════════════════════════════════════════════════ -->
+      <section class="gift-bg pt-12 pb-16" aria-labelledby="gift-finder-title">
+        <div class="max-w-7xl mx-auto px-8">
+          <!-- 아치형 이미지 그리드 — 1행 -->
+          <div class="flex justify-center gap-4 mb-4" aria-hidden="true">
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/product1_0.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/product1_1.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/product1_2.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/product1_3.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/product1_4.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
           </div>
-          <h2 class="text-2xl font-bold text-gray-900 mb-4">
-            여러분을 위한 완벽한 선물을 찾아보세요.
-          </h2>
-          <p class="text-sm text-gray-600 leading-loose mb-6">
-            예산, 향, 피부 타입에 따라<br />
-            딱 맞는 선물을 추천해 드립니다.<br />
-            선물 고르는 어려움을 덜어드릴게요<br />
-            록시땅이 도와드립니다.
-          </p>
-          <a
-            href="#"
-            class="text-sm border-b border-gray-600 pb-0.5 text-gray-700 hover:text-brown transition-colors"
-          >
-            선물 찾기 &gt;
-          </a>
+
+          <!-- 아치형 이미지 그리드 — 2행 -->
+          <div class="flex justify-center gap-4 mb-14" aria-hidden="true">
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/product1_5.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/product1_6.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/product1_7.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/handcare_1.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure
+              class="rounded-t-full overflow-hidden bg-white shadow-sm shrink-0"
+              style="width: 180px; height: 255px"
+            >
+              <img
+                src="/src/assets/images/list_handcream.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+          </div>
+
+          <!-- 텍스트 -->
+          <div class="text-center">
+            <h2
+              id="gift-finder-title"
+              class="text-3xl font-bold text-gray-900 mb-6"
+            >
+              여러분을 위한 완벽한 선물을 찾아보세요.
+            </h2>
+            <p class="text-sm text-gray-700 leading-loose mb-8">
+              오뜨-프로방스에서 &#39;선물&#39;은<br />
+              하나의 아름다운 전통입니다.<br />
+              몇 가지 힌트만 들려주세요.<br />
+              당신과 사랑하는 이들을 위한<br />
+              정성 담긴 선물을 찾아드릴게요.
+            </p>
+            <a
+              href="#"
+              class="text-sm text-gray-800 border-b border-gray-800 pb-0.5 hover:opacity-60 transition-opacity"
+            >
+              여정 따라가기
+            </a>
+          </div>
         </div>
       </section>
 
-      <!-- 추천 제품 -->
-      <section class="py-16 bg-white">
-        <div
-          class="max-w-screen-xl mx-auto px-6 grid grid-cols-3 gap-6 items-center"
-        >
-          <figure class="aspect-[3/4] overflow-hidden bg-amber-50">
+      <!-- ══════════════════════════════════════════════════════
+           추천 제품
+      ═══════════════════════════════════════════════════════════ -->
+      <section class="py-16 bg-white" aria-labelledby="featured-title">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-3 gap-6 items-center">
+          <figure class="aspect-[3/4] overflow-hidden bg-amber-50 rounded">
             <img
-              src="assets/images/featured1.jpg"
-              alt="바디 오일 200ml"
+              src="/src/assets/images/handcare_1.webp"
+              alt="시어 버터 핸드크림 상품 이미지"
               class="w-full h-full object-cover"
             />
           </figure>
 
           <div class="text-center px-4">
             <p class="text-xs tracking-widest text-gray-500 mb-3">BESTSELLER</p>
-            <h2 class="text-xl font-bold text-gray-900 mb-4 leading-snug">
-              카린느 소프트닝 바디 오일<br />(아몬드 쉬블리므)
+            <h2
+              id="featured-title"
+              class="text-xl font-bold text-gray-900 mb-4 leading-snug"
+            >
+              시어 버터 핸드크림<br />(로즈 ET 리엔)
             </h2>
             <p class="text-sm text-gray-500 leading-relaxed mb-6">
-              100년이 넘는 시간 동안 사랑받아온<br />
-              아몬드 오일 성분을 담아, 건조한 피부를<br />
-              부드럽고 촉촉하게 가꿔드립니다.
+              프로방스에서 자란 시어 버터가<br />
+              손 피부를 촉촉하고 부드럽게<br />
+              가꿔드립니다.
             </p>
-            <a
-              href="#"
-              class="text-sm border-b border-gray-800 pb-0.5 hover:text-brown transition-colors"
-              >자세히 보기 &gt;</a
-            >
+            <!-- JS: createButton() 컴포넌트로 채워짐 -->
+            <div id="featured-btn"></div>
           </div>
 
-          <figure class="aspect-[3/4] overflow-hidden bg-stone-100">
+          <figure class="aspect-[3/4] overflow-hidden bg-stone-100 rounded">
             <img
-              src="assets/images/featured2.jpg"
-              alt="아몬드 샤워 오일"
+              src="/src/assets/images/product1_0.webp"
+              alt="아몬드 핸드크림 상품 이미지"
               class="w-full h-full object-cover"
             />
           </figure>
         </div>
         <div
-          class="max-w-screen-xl mx-auto px-6 grid grid-cols-3 gap-6 mt-3 text-center text-xs text-gray-400"
+          class="max-w-7xl mx-auto px-6 grid grid-cols-3 gap-6 mt-3 text-center text-xs text-gray-400"
         >
-          <p>바디 오일 200ml · ₩72,000</p>
-          <span></span>
-          <p>아몬드 샤워 오일 · ₩66,000</p>
+          <p>시어 버터 핸드크림 75ml · ₩38,000</p>
+          <span aria-hidden="true"></span>
+          <p>아몬드 핸드크림 75ml · ₩32,000</p>
         </div>
       </section>
 
-      <!-- Refill & Reuse -->
-      <section class="refill-bg py-16 relative overflow-hidden">
+      <!-- ══════════════════════════════════════════════════════
+           Refill & Reuse
+      ═══════════════════════════════════════════════════════════ -->
+      <section
+        class="refill-bg py-16 relative overflow-hidden"
+        aria-labelledby="refill-title"
+      >
         <div
-          class="max-w-screen-xl mx-auto px-6 grid grid-cols-2 gap-10 items-center"
+          class="max-w-7xl mx-auto px-6 grid grid-cols-2 gap-10 items-center"
         >
           <div class="text-white">
-            <h2 class="font-serif text-5xl font-bold leading-tight mb-3">
+            <h2
+              id="refill-title"
+              class="font-serif text-5xl font-bold leading-tight mb-3"
+            >
               REFILL<br />&amp; REUSE
             </h2>
             <p class="text-sm tracking-widest mb-8 text-white/70">
               SMOOTHING MILK CONCENTRATE
             </p>
-            <p class="text-sm text-white/80 leading-relaxed mb-6">
+            <p class="text-sm text-white/80 leading-relaxed mb-8">
               리필의 새로운 형태<br />
               지속 가능한 아름다움을 위한 리필 라인을 만나보세요.
             </p>
-            <a
-              href="#"
-              class="inline-block bg-white text-gray-900 text-xs px-6 py-2.5 font-medium hover:bg-gray-100 transition-colors"
-            >
-              자세히 알아보기
-            </a>
+            <!-- JS: createButton() 컴포넌트로 채워짐 -->
+            <div id="refill-btn"></div>
           </div>
           <figure class="flex justify-center">
             <img
-              src="assets/images/refill-product.png"
-              alt="리필 밀크 컨센트레이트"
-              class="w-72 h-72 object-contain"
+              src="/src/assets/images/list_handcarerefill.webp"
+              alt="핸드케어 리필 제품"
+              class="w-72 h-72 object-cover rounded"
             />
           </figure>
         </div>
@@ -357,104 +541,129 @@
         </div>
       </section>
 
-      <!-- 이야기 블로그 -->
-      <section class="py-16 bg-white">
-        <div class="max-w-screen-xl mx-auto px-6">
-          <h2 class="text-2xl font-bold text-gray-900 mb-8">이야기 블로그</h2>
-
+      <!-- ══════════════════════════════════════════════════════
+           이야기 블로그
+      ═══════════════════════════════════════════════════════════ -->
+      <section class="py-16 bg-white" aria-labelledby="blog-title">
+        <div class="max-w-7xl mx-auto px-6">
+          <h2 id="blog-title" class="text-2xl font-bold text-gray-900 mb-8">
+            이야기 블로그
+          </h2>
           <div class="grid grid-cols-3 gap-6">
-            <article class="cursor-pointer group">
-              <figure class="aspect-[4/3] overflow-hidden bg-amber-100">
-                <img
-                  src="assets/images/blog1.jpg"
-                  alt="기프트 가이드"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </figure>
-              <div class="mt-3">
-                <span class="text-xs text-brown font-medium"
-                  >기프트 가이드</span
-                >
-                <h3 class="text-sm font-bold mt-1 leading-snug">
-                  가까운 목사님께 마음을 담아 전하는 선물 TOP 5
-                </h3>
-                <p class="text-xs text-gray-400 mt-1">SHOP NOW &gt;</p>
-              </div>
+            <!-- 메인 블로그 카드 -->
+            <article>
+              <a href="#" class="group block">
+                <figure class="aspect-4/3 overflow-hidden bg-cararra rounded">
+                  <img
+                    src="/src/assets/images/list_handcaregift.webp"
+                    alt="핸드케어 기프트 가이드"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </figure>
+                <div class="mt-3">
+                  <span class="text-xs text-brown font-medium"
+                    >기프트 가이드</span
+                  >
+                  <h3 class="text-sm font-bold mt-1 leading-snug">
+                    가까운 분께 마음을 담아 전하는 핸드케어 선물 TOP 5
+                  </h3>
+                  <p class="text-xs text-gray-400 mt-1">SHOP NOW &gt;</p>
+                </div>
+              </a>
             </article>
 
+            <!-- 서브 블로그 카드 4개 -->
             <ul class="col-span-2 grid grid-cols-2 gap-4">
               <li>
-                <article class="cursor-pointer group">
-                  <figure class="aspect-video overflow-hidden bg-green-100">
-                    <img
-                      src="assets/images/blog2.jpg"
-                      alt="스킨케어"
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </figure>
-                  <div class="mt-2">
-                    <span class="text-xs text-brown font-medium">스킨케어</span>
-                    <h3 class="text-xs font-semibold mt-1 leading-snug">
-                      건성 피부를 위한 최고의 바디 보습 루틴
-                    </h3>
-                  </div>
+                <article>
+                  <a href="#" class="group block">
+                    <figure
+                      class="aspect-video overflow-hidden bg-cararra rounded"
+                    >
+                      <img
+                        src="/src/assets/images/list_handcream.webp"
+                        alt="핸드 보습 루틴"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </figure>
+                    <div class="mt-2">
+                      <span class="text-xs text-brown font-medium"
+                        >스킨케어</span
+                      >
+                      <h3 class="text-xs font-semibold mt-1 leading-snug">
+                        건성 피부를 위한 최고의 핸드 보습 루틴
+                      </h3>
+                    </div>
+                  </a>
                 </article>
               </li>
               <li>
-                <article class="cursor-pointer group">
-                  <figure class="aspect-video overflow-hidden bg-rose-100">
-                    <img
-                      src="assets/images/blog3.jpg"
-                      alt="브랜드 스토리"
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </figure>
-                  <div class="mt-2">
-                    <span class="text-xs text-brown font-medium"
-                      >브랜드 스토리</span
+                <article>
+                  <a href="#" class="group block">
+                    <figure
+                      class="aspect-video overflow-hidden bg-cararra rounded"
                     >
-                    <h3 class="text-xs font-semibold mt-1 leading-snug">
-                      50년의 여정: 자연에서 피부까지
-                    </h3>
-                  </div>
+                      <img
+                        src="/src/assets/images/handcare_1.webp"
+                        alt="50년의 여정"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </figure>
+                    <div class="mt-2">
+                      <span class="text-xs text-brown font-medium"
+                        >브랜드 스토리</span
+                      >
+                      <h3 class="text-xs font-semibold mt-1 leading-snug">
+                        50년의 여정: 자연에서 피부까지
+                      </h3>
+                    </div>
+                  </a>
                 </article>
               </li>
               <li>
-                <article class="cursor-pointer group">
-                  <figure class="aspect-video overflow-hidden bg-yellow-100">
-                    <img
-                      src="assets/images/blog4.jpg"
-                      alt="성분 이야기"
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </figure>
-                  <div class="mt-2">
-                    <span class="text-xs text-brown font-medium"
-                      >성분 이야기</span
+                <article>
+                  <a href="#" class="group block">
+                    <figure
+                      class="aspect-video overflow-hidden bg-cararra rounded"
                     >
-                    <h3 class="text-xs font-semibold mt-1 leading-snug">
-                      프로방스 아몬드 오일의 놀라운 효능
-                    </h3>
-                  </div>
+                      <img
+                        src="/src/assets/images/list_step1.webp"
+                        alt="시어 버터 효능"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </figure>
+                    <div class="mt-2">
+                      <span class="text-xs text-brown font-medium"
+                        >성분 이야기</span
+                      >
+                      <h3 class="text-xs font-semibold mt-1 leading-snug">
+                        프로방스 시어 버터의 놀라운 효능
+                      </h3>
+                    </div>
+                  </a>
                 </article>
               </li>
               <li>
-                <article class="cursor-pointer group">
-                  <figure class="aspect-video overflow-hidden bg-stone-200">
-                    <img
-                      src="assets/images/blog5.jpg"
-                      alt="라이프스타일"
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </figure>
-                  <div class="mt-2">
-                    <span class="text-xs text-brown font-medium"
-                      >라이프스타일</span
+                <article>
+                  <a href="#" class="group block">
+                    <figure
+                      class="aspect-video overflow-hidden bg-cararra rounded"
                     >
-                    <h3 class="text-xs font-semibold mt-1 leading-snug">
-                      봄을 맞이하는 셀프케어 루틴 추천
-                    </h3>
-                  </div>
+                      <img
+                        src="/src/assets/images/list_handcarerefill.webp"
+                        alt="봄 셀프케어 루틴"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </figure>
+                    <div class="mt-2">
+                      <span class="text-xs text-brown font-medium"
+                        >라이프스타일</span
+                      >
+                      <h3 class="text-xs font-semibold mt-1 leading-snug">
+                        봄을 맞이하는 핸드케어 셀프케어 루틴 추천
+                      </h3>
+                    </div>
+                  </a>
                 </article>
               </li>
             </ul>
@@ -462,7 +671,10 @@
         </div>
       </section>
     </main>
-    <!-- 푸터 불러오기 (JS로 처리할 예정) -->
-    <footer></footer>
+
+    <!-- 푸터 마운트 포인트 (JS: renderFooter()로 교체) -->
+    <div id="footer"></div>
+
+    <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>

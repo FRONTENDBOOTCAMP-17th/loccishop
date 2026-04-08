@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
 
 export default defineConfig({
+  base: "/",
   plugins: [tailwindcss()],
   root: ".",
   server: {
@@ -17,6 +18,7 @@ export default defineConfig({
           __dirname,
           "src/pages/product/detail/index.html",
         ),
+        productList: resolve(__dirname, "src/pages/product/list/index.html"),
         login: resolve(__dirname, "src/pages/login/index.html"),
         signup: resolve(__dirname, "src/pages/signup/index.html"),
       },
