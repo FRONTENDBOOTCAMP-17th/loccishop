@@ -13,6 +13,7 @@ import {
 import { initRecommendedList } from "./handlers/initRecommendedList.js";
 import { initRitualSteps } from "./handlers/initRitualSteps.js";
 import { initProductEvents } from "./handlers/initProductEvents.js";
+import { openCartDrawer } from "/src/components/ui/cartDrawer.js";
 
 async function loadHTML(selector, url) {
   const container = document.querySelector(selector);
@@ -33,7 +34,7 @@ function initBadge() {
   document.querySelector("#badge").replaceWith(badge);
 }
 
-function initCartButton() {
+function initCartButton(product) {
   const cartBtn = createButton({
     text: "장바구니에 추가",
     variant: "primary",
@@ -41,6 +42,8 @@ function initCartButton() {
     fullWidth: true,
   });
   document.querySelector("#cart-button").append(cartBtn);
+
+  cartBtn.addEventListener("click", () => openCartDrawer(product));
 }
 
 function intiOptionButtons(options) {
@@ -107,7 +110,7 @@ async function initProductPage() {
   renderProductMain(product);
   initBadge();
   intiOptionButtons(product.options);
-  initCartButton();
+  initCartButton(product);
 
   await loadHTML(
     "#product-info",
