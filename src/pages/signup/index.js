@@ -1,0 +1,232 @@
+const API_URL =
+  "https://api.fullstackfamily.com/api/loccishop/v1/auth/signup";
+
+function isValidUsername(value) {
+  return value.length >= 4 && value.length <= 20;
+}
+
+function isValidPassword(value) {
+  return /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(
+    value,
+  );
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function setValid(errorIcon, checkIcon, errorText) {
+  if (errorIcon) errorIcon.style.display = "none";
+  checkIcon.style.display = "block";
+  if (errorText) errorText.style.display = "none";
+}
+
+function setError(errorIcon, checkIcon, errorText) {
+  if (errorIcon) errorIcon.style.display = "block";
+  checkIcon.style.display = "none";
+  if (errorText) errorText.style.display = "block";
+}
+
+function clearState(errorIcon, checkIcon, errorText) {
+  if (errorIcon) errorIcon.style.display = "none";
+  checkIcon.style.display = "none";
+  if (errorText) errorText.style.display = "none";
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("signupForm");
+  const userId = document.getElementById("userId");
+  const userPw = document.getElementById("userPw");
+  const userPwConfirm = document.getElementById("userPwConfirm");
+  const userName = document.getElementById("userName");
+  const userEmail = document.getElementById("userEmail");
+  const userAddress = document.getElementById("userAddress");
+  const userDetailAddress = document.getElementById("userDetailAddress");
+
+  const idErrorIcon = document.getElementById("idErrorIcon");
+  const idCheckIcon = document.getElementById("idCheckIcon");
+  const idErrorText = document.getElementById("idErrorText");
+
+  const pwErrorIcon = document.getElementById("pwErrorIcon");
+  const pwCheckIcon = document.getElementById("pwCheckIcon");
+  const pwGuideText = document.getElementById("pwGuideText");
+  const pwErrorText = document.getElementById("pwErrorText");
+
+  const pwConfirmErrorIcon = document.getElementById("pwConfirmErrorIcon");
+  const pwConfirmCheckIcon = document.getElementById("pwConfirmCheckIcon");
+  const pwConfirmErrorText = document.getElementById("pwConfirmErrorText");
+
+  const nameErrorIcon = document.getElementById("nameErrorIcon");
+  const nameCheckIcon = document.getElementById("nameCheckIcon");
+  const nameErrorText = document.getElementById("nameErrorText");
+
+  const emailErrorIcon = document.getElementById("emailErrorIcon");
+  const emailCheckIcon = document.getElementById("emailCheckIcon");
+  const emailErrorText = document.getElementById("emailErrorText");
+
+  const addressCheckIcon = document.getElementById("addressCheckIcon");
+  const detailAddressCheckIcon = document.getElementById(
+    "detailAddressCheckIcon",
+  );
+
+  // 초기 상태: 아이콘과 에러 텍스트 숨김
+  [
+    idErrorIcon,
+    idCheckIcon,
+    pwErrorIcon,
+    pwCheckIcon,
+    pwConfirmErrorIcon,
+    pwConfirmCheckIcon,
+    nameErrorIcon,
+    nameCheckIcon,
+    emailErrorIcon,
+    emailCheckIcon,
+    addressCheckIcon,
+    detailAddressCheckIcon,
+  ].forEach((el) => {
+    if (el) el.style.display = "none";
+  });
+
+  [
+    idErrorText,
+    pwErrorText,
+    pwConfirmErrorText,
+    nameErrorText,
+    emailErrorText,
+  ].forEach((el) => {
+    if (el) el.style.display = "none";
+  });
+
+  // 비밀번호 보기/숨기기
+  document.getElementById("togglePassword").addEventListener("click", () => {
+    userPw.type = userPw.type === "password" ? "text" : "password";
+  });
+  document
+    .getElementById("togglePasswordConfirm")
+    .addEventListener("click", () => {
+      userPwConfirm.type =
+        userPwConfirm.type === "password" ? "text" : "password";
+    });
+
+  // 실시간 유효성 검사
+  userId.addEventListener("input", () => {
+    if (!userId.value) return clearState(idErrorIcon, idCheckIcon, idErrorText);
+    isValidUsername(userId.value)
+      ? setValid(idErrorIcon, idCheckIcon, idErrorText)
+      : setError(idErrorIcon, idCheckIcon, idErrorText);
+  });
+
+  userPw.addEventListener("input", () => {
+    if (!userPw.value) {
+      clearState(pwErrorIcon, pwCheckIcon, pwErrorText);
+      pwGuideText.style.display = "block";
+      return;
+    }
+    pwGuideText.style.display = "none";
+    isValidPassword(userPw.value)
+      ? setValid(pwErrorIcon, pwCheckIcon, pwErrorText)
+      : setError(pwErrorIcon, pwCheckIcon, pwErrorText);
+
+    if (userPwConfirm.value) {
+      userPw.value === userPwConfirm.value
+        ? setValid(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText)
+        : setError(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText);
+    }
+  });
+
+  userPwConfirm.addEventListener("input", () => {
+    if (!userPwConfirm.value)
+      return clearState(
+        pwConfirmErrorIcon,
+        pwConfirmCheckIcon,
+        pwConfirmErrorText,
+      );
+    userPw.value === userPwConfirm.value
+      ? setValid(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText)
+      : setError(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText);
+  });
+
+  userName.addEventListener("input", () => {
+    if (!userName.value)
+      return clearState(nameErrorIcon, nameCheckIcon, nameErrorText);
+    userName.value.trim()
+      ? setValid(nameErrorIcon, nameCheckIcon, nameErrorText)
+      : setError(nameErrorIcon, nameCheckIcon, nameErrorText);
+  });
+
+  userEmail.addEventListener("input", () => {
+    if (!userEmail.value)
+      return clearState(emailErrorIcon, emailCheckIcon, emailErrorText);
+    isValidEmail(userEmail.value)
+      ? setValid(emailErrorIcon, emailCheckIcon, emailErrorText)
+      : setError(emailErrorIcon, emailCheckIcon, emailErrorText);
+  });
+
+  // 주소: 값이 있으면 체크, 없으면 숨김
+  userAddress.addEventListener("input", () => {
+    addressCheckIcon.style.display = userAddress.value.trim()
+      ? "block"
+      : "none";
+  });
+
+  userDetailAddress.addEventListener("input", () => {
+    detailAddressCheckIcon.style.display = userDetailAddress.value.trim()
+      ? "block"
+      : "none";
+  });
+
+  // 폼 제출
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (!isValidUsername(userId.value)) {
+      setError(idErrorIcon, idCheckIcon, idErrorText);
+      return userId.focus();
+    }
+    if (!isValidPassword(userPw.value)) {
+      setError(pwErrorIcon, pwCheckIcon, pwErrorText);
+      return userPw.focus();
+    }
+    if (userPw.value !== userPwConfirm.value) {
+      setError(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText);
+      return userPwConfirm.focus();
+    }
+    if (!userName.value.trim()) {
+      setError(nameErrorIcon, nameCheckIcon, nameErrorText);
+      return userName.focus();
+    }
+    if (!isValidEmail(userEmail.value)) {
+      setError(emailErrorIcon, emailCheckIcon, emailErrorText);
+      return userEmail.focus();
+    }
+
+    const requestBody = {
+      username: userId.value,
+      password: userPw.value,
+      name: userName.value.trim(),
+      email: userEmail.value.trim(),
+      baseAddress: userAddress.value.trim(),
+      detailAddress: userDetailAddress.value.trim(),
+    };
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert(`회원가입이 완료되었습니다. 환영합니다`);
+        window.location.href = "/src/pages/login/index.html";
+      } else {
+        alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("회원가입 오류:", error);
+      alert("서버와 통신 중 오류가 발생했습니다.");
+    }
+  });
+});
