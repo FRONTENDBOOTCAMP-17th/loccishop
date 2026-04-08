@@ -42,6 +42,7 @@ export function renderProductMain(product) {
   const dotsContainer = document.querySelector("#slider-dots");
 
   track.innerHTML = "";
+
   allImages.forEach((src, i) => {
     const slide = document.createElement("div");
     slide.className = "min-w-full aspect-3/4 overflow-hidden flex-shrink-0";
@@ -70,11 +71,68 @@ export function renderProductMain(product) {
   function goTo(index) {
     current = index;
     track.style.transform = `translateX(-${current * 100}%)`;
-    document.querySelectorAll(".dot").forEach((dot, i) => {
+    dotsContainer.querySelectorAll(".dot").forEach((dot, i) => {
       dot.classList.toggle("bg-ferra", i === current);
       dot.classList.toggle("bg-stone-300", i !== current);
     });
   }
+
+  //드래그 슬라이더
+  const sliderWrapper = track.parentElement; // track을 감싸는 컨테이너
+
+  let startX = 0;
+  let isDragging = false;
+
+  function onDragStart(x) {
+    startX = x;
+    isDragging = true;
+    track.classList.remove(
+      "transition-transform",
+      "duration-300",
+      "ease-in-out",
+    );
+  }
+
+  function onDragEnd(x) {
+    if (!isDragging) {
+      return;
+    }
+    isDragging = false;
+
+    const diff = startX - x;
+    const threshold = sliderWrapper.offsetWidth * 0.2; // 너비의 20% 이상 드래그해야 넘김
+
+    track.classList.add("transition-transform", "duration-300", "ease-in-out");
+
+    if (diff > threshold) {
+      // 왼쪽으로 드래그 → 다음 슬라이드
+      goTo(current === allImages.length - 1 ? 0 : current + 1);
+    } else if (diff < -threshold) {
+      // 오른쪽으로 드래그 → 이전 슬라이드
+      goTo(current === 0 ? allImages.length - 1 : current - 1);
+    } else {
+      // 기준 미달 → 제자리 복귀
+      goTo(current);
+    }
+  }
+
+  // 마우스 이벤트
+  sliderWrapper.addEventListener("mousedown", (e) => onDragStart(e.clientX));
+  sliderWrapper.addEventListener("mouseup", (e) => onDragEnd(e.clientX));
+  sliderWrapper.addEventListener("mouseleave", (e) => onDragEnd(e.clientX)); // 영역 벗어나도 처리
+
+  // 터치 이벤트
+  sliderWrapper.addEventListener("touchstart", (e) =>
+    onDragStart(e.touches[0].clientX),
+  );
+  sliderWrapper.addEventListener("touchend", (e) =>
+    onDragEnd(e.changedTouches[0].clientX),
+  );
+
+  // 드래그 중 이미지 기본 드래그 방지
+  track.querySelectorAll("img").forEach((img) => {
+    img.addEventListener("dragstart", (e) => e.preventDefault());
+  });
 
   document.querySelector("#slider-prev").addEventListener("click", () => {
     goTo(current === 0 ? allImages.length - 1 : current - 1);
@@ -82,7 +140,7 @@ export function renderProductMain(product) {
   document.querySelector("#slider-next").addEventListener("click", () => {
     goTo(current === allImages.length - 1 ? 0 : current + 1);
   });
-  document.querySelectorAll(".dot").forEach((dot) => {
+  dotsContainer.querySelectorAll(".dot").forEach((dot) => {
     dot.addEventListener("click", () => goTo(Number(dot.dataset.index)));
   });
 }
