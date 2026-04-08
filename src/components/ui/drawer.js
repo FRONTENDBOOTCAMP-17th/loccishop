@@ -70,5 +70,5 @@ export function createDrawer({ title, position = "right" } = {}) {
   closeBtn.addEventListener("click", close);
   overlay.addEventListener("click", close);
 
-  return { open, close, content };
+  return { open, close, content, titleEl };
 }
