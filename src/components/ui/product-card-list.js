@@ -67,9 +67,13 @@ export function renderProductCards(products) {
     const gap = 16;
 
     let count;
-    if (window.innerWidth < 768) count = 2;
-    else if (window.innerWidth < 1024) count = 3;
-    else count = 4;
+    if (window.innerWidth < 768) {
+      count = 2;
+    } else if (window.innerWidth < 1024) {
+      count = 3;
+    } else {
+      count = 4;
+    }
 
     const cardWidth = (containerWidth - gap * (count - 1)) / count;
 

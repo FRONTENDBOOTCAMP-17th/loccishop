@@ -6,6 +6,7 @@ import { renderProductMain } from "./handlers/renderProductMain.js";
 import { initBestReview } from "./handlers/initBestReview.js";
 import { initReviews, initSortButtons } from "./handlers/initReviews.js";
 import { initRecommendedList } from "./handlers/initRecommendedList.js";
+import { initRitualSteps } from "./handlers/initRitualSteps.js";
 
 async function loadHTML(selector, url) {
   const container = document.querySelector(selector);
@@ -129,6 +130,12 @@ async function initProductPage() {
   );
   document.querySelector("#description").textContent = product.description;
   initDrawers(product.productInfo);
+
+  await loadHTML(
+    "#detail-ritual-steps",
+    "/src/pages/product/detail/components/detail-ritual-steps.html",
+  );
+  initRitualSteps();
 
   await loadHTML(
     "#detail-recommended",
