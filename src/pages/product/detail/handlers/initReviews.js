@@ -4,11 +4,13 @@ import { renderStars } from "./renderStars.js";
 export async function initReviews(productId, { sort = "latest" } = {}) {
   const { reviews, meta } = await fetchProductReviews(productId, {
     page: 1,
-    limit: 999,
+    limit: 10,
     sort,
   });
 
-  if (!reviews || reviews.length === 0) return;
+  if (!reviews || reviews.length === 0) {
+    return;
+  }
 
   const total = meta.pagination.total;
   const average = (
@@ -22,22 +24,27 @@ export async function initReviews(productId, { sort = "latest" } = {}) {
   document.querySelector("#rating-average").textContent = average;
 
   const productRatingStars = document.querySelector("#product-rating-stars");
-  if (productRatingStars) renderStars(average, productRatingStars);
+  if (productRatingStars) {
+    renderStars(average, productRatingStars);
+  }
 
   const ratingStars = document.querySelector("#rating-stars");
-  if (ratingStars) renderStars(average, ratingStars, "w-6 h-6");
+  if (ratingStars) {
+    renderStars(average, ratingStars, "w-6 h-6");
+  }
 
   [5, 4, 3, 2, 1].forEach((star) => {
     const count = counts[star];
-    const percent =
-      reviews.length > 0 ? Math.round((count / reviews.length) * 100) : 0;
+    const percent = total > 0 ? Math.round((count / total) * 100) : 0;
     document.querySelector(`#bar-${star}`).style.width = `${percent}%`;
     document.querySelector(`#count-${star}`).textContent =
       count.toLocaleString();
   });
 
   const reviewList = document.querySelector("#review-list");
-  if (!reviewList) return;
+  if (!reviewList) {
+    return;
+  }
   reviewList.innerHTML = "";
 
   reviews.forEach((review) => {
@@ -71,7 +78,7 @@ export async function initReviews(productId, { sort = "latest" } = {}) {
     reviewList.append(li);
   });
 }
-
+//정렬
 export function initSortButtons(productId) {
   const buttons = document.querySelectorAll(
     "#detail-reviews button[type='button']",
@@ -79,10 +86,11 @@ export function initSortButtons(productId) {
   buttons.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const text = btn.textContent.trim();
-      if (text === "베스트순")
+      if (text === "베스트순") {
         await initReviews(productId, { sort: "rating_high" });
-      else if (text === "최신순")
+      } else if (text === "최신순") {
         await initReviews(productId, { sort: "latest" });
+      }
     });
   });
 }

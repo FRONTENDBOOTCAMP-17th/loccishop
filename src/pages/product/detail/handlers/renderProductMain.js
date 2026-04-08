@@ -23,7 +23,13 @@ export function renderProductMain(product) {
   product.images.mainSlides.forEach((src) => {
     const li = document.createElement("li");
     li.className = "aspect-square overflow-hidden";
-    li.innerHTML = `<img class="bg-merino w-full h-full object-cover" src="${src}" alt="서브이미지" />`;
+
+    const img = document.createElement("img");
+    img.className = "bg-merino w-full h-full object-cover";
+    img.src = src;
+    img.alt = `${product.name} 서브 이미지`;
+
+    li.append(img);
     subThumbnail.append(li);
   });
 
@@ -35,23 +41,29 @@ export function renderProductMain(product) {
   const track = document.querySelector("#slider-track");
   const dotsContainer = document.querySelector("#slider-dots");
 
-  track.innerHTML = allImages
-    .map(
-      (src, i) => `
-    <div class="min-w-full aspect-3/4 overflow-hidden flex-shrink-0">
-      <img class="bg-merino w-full h-full object-cover" src="${src}" alt="${product.name} 이미지 ${i + 1}" />
-    </div>
-  `,
-    )
-    .join("");
+  track.innerHTML = "";
+  allImages.forEach((src, i) => {
+    const slide = document.createElement("div");
+    slide.className = "min-w-full aspect-3/4 overflow-hidden flex-shrink-0";
 
-  dotsContainer.innerHTML = allImages
-    .map(
-      (_, i) => `
-    <button class="dot w-2 h-2 rounded-full ${i === 0 ? "bg-ferra" : "bg-stone-300"}" data-index="${i}"></button>
-  `,
-    )
-    .join("");
+    const img = document.createElement("img");
+    img.className = "bg-merino w-full h-full object-cover";
+    img.src = src;
+    img.alt = `${product.name} 이미지 ${i + 1}`;
+
+    slide.append(img);
+    track.append(slide);
+  });
+
+  dotsContainer.innerHTML = "";
+  allImages.forEach((_, i) => {
+    const dot = document.createElement("button");
+    dot.className = `dot w-2 h-2 rounded-full ${i === 0 ? "bg-ferra" : "bg-stone-300"}`;
+    dot.dataset.index = i;
+    dot.type = "button";
+    dot.setAttribute("aria-label", `${i + 1}번째 이미지로 이동`);
+    dotsContainer.append(dot);
+  });
 
   let current = 0;
 
