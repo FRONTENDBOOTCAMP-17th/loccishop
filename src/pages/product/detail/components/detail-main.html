@@ -1,10 +1,13 @@
 <article
-  class="content-wrapper flex flex-col lg:flex-row lg:mt-8 mb-7 w-full mx-auto max-w-7xl"
+  class="content-wrapper flex flex-col lg:flex-row lg:mt-8 mb-7 w-full mx-auto max-w-7xl overflow-hidden"
 >
   <!-- 좌측 이미지 영역 -->
-  <figure id="product-gallery" class="relative w-full lg:w-1/2 overflow-hidden">
+  <figure
+    id="product-gallery"
+    class="relative w-full lg:w-1/2 overflow-hidden max-w-full"
+  >
     <!-- 모바일 슬라이더 -->
-    <div class="lg:hidden relative overflow-hidden">
+    <div class="lg:hidden relative overflow-hidden w-full">
       <div id="slider-track" class="flex w-full"></div>
       <button
         id="slider-prev"
