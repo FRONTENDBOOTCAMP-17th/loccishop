@@ -8,6 +8,7 @@ import {
   initReviews,
   initSortButtons,
   initPagination,
+  initFilterButton,
 } from "./handlers/initReviews.js";
 import { initRecommendedList } from "./handlers/initRecommendedList.js";
 import { initRitualSteps } from "./handlers/initRitualSteps.js";
@@ -141,6 +142,7 @@ async function initProductPage() {
   initPagination(id);
   initSortButtons(id);
   initProductEvents(id);
+  initFilterButton(id);
 }
 
 document.addEventListener("DOMContentLoaded", initProductPage);

@@ -1,22 +1,29 @@
 import { fetchProductReviews } from "/src/js/api/product/index.js";
-import { renderStars } from "./renderStars.js";
+import { renderStars } from "/src/pages/product/detail/handlers/renderStars.js";
 import { createPagination } from "/src/components/ui/pagination.js";
 
 let currentPage = 1;
 let currentSort = "latest";
 let currentProductId = null;
 let totalPages = 1;
+let currentRating = null;
 
-export async function initReviews(productId, { sort = "latest" } = {}) {
+export async function initReviews(
+  productId,
+  { sort = "latest", rating = null } = {},
+) {
   currentPage = 1;
   currentSort = sort;
   currentProductId = productId;
+  currentRating = rating;
 
-  const { reviews, meta } = await fetchProductReviews(productId, {
+  const result = await fetchProductReviews(productId, {
     page: 1,
     limit: 4,
     sort,
+    ...(rating && { rating }),
   });
+  const { reviews, meta } = result;
 
   if (!reviews || reviews.length === 0) {
     return;
@@ -81,7 +88,7 @@ export function initSortButtons(productId) {
   });
 }
 
-//리뷰작성카드
+//리뷰목록
 function createReviewCard(review) {
   const li = document.createElement("li");
   li.className = "h-full";
@@ -132,22 +139,27 @@ function createReviewCard(review) {
     imagesDiv.append(img);
   });
 
-  // 추천/신고 버튼
+  // 추천 버튼
   const actionsDiv = document.createElement("div");
-  actionsDiv.className = "flex justify-between text-xs mt-auto pt-3";
+  actionsDiv.className = "flex justify-end text-xs mt-auto pt-3";
 
   const recommendBtn = document.createElement("button");
   recommendBtn.type = "button";
+
   recommendBtn.className =
-    "bg-woody-brown text-white py-1 px-3 rounded-md font-bold hover:bg-opacity-90";
-  recommendBtn.textContent = `이 제품을 추천합니다 (${review.recommendCount})`;
+    "flex items-center gap-1.5 py-1.5 px-4 border border-gray-200 rounded-full text-xs font-medium hover:bg-merino hover:border-woody-brown transition-colors";
 
-  const reportBtn = document.createElement("button");
-  reportBtn.type = "button";
-  reportBtn.className = "text-xs text-abbey/60 underline";
-  reportBtn.textContent = "이 리뷰 신고하기";
+  const icon = document.createElement("img");
+  icon.src = "/src/assets/icon/thumb-up.svg";
+  icon.alt = "";
+  icon.className = "w-3.5 h-3.5";
 
-  actionsDiv.append(recommendBtn, reportBtn);
+  const btnText = document.createElement("span");
+  btnText.textContent = `도움됐어요 ${review.recommendCount}`;
+
+  recommendBtn.append(icon, btnText);
+
+  actionsDiv.append(recommendBtn);
 
   article.append(starsDiv, title, metaDiv, content, imagesDiv, actionsDiv);
   li.append(article);
@@ -167,11 +179,14 @@ export function initPagination(productId) {
     onPageChange: async (page) => {
       currentPage = page;
 
-      const { reviews } = await fetchProductReviews(productId, {
+      const result = await fetchProductReviews(productId, {
         page,
         sort: currentSort,
         limit: 4,
+        ...(currentRating && { rating: currentRating }),
       });
+
+      const { reviews } = result;
 
       const reviewList = document.querySelector("#review-list");
       reviewList.innerHTML = ""; // 더보기와 달리 페이지 교체라 초기화
@@ -181,4 +196,66 @@ export function initPagination(productId) {
 
   container.innerHTML = "";
   container.append(pagination);
+}
+
+//평점선택 드롭다운
+export function initFilterButton(productId) {
+  const filterBtn = document.querySelector("#filter-btn");
+  if (!filterBtn) {
+    return;
+  }
+
+  // 드롭다운 생성
+  const dropdown = document.createElement("ul");
+  dropdown.className =
+    "absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-md z-10 hidden";
+
+  const options = [
+    { label: "전체", value: null },
+    { label: "⭐⭐⭐⭐⭐ 5점", value: 5 },
+    { label: "⭐⭐⭐⭐ 4점", value: 4 },
+    { label: "⭐⭐⭐ 3점", value: 3 },
+    { label: "⭐⭐ 2점", value: 2 },
+    { label: "⭐ 1점", value: 1 },
+  ];
+
+  options.forEach(({ label, value }) => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "w-full text-left px-4 py-2 text-sm hover:bg-cararra";
+    btn.textContent = label;
+
+    btn.addEventListener("click", async () => {
+      currentRating = value;
+      dropdown.classList.add("hidden");
+
+      // 필터 버튼 텍스트 업데이트
+      filterBtn.querySelector("span").textContent = value
+        ? `${value}점`
+        : "필터";
+
+      await initReviews(productId, { sort: currentSort, rating: value });
+      initPagination(productId);
+    });
+
+    li.append(btn);
+    dropdown.append(li);
+  });
+
+  // 드롭다운을 filterBtn 부모에 추가 (relative 필요)
+  filterBtn.parentElement.style.position = "relative";
+  filterBtn.parentElement.append(dropdown);
+
+  // 토글
+  filterBtn.addEventListener("click", () => {
+    dropdown.classList.toggle("hidden");
+  });
+
+  // 외부 클릭 시 닫기
+  document.addEventListener("click", (e) => {
+    if (!filterBtn.contains(e.target)) {
+      dropdown.classList.add("hidden");
+    }
+  });
 }
