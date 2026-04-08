@@ -108,6 +108,14 @@
     background-color: #f9fafb;
   }
 
+  /* 추천 제품 캐러셀 */
+  .rotating {
+    cursor: grab;
+  }
+  .rotating.is-dragging {
+    cursor: grabbing;
+  }
+
   /* 선물 찾기 장식 요소 */
   .gift-shape {
     display: inline-block;
