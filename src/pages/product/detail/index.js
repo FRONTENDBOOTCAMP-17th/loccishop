@@ -4,9 +4,16 @@ import { createBadge } from "/src/components/ui/badge.js";
 import { createDrawer } from "/src/components/ui/drawer.js";
 import { renderProductMain } from "./handlers/renderProductMain.js";
 import { initBestReview } from "./handlers/initBestReview.js";
-import { initReviews, initSortButtons } from "./handlers/initReviews.js";
+import {
+  initReviews,
+  initSortButtons,
+  initPagination,
+  initFilterButton,
+} from "./handlers/initReviews.js";
 import { initRecommendedList } from "./handlers/initRecommendedList.js";
 import { initRitualSteps } from "./handlers/initRitualSteps.js";
+import { initProductEvents } from "./handlers/initProductEvents.js";
+import { openCartDrawer } from "/src/components/ui/cartDrawer.js";
 
 async function loadHTML(selector, url) {
   const container = document.querySelector(selector);
@@ -27,7 +34,7 @@ function initBadge() {
   document.querySelector("#badge").replaceWith(badge);
 }
 
-function initCartButton() {
+function initCartButton(product) {
   const cartBtn = createButton({
     text: "장바구니에 추가",
     variant: "primary",
@@ -35,6 +42,8 @@ function initCartButton() {
     fullWidth: true,
   });
   document.querySelector("#cart-button").append(cartBtn);
+
+  cartBtn.addEventListener("click", () => openCartDrawer(product));
 }
 
 function intiOptionButtons(options) {
@@ -90,27 +99,6 @@ function initDrawers(productInfo) {
   });
 }
 
-function initMoreReviewButton() {
-  const moreReviewBtn = createButton({
-    text: "리뷰 더보기",
-    variant: "outline",
-    size: "sm",
-    fullWidth: false,
-  });
-  moreReviewBtn.classList.add(
-    "mt-5",
-    "hover:bg-woody-brown",
-    "hover:text-cararra",
-  );
-
-  const container = document.querySelector("#more-reviews-btn");
-  if (container) {
-    container.append(moreReviewBtn);
-  } else {
-    console.warn("#more-reviews-btn 요소가 존재하지 않습니다.");
-  }
-}
-
 async function initProductPage() {
   const id = getProductId();
   const product = await fetchProduct(id);
@@ -122,7 +110,7 @@ async function initProductPage() {
   renderProductMain(product);
   initBadge();
   intiOptionButtons(product.options);
-  initCartButton();
+  initCartButton(product);
 
   await loadHTML(
     "#product-info",
@@ -154,8 +142,10 @@ async function initProductPage() {
     "/src/pages/product/detail/components/detail-review.html",
   );
   await initReviews(id);
-  initMoreReviewButton();
+  initPagination(id);
   initSortButtons(id);
+  initProductEvents(id);
+  initFilterButton(id);
 }
 
 document.addEventListener("DOMContentLoaded", initProductPage);
