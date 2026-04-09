@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>L’OcciShop 클론 프로젝트</title>
     <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/pages/login/index.js"></script>
   </head>
   <body>
     <header id="header"></header>
@@ -49,12 +50,12 @@
               <div
                 class="flex flex-col text-abbey text-[14px] font-semibold leading-5"
               >
-                <label for="email">아이디*</label>
+                <label for="username">아이디*</label>
                 <div class="relative mt-2">
                   <input
                     type="text"
-                    id="email"
-                    name="user_email"
+                    id="username"
+                    name="username"
                     class="bg-grey-99 border border-grey-45 h-10 w-full px-3"
                     required
                   />
@@ -88,6 +89,7 @@
                     type="button"
                     id="togglePassword"
                     class="absolute right-3 top-1/2 -translate-y-1/2 hidden"
+                    tabindex="-1"
                   >
                     <img
                       src="/src/assets/icon/passwordEye.svg"
