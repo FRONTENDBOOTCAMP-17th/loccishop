@@ -8,12 +8,86 @@
 
 ## 목록
 
-| Method | URL                               | 설명           |
-| ------ | --------------------------------- | -------------- |
-| GET    | /api/products/:id/reviews         | 상품 리뷰 조회 |
-| POST   | /api/products/:id/reviews         | 상품 리뷰 작성 |
-| PATCH  | /api/members/me/reviews/:reviewId | 상품 리뷰 수정 |
-| DELETE | /api/members/me/reviews/:reviewId | 상품 리뷰 삭제 |
+| Method | URL                               | 설명                |
+| ------ | --------------------------------- | ------------------- |
+| POST   | /api/reviews/images               | 리뷰 이미지 업로드  |
+| GET    | /api/products/:id/reviews         | 상품 리뷰 조회      |
+| POST   | /api/products/:id/reviews         | 상품 리뷰 작성      |
+| PATCH  | /api/members/me/reviews/:reviewId | 상품 리뷰 수정      |
+| DELETE | /api/members/me/reviews/:reviewId | 상품 리뷰 삭제      |
+
+---
+
+## 리뷰 이미지 업로드
+
+리뷰에 첨부할 이미지를 업로드합니다. 업로드된 이미지 URL을 리뷰 작성/수정 시 `images[]`에 넣어 사용합니다.
+
+- **Method**: POST
+- **URL**: `/api/reviews/images`
+- **Content-Type**: `multipart/form-data`
+- **사용자**: 유저 (로그인 필수)
+
+### Request
+
+| key  | 타입 | 설명       | 비고                             |
+| ---- | ---- | ---------- | -------------------------------- |
+| file | File | 이미지 파일 | JPEG, PNG, WebP, GIF / 최대 5MB |
+
+### Response
+
+| key      | 설명              | 비고 |
+| -------- | ----------------- | ---- |
+| imageUrl | 업로드된 이미지 URL | CDN URL |
+
+### Example
+
+**요청 (JavaScript)**:
+
+```js
+const formData = new FormData();
+formData.append('file', fileInput.files[0]);
+
+const response = await fetch('/api/reviews/images', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${accessToken}`
+  },
+  body: formData  // Content-Type은 자동 설정됨 (multipart/form-data)
+});
+
+const result = await response.json();
+console.log(result.data.imageUrl);
+// "https://storage.fullstackfamily.com/content/loccishop/reviews/abc123.webp"
+```
+
+**응답**:
+
+```json
+{
+  "success": true,
+  "data": {
+    "imageUrl": "https://storage.fullstackfamily.com/content/loccishop/reviews/abc123.webp"
+  }
+}
+```
+
+### Status
+
+| status | 설명                                          |
+| ------ | --------------------------------------------- |
+| 201    | 업로드 성공                                   |
+| 400    | 파일이 비어있음 / 허용되지 않는 형식          |
+| 401    | 인증 실패                                     |
+| 413    | 파일 크기 5MB 초과                            |
+
+### 사용 흐름
+
+리뷰에 이미지를 첨부하려면 **2단계**로 진행합니다:
+
+```
+1단계: POST /api/reviews/images   → 이미지 업로드 → imageUrl 받기
+2단계: POST /api/products/:id/reviews  → images 배열에 URL 넣어서 리뷰 작성
+```
 
 ---
 
