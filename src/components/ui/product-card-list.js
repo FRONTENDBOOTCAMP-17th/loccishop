@@ -1,5 +1,8 @@
 import { createProductCard } from "/src/components/ui/product-card.js";
 
+let prevCursorHandler = null;
+let prevWidthHandler = null;
+
 export function renderProductCards(products) {
   const container = document.querySelector("#product-list-container");
   if (!container) {
@@ -17,10 +20,13 @@ export function renderProductCards(products) {
 
   // 스크롤 필요할 때만 grab 적용
   function updateCursor() {
+    container.classList.remove("cursor-grabbing");
     if (container.scrollWidth > container.clientWidth) {
-      container.style.cursor = "grab";
+      container.classList.add("cursor-grab");
+      container.classList.remove("cursor-default");
     } else {
-      container.style.cursor = "default";
+      container.classList.remove("cursor-grab");
+      container.classList.add("cursor-default");
     }
   }
 
@@ -35,7 +41,8 @@ export function renderProductCards(products) {
     }
     e.preventDefault();
     isDown = true;
-    container.style.cursor = "grabbing";
+    container.classList.remove("cursor-grab");
+    container.classList.add("cursor-grabbing");
     startX = e.pageX - container.offsetLeft;
     scrollLeft = container.scrollLeft;
   });
@@ -67,9 +74,13 @@ export function renderProductCards(products) {
     const gap = 16;
 
     let count;
-    if (window.innerWidth < 768) count = 2;
-    else if (window.innerWidth < 1024) count = 3;
-    else count = 4;
+    if (window.innerWidth < 768) {
+      count = 2;
+    } else if (window.innerWidth < 1024) {
+      count = 3;
+    } else {
+      count = 4;
+    }
 
     const cardWidth = (containerWidth - gap * (count - 1)) / count;
 
@@ -88,6 +99,16 @@ export function renderProductCards(products) {
 
   updateCardWidths();
   updateCursor();
+
+  if (prevCursorHandler) {
+    window.removeEventListener("resize", prevCursorHandler);
+  }
+  if (prevWidthHandler) {
+    window.removeEventListener("resize", prevWidthHandler);
+  }
+
+  prevCursorHandler = updateCursor;
+  prevWidthHandler = updateCardWidths;
 
   window.addEventListener("resize", updateCursor);
   window.addEventListener("resize", updateCardWidths);

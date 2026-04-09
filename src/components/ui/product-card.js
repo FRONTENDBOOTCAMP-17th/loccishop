@@ -18,7 +18,7 @@ export function createProductCard({
   if (layout === "horizontal") {
     const card = document.createElement("article");
     card.className = [
-      "relative flex flex-row w-[420px] min-h-[170px] h-full p-3 items-start gap-3 self-stretch grow shrink-0 basis-0",
+      "relative flex flex-row w-full max-w-[500px] lg:max-w-none min-h-[170px] h-full p-3 items-start gap-3 self-stretch mx-auto",
       "bg-rose-white rounded overflow-hidden cursor-pointer",
       isSelected
         ? "border border-woody-brown"

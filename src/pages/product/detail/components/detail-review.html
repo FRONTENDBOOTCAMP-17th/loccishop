@@ -1,5 +1,6 @@
 <section
-  class="w-full mx-auto max-w-7xl px-4 lg:px-16 flex flex-col items-center"
+  id="reviews"
+  class="w-full mx-auto max-w-7xl px-4 lg:px-16 flex flex-col items-center scroll-mt-24"
 >
   <!-- 전체리뷰 평점 -->
   <div class="flex flex-col w-full lg:max-w-none max-w-2xl">
@@ -12,6 +13,7 @@
         ></span>
       </h2>
       <button
+        id="write-review-btn"
         type="button"
         class="text-sm leading-5 font-medium cursor-pointer border-0 rounded p-1 hover:bg-cararra hover:font-bold"
       >
@@ -115,11 +117,15 @@
         최신순
       </button>
     </div>
-    <div
-      class="flex flex-row gap-1 px-2 py-1 rounded-lg hover:bg-cararra hover:font-bold"
+    <button
+      id="filter-btn"
+      type="button"
+      class="flex flex-row gap-1 px-2 py-1 rounded-lg hover:bg-cararra hover:font-bold cursor-pointer:"
     >
-      <img src="/src/assets/icon/filter.svg" /><span>필터</span>
-    </div>
+      <img src="/src/assets/icon/filter.svg" alt="" aria-hidden="true" /><span
+        >필터</span
+      >
+    </button>
   </div>
 
   <!-- 리뷰리스트 -->
@@ -127,5 +133,5 @@
     id="review-list"
     class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6 w-full"
   ></ul>
-  <button id="more-reviews-btn"></button>
+  <div id="more-reviews-btn" class="flex justify-center mt-6"></div>
 </section>

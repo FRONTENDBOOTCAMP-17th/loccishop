@@ -1,7 +1,16 @@
 const BASE_URL = "https://api.fullstackfamily.com/api/loccishop/v1";
 
-export async function fetchAPI(path) {
-  const res = await fetch(`${BASE_URL}${path}`);
+export async function fetchAPI(path, options = {}) {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${BASE_URL}${path}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }), // ← 토큰 추가
+      ...options.headers,
+    },
+  });
 
   if (!res.ok) {
     throw new Error(`API 오류: ${res.status}`);

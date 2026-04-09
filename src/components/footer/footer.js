@@ -1,14 +1,9 @@
 export function renderFooter() {
   const footer = document.createElement("footer");
   footer.className =
-    "w-full bg-header-footer pt-10 pb-8 border-t border-gray-200";
+    "w-full bg-spring-wood pt-10 pb-8 border-t border-gray-200";
 
   footer.innerHTML = `
-    <div class="max-w-360 mx-auto px-10">
-      <div class="py-6 mb-8 border-b border-gray-200 flex flex-wrap justify-between items-center gap-6 text-[12px] font-medium text-gray-600">
-        <img src="/src/assets/logo/Loccitane.svg" class="w-40 h-auto mx-auto" alt="L'Occitane Logo" />
-      </div>
-
       <div class="text-center text-[11px] text-gray-500 leading-relaxed">
         <p class="mb-4 wrap-break-word opacity-80">
           상호: 록시땅코리아 유한책임회사 | 사업자 등록 번호 : 211-87-74234(사업자 정보 확인) | 대표자 : 안드레조셉호프만 | 주소 : 서울특별시 강남구 테헤란로 87길 36(삼성동) 도심공항타워 21층(06164)<br />
