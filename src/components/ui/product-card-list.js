@@ -31,11 +31,13 @@ export function renderProductCards(products) {
   }
 
   let isDown = false;
+  let hasDragged = false;
   let startX;
   let scrollLeft;
 
   // 마우스 눌렀을때
   container.addEventListener("mousedown", (e) => {
+    hasDragged = false;
     if (container.scrollWidth <= container.clientWidth) {
       return;
     }
@@ -62,12 +64,13 @@ export function renderProductCards(products) {
     if (!isDown) {
       return;
     }
+    hasDragged = true;
+
     e.preventDefault();
     const x = e.pageX - container.offsetLeft;
     const walk = x - startX;
     container.scrollLeft = scrollLeft - walk;
   });
-
   // 카드 너비 업데이트
   function updateCardWidths() {
     const containerWidth = container.clientWidth;
@@ -95,6 +98,15 @@ export function renderProductCards(products) {
     const cardElement = createProductCard(product);
     container.appendChild(cardElement);
     cardElement.style.cursor = "pointer";
+
+    //카드 클릭했을 때
+    cardElement.addEventListener("click", () => {
+      // 드래그 중이었다면 상세 페이지로 이동하지 않음
+      if (hasDragged) {
+        return;
+      }
+      window.location.href = `/src/pages/product/detail/?id=${product.id}`;
+    });
   });
 
   updateCardWidths();
