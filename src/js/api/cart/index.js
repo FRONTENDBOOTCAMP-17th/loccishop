@@ -6,19 +6,19 @@ export async function addToCart(productId, quantity) {
     return await fetchAPI("/members/me/cart/items", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId, quantity }),
+      body: { productId, quantity },
     });
   } catch (e) {
-    if (e.message.includes("401")) {
+    if (e.message.includes(401)) {
       alert("로그인이 필요한 서비스입니다.");
       // window.location.href = "/src/pages/login/index.html";
       return null;
     }
-    if (e.message.includes("400")) {
+    if (e.message.includes(400)) {
       alert("재고가 부족합니다.");
       return null;
     }
-    if (e.message.includes("404")) {
+    if (e.message.includes(404)) {
       alert("상품을 찾을 수 없습니다.");
       return null;
     }
