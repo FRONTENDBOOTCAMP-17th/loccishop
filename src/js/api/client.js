@@ -4,12 +4,14 @@ export async function fetchAPI(path, options = {}) {
   const token = localStorage.getItem("token");
 
   const res = await fetch(`${BASE_URL}${path}`, {
+    method: options.method ?? "GET",
     ...options,
     headers: {
       "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }), // ← 토큰 추가
       ...options.headers,
     },
+    ...(options.body && { body: JSON.stringify(options.body) }),
   });
 
   if (!res.ok) {
