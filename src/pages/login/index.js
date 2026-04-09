@@ -1,6 +1,4 @@
-import { BASE_URL } from "/src/js/api/client.js";
-
-const LOGIN_URL = `${BASE_URL}/auth/login`;
+import { loginUser } from "/src/js/api/login/index.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("loginForm");
@@ -41,13 +39,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch(LOGIN_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const result = await response.json();
+      const result = await loginUser(username, password);
 
       if (result.success) {
         localStorage.setItem("token", result.data.accessToken);
