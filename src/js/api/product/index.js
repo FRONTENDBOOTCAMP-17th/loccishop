@@ -21,3 +21,8 @@ export function fetchProductReviews(
   }
   return fetchAPI(`/products/${productId}/reviews?${params}`);
 }
+
+// 리추얼 단계 조회
+export function fetchRitualSteps(id) {
+  return fetchAPI(`/products/${id}/ritual-steps`);
+}
