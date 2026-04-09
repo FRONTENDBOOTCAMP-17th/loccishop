@@ -27,6 +27,13 @@ export async function initReviews(
   const { reviews, meta } = result;
 
   if (!reviews || reviews.length === 0) {
+    const reviewList = document.querySelector("#review-list");
+    reviewList.innerHTML = "";
+
+    const empty = document.createElement("p");
+    empty.className = "text-sm text-zambezi text-center py-10 col-span-2";
+    empty.textContent = "해당 평점의 리뷰가 없습니다.";
+    reviewList.append(empty);
     return;
   }
 
