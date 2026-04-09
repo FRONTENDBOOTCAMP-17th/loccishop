@@ -20,8 +20,25 @@ async function loadHTML(selector, url) {
   if (!container) {
     return;
   }
-  const res = await fetch(url);
-  container.innerHTML = await res.text();
+
+  try {
+    const res = await fetch(url);
+
+    // 서버가 에러를 응답한 경우
+    if (!res.ok) {
+      throw new Error(`${url} 로드 실패 (${res.status})`);
+    }
+
+    container.innerHTML = await res.text();
+  } catch (error) {
+    // 네트워크 에러 또는 서버 에러
+    console.error("HTML 로드 실패:", error);
+    container.innerHTML = `
+      <p class="text-sm text-zambezi text-center py-10">
+        콘텐츠를 불러올 수 없습니다.
+      </p>
+    `;
+  }
 }
 
 function getProductId() {
@@ -107,44 +124,27 @@ async function initProductPage() {
   const id = getProductId();
   const product = await fetchProduct(id);
 
-  await loadHTML(
-    "#detail-main",
-    "/src/pages/product/detail/components/detail-main.html",
-  );
+  await loadHTML("#detail-main", "components/detail-main.html");
+
+  await Promise.all([
+    loadHTML("#product-info", "components/detail-info.html"),
+    loadHTML("#detail-ritual-steps", "components/detail-ritual-steps.html"),
+    loadHTML("#detail-recommended", "components/detail-recommended.html"),
+    loadHTML("#product-best-review", "components/detail-best-review.html"),
+    loadHTML("#detail-reviews", "components/detail-review.html"),
+  ]);
+
   renderProductMain(product);
   initBadge();
   initOptionButtons(product.options);
   initCartButton(product);
 
-  await loadHTML(
-    "#product-info",
-    "/src/pages/product/detail/components/detail-info.html",
-  );
   document.querySelector("#description").textContent = product.description;
+
   initDrawers(product.productInfo);
-
-  await loadHTML(
-    "#detail-ritual-steps",
-    "/src/pages/product/detail/components/detail-ritual-steps.html",
-  );
   initRitualSteps(id);
-
-  await loadHTML(
-    "#detail-recommended",
-    "/src/pages/product/detail/components/detail-recommended.html",
-  );
   await initRecommendedList(id);
-
-  await loadHTML(
-    "#product-best-review",
-    "/src/pages/product/detail/components/detail-best-review.html",
-  );
   await initBestReview(id);
-
-  await loadHTML(
-    "#detail-reviews",
-    "/src/pages/product/detail/components/detail-review.html",
-  );
   await initReviews(id);
   initPagination(id);
   initSortButtons(id);
