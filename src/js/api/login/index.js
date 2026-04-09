@@ -1,10 +1,8 @@
-import { BASE_URL } from "/src/js/api/client.js";
+import { fetchAPI } from "/src/js/api/client.js";
 
-export async function loginUser(username, password) {
-  const response = await fetch(`${BASE_URL}/auth/login`, {
+export function loginUser(username, password) {
+  return fetchAPI("/auth/login", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
+    body: { username, password },
   });
-  return response.json();
 }
