@@ -1,4 +1,4 @@
-import { loginUser } from "/src/js/api/login/index.js";
+import { loginUser } from "/src/js/api/auth/index.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("loginForm");
