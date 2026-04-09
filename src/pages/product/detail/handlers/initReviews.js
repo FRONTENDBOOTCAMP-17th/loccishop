@@ -1,6 +1,7 @@
 import { fetchProductReviews } from "/src/js/api/product/index.js";
 import { renderStars } from "/src/pages/product/detail/handlers/renderStars.js";
 import { createPagination } from "/src/components/ui/pagination.js";
+import { toggleRecommendReview } from "/src/js/api/review/index.js";
 
 let currentPage = 1;
 let currentSort = "latest";
@@ -158,6 +159,27 @@ function createReviewCard(review) {
   btnText.textContent = `도움됐어요 ${review.recommendCount}`;
 
   recommendBtn.append(icon, btnText);
+
+  //리뷰 추천
+  let isRecommended = false;
+
+  recommendBtn.addEventListener("click", async () => {
+    try {
+      await toggleRecommendReview(review.id);
+      if (isRecommended) {
+        review.recommendCount--;
+        isRecommended = false;
+        recommendBtn.classList.remove("bg-merino", "border-woody-brown");
+      } else {
+        review.recommendCount++;
+        isRecommended = true;
+        recommendBtn.classList.add("bg-merino", "border-woody-brown");
+      }
+      btnText.textContent = `도움됐어요 ${review.recommendCount}`;
+    } catch (e) {
+      console.error("추천 처리 실패 :", e);
+    }
+  });
 
   actionsDiv.append(recommendBtn);
 
