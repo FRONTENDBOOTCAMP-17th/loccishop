@@ -1,3 +1,5 @@
+import { fetchAPI } from "/src/js/api/client.js";
+
 // 리뷰 작성 가능 여부 확인
 export async function fetchReviewable({ productId, orderId }) {
   const params = new URLSearchParams();
@@ -8,9 +10,5 @@ export async function fetchReviewable({ productId, orderId }) {
     params.set("orderId", orderId);
   }
 
-  const res = await fetch(
-    `/api/loccishop/v1/members/me/orders/reviewable?${params}`,
-  );
-  const json = await res.json();
-  return json.data; // { orderId, isReviewable }
+  return fetchAPI(`/members/me/orders/reviewable?${params}`);
 }
