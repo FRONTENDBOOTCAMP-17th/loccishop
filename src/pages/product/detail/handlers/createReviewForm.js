@@ -14,7 +14,7 @@ export async function createReviewForm(productId, orderId, onClose) {
   form.className = "flex flex-col gap-3";
 
   // 별점
-  const starLabel = document.createElement("label");
+  const starLabel = document.createElement("p");
   starLabel.className = "block text-sm font-bold mb-2";
   starLabel.textContent = "평점";
 
@@ -68,12 +68,14 @@ export async function createReviewForm(productId, orderId, onClose) {
   const nicknameLabel = document.createElement("label");
   nicknameLabel.className = "block text-sm font-bold";
   nicknameLabel.textContent = "닉네임";
-
   const nicknameInput = document.createElement("input");
   nicknameInput.type = "text";
-  nicknameInput.value = userName;
+  nicknameInput.placeholder = "미입력시 실명으로 등록됩니다.";
   nicknameInput.className =
     "w-full border border-gray-300 p-2 rounded-md text-sm";
+  nicknameInput.id = "nickname";
+  nicknameInput.name = "nickname";
+  nicknameLabel.htmlFor = "nickname";
 
   // 제목
   const titleLabel = document.createElement("label");
@@ -83,6 +85,9 @@ export async function createReviewForm(productId, orderId, onClose) {
   titleInput.type = "text";
   titleInput.placeholder = "리뷰 제목을 입력하세요";
   titleInput.className = "w-full border border-gray-300 p-2 rounded-md text-sm";
+  titleInput.id = "title";
+  titleInput.name = "title";
+  titleLabel.htmlFor = "title";
 
   // 내용
   const contentLabel = document.createElement("label");
@@ -92,6 +97,9 @@ export async function createReviewForm(productId, orderId, onClose) {
   reviewArea.className =
     "w-full h-32 border border-gray-300 p-2 rounded-md text-sm resize-none";
   reviewArea.placeholder = "상품에 대한 솔직한 리뷰를 남겨주세요. (10자 이상)";
+  reviewArea.id = "content";
+  reviewArea.name = "content";
+  contentLabel.htmlFor = "content";
 
   // 이미지 첨부
   const fileLabel = document.createElement("label");
@@ -100,6 +108,23 @@ export async function createReviewForm(productId, orderId, onClose) {
   const fileInput = document.createElement("input");
   fileInput.type = "file";
   fileInput.accept = "image/*";
+  fileInput.multiple = true;
+  fileInput.id = "images";
+  fileInput.name = "images";
+  fileLabel.htmlFor = "images";
+
+  const filePreview = document.createElement("ul");
+  filePreview.className = "flex flex-col gap-1 text-xs text-zambezi";
+
+  fileInput.addEventListener("change", () => {
+    filePreview.innerHTML = ""; // 초기화
+    Array.from(fileInput.files).forEach((file) => {
+      const li = document.createElement("li");
+      li.textContent = `📎 ${file.name}`;
+      filePreview.append(li);
+    });
+  });
+
   fileInput.className =
     "text-xs file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-merino file:text-woody-brown hover:file:bg-cararra";
 
@@ -120,13 +145,15 @@ export async function createReviewForm(productId, orderId, onClose) {
       nickname: nicknameInput.value.trim() || userName,
       title: titleInput.value,
       content: reviewArea.value,
-      images: [],
     };
+    const imageFiles = Array.from(fileInput.files);
 
     try {
-      await submitReview(productId, reviewData);
+      await submitReview(productId, reviewData, imageFiles);
       alert("리뷰가 등록되었습니다.");
       onClose();
+      sessionStorage.setItem("scrollTo", "detail-reviews");
+      window.location.reload();
     } catch (e) {
       if (e.message.includes(400)) {
         alert("리뷰 내용은 10자 이상이어야 합니다.");
@@ -153,6 +180,7 @@ export async function createReviewForm(productId, orderId, onClose) {
     reviewArea,
     fileLabel,
     fileInput,
+    filePreview,
     submitBtn,
   );
   return form;

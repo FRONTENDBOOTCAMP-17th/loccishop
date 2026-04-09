@@ -150,6 +150,14 @@ async function initProductPage() {
   initSortButtons(id);
   initProductEvents(id);
   initFilterButton(id);
+
+  const scrollTo = sessionStorage.getItem("scrollTo");
+  if (scrollTo) {
+    sessionStorage.removeItem("scrollTo");
+    document
+      .querySelector(`#${scrollTo}`)
+      ?.scrollIntoView({ behavior: "smooth" });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", initProductPage);

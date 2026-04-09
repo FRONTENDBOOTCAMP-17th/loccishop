@@ -124,11 +124,6 @@ function createReviewCard(review) {
   starsDiv.setAttribute("aria-label", `별점 ${review.rating}점`);
   renderStars(review.rating, starsDiv);
 
-  // 제목
-  const title = document.createElement("h3");
-  title.className = "text-sm font-bold";
-  title.textContent = review.title ?? "";
-
   // 작성자 + 날짜
   const metaDiv = document.createElement("div");
   metaDiv.className = "flex justify-between text-xs font-bold";
@@ -137,6 +132,11 @@ function createReviewCard(review) {
   const dateSpan = document.createElement("span");
   dateSpan.textContent = review.createdAt.slice(0, 10);
   metaDiv.append(authorSpan, dateSpan);
+
+  // 제목
+  const title = document.createElement("h3");
+  title.className = "text-sm font-bold";
+  title.textContent = review.title ?? "";
 
   // 본문
   const content = document.createElement("p");
@@ -197,7 +197,7 @@ function createReviewCard(review) {
 
   actionsDiv.append(recommendBtn);
 
-  article.append(starsDiv, title, metaDiv, content, imagesDiv, actionsDiv);
+  article.append(starsDiv, metaDiv, title, content, imagesDiv, actionsDiv);
   li.append(article);
   return li;
 }
