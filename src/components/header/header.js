@@ -16,6 +16,22 @@ export function renderHeader() {
         <li><a href="#"><img src="/src/assets/icon/cart.svg" alt="장바구니" /></a></li>
       </ul>
     </div>
+
+    <div id="drawer" class="fixed inset-0 z-[60] translate-x-full transition-transform duration-300 ease-in-out">
+      <div id="drawer-overlay" class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+      
+      <nav class="relative w-80 h-full bg-white ml-auto shadow-2xl p-6">
+        <div class="flex justify-end mb-8">
+          <button id="menu-close" class="text-2xl">✕</button>
+        </div>
+        <ul class="space-y-6 text-lg font-bold text-gray-800">
+          <li><a href="#" class="hover:text-woody-brown">베스트셀러</a></li>
+          <li><a href="#" class="hover:text-woody-brown">기프트</a></li>
+          <li><a href="#" class="hover:text-woody-brown">바디 케어</a></li>
+          <li><a href="#" class="hover:text-woody-brown">브랜드 스토리</a></li>
+        </ul>
+      </nav>
+    </div>
   `;
 
   return nav;

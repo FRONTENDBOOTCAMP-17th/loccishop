@@ -51,4 +51,115 @@
   body.special-page {
     @apply bg-grey-99;
   }
+
+  /* 사이트 헤더 상단 고정 */
+  body > header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+}
+
+@layer components {
+  /* 헤더/푸터 배경 */
+  .bg-header-footer {
+    background-color: #fbf9f6;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* 50 YEARS 섹션 그라데이션 — 따뜻한 앰버/골드 계열 */
+  .years-gradient {
+    background: linear-gradient(
+      to right,
+      #1a0e00 0%,
+      #7a3c04 20%,
+      #c87808 45%,
+      #f0ba18 65%,
+      #c08010 80%,
+      #1a0e00 100%
+    );
+  }
+
+  /* Refill 섹션 배경 — 매우 어두운 웜 브라운 */
+  .refill-bg {
+    background-color: #1c1008;
+  }
+
+  /* 선물 찾기 섹션 배경 — 노란색 → 흰색 그라데이션 */
+  .gift-bg {
+    background: linear-gradient(to bottom, #f9d840 0%, #fffbdc 45%, #fefce8 100%);
+  }
+
+  /* 슬라이더 버튼 */
+  .swiper-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .swiper-btn:hover {
+    background-color: #f9fafb;
+  }
+
+  /* 추천 제품 캐러셀 */
+  .rotating {
+    cursor: grab;
+  }
+  .rotating.is-dragging {
+    cursor: grabbing;
+  }
+
+  /* 선물 찾기 장식 요소 */
+  .gift-shape {
+    display: inline-block;
+    width: 3rem;
+    height: 90px;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, #f2e9db 0%, #f7f2ea 100%);
+  }
+}
+
+@layer utilities {
+  /* 헤더/푸터 최대 너비 컨테이너 */
+  .max-inline-360 {
+    max-width: 90rem;
+  }
+  .max-w-360 {
+    max-width: 90rem;
+  }
+
+  /* 브라운 색상 유틸리티 */
+  .text-brown {
+    color: #7f4e61;
+  }
+  .border-brown {
+    border-color: #7f4e61;
+  }
+  .hover\:text-brown:hover {
+    color: #7f4e61;
+  }
+  .hover\:border-brown:hover {
+    border-color: #7f4e61;
+  }
+
+  /* 골드 색상 유틸리티 */
+  .text-gold {
+    color: #b8860b;
+  }
+  .border-gold {
+    border-color: #b8860b;
+  }
+  .hover\:text-gold:hover {
+    color: #b8860b;
+  }
+  .hover\:border-gold:hover {
+    border-color: #b8860b;
+  }
 }

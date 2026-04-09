@@ -1,5 +1,14 @@
 import { fetchAPI } from "/src/js/api/client.js";
 
+// 상품 목록 조회
+export function fetchProducts({ page = 1, limit = 20, categoryId, sort, badge } = {}) {
+  const params = new URLSearchParams({ page, limit });
+  if (categoryId) params.set("categoryId", categoryId);
+  if (sort) params.set("sort", sort);
+  if (badge) params.set("badge", badge);
+  return fetchAPI(`/products?${params}`);
+}
+
 // 상품 조회
 export function fetchProduct(id) {
   return fetchAPI(`/products/${id}`);
