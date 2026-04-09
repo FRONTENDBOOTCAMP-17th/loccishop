@@ -1,4 +1,4 @@
-const BASE_URL = "https://api.fullstackfamily.com/api/loccishop/v1";
+export const BASE_URL = "https://api.fullstackfamily.com/api/loccishop/v1";
 
 export async function fetchAPI(path, options = {}) {
   const token = localStorage.getItem("token");

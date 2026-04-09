@@ -1,8 +1,10 @@
-const LOGIN_URL = "https://api.fullstackfamily.com/api/loccishop/v1/auth/login";
+import { BASE_URL } from "/src/js/api/client.js";
+
+const LOGIN_URL = `${BASE_URL}/auth/login`;
 
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("loginForm");
-  const emailInput = document.getElementById("email");
+  const usernameInput = document.getElementById("username");
   const passwordInput = document.getElementById("password");
   const idErrorIcon = document.getElementById("idErrorIcon");
   const idErrorText = document.getElementById("idErrorText");
@@ -20,7 +22,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   // 아이디 입력 시 에러 초기화
-  emailInput.addEventListener("input", () => {
+  usernameInput.addEventListener("input", () => {
     idErrorIcon.classList.add("hidden");
     idErrorText.classList.add("hidden");
   });
@@ -29,13 +31,13 @@ window.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const username = emailInput.value.trim();
+    const username = usernameInput.value.trim();
     const password = passwordInput.value;
 
     if (!username) {
       idErrorIcon.classList.remove("hidden");
       idErrorText.classList.remove("hidden");
-      return emailInput.focus();
+      return usernameInput.focus();
     }
 
     try {
@@ -48,13 +50,13 @@ window.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
 
       if (result.success) {
-        localStorage.setItem("accessToken", result.data.accessToken);
+        localStorage.setItem("token", result.data.accessToken);
         localStorage.setItem("role", result.data.member?.role ?? "user");
-        // 내 정보 조회를 위해 추가
         localStorage.setItem("member", JSON.stringify(result.data.member));
 
-        // 관리자면 관리자 페이지로, 일반 사용자면 메인으로
-        if (result.data.member?.role === "admin") {
+        alert("로그인에 성공하셨습니다.");
+
+        if (result.data.member?.role?.toLowerCase() === "admin") {
           window.location.href = "/src/pages/admin/dashboard/index.html";
         } else {
           window.location.href = "/index.html";
