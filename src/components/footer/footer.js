@@ -1,7 +1,7 @@
 export function renderFooter() {
   const footer = document.createElement("footer");
   footer.className =
-    "w-full bg-header-footer pt-10 pb-8 border-t border-gray-200";
+    "w-full bg-spring-wood pt-10 pb-8 border-t border-gray-200";
 
   footer.innerHTML = `
     <div class="max-w-360 mx-auto px-10">
