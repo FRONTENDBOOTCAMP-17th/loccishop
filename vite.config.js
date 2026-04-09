@@ -9,6 +9,13 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
+    proxy: {
+      "/api": {
+        target: "https://api.fullstackfamily.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, "/api"),
+      },
+    },
   },
   build: {
     rollupOptions: {
@@ -22,6 +29,7 @@ export default defineConfig({
         login: resolve(__dirname, "src/pages/login/index.html"),
         signup: resolve(__dirname, "src/pages/signup/index.html"),
         adminSignup: resolve(__dirname, "src/pages/admin/signup/index.html"),
+        mypageProfile: resolve(__dirname, "src/pages/mypage/profile/index.html"),
       },
     },
   },
