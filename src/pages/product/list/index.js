@@ -69,4 +69,30 @@ const productDataList = [
   },
 ];
 
-renderProductCards(productDataList);
+const productDataByCategory = {
+  shea: productDataList,
+  almond: productDataList,
+  fragrance: productDataList,
+};
+
+const tabs = document.querySelectorAll("#category-tabs li");
+
+function setActiveTab(activeTab) {
+  tabs.forEach((tab) => {
+    tab.classList.remove("text-woody-brown", "underline");
+    tab.classList.add("text-empress");
+  });
+  activeTab.classList.remove("text-empress");
+  activeTab.classList.add("text-woody-brown", "underline");
+}
+
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    setActiveTab(tab);
+    renderProductCards(productDataByCategory[tab.dataset.category]);
+  });
+});
+
+// 초기 상태: 시어 버터 탭 활성화
+setActiveTab(tabs[0]);
+renderProductCards(productDataByCategory.shea);
