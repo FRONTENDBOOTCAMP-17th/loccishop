@@ -46,25 +46,29 @@ function initCartButton(product) {
   cartBtn.addEventListener("click", () => openCartDrawer(product));
 }
 
-function intiOptionButtons(options) {
+function initOptionButtons(options) {
   const optionType = document.querySelector("#options-title");
   const container = document.querySelector("#optionsBtn");
+
+  if (!options || options.length === 0) {
+    optionType.closest("section").classList.add("hidden");
+    return;
+  }
+
   optionType.textContent = "용량";
 
-  options.forEach((option, index) => {
+  options.forEach((option) => {
     const button = document.createElement("button");
     button.className = "px-4 py-2.5 border border-empress rounded-sm text-sm";
-    button.textContent = option.size;
+    button.textContent = option.label;
 
-    if (index === 0) {
+    if (option.isCurrent) {
       button.classList.add("bg-ferra", "text-spring-wood");
     }
 
     button.addEventListener("click", () => {
-      container.querySelectorAll("button").forEach((btn) => {
-        btn.classList.remove("bg-ferra", "text-spring-wood");
-      });
-      button.classList.add("bg-ferra", "text-spring-wood");
+      const baseURL = `/src/pages/product/detail/?id=`;
+      window.location.href = baseURL + option.id;
     });
 
     container.append(button);
@@ -109,7 +113,7 @@ async function initProductPage() {
   );
   renderProductMain(product);
   initBadge();
-  intiOptionButtons(product.options);
+  initOptionButtons(product.options);
   initCartButton(product);
 
   await loadHTML(
