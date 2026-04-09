@@ -33,12 +33,8 @@ export async function initReviews(
   const total = meta.pagination.total;
   totalPages = meta.pagination.totalPages;
 
-  const average = (
-    reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-  ).toFixed(1);
-
-  const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-  reviews.forEach((r) => counts[r.rating]++);
+  const average = meta.ratingAverage.toFixed(1);
+  const counts = meta.ratingCounts;
 
   document.querySelector("#all-review-count").textContent = total;
   document.querySelector("#rating-average").textContent = average;
