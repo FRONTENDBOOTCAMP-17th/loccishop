@@ -1,6 +1,7 @@
 import { fetchProductReviews } from "/src/js/api/product/index.js";
 import { renderStars } from "/src/pages/product/detail/handlers/renderStars.js";
 import { createPagination } from "/src/components/ui/pagination.js";
+import { toggleRecommendReview } from "/src/js/api/review/index.js";
 
 let currentPage = 1;
 let currentSort = "latest";
@@ -32,12 +33,8 @@ export async function initReviews(
   const total = meta.pagination.total;
   totalPages = meta.pagination.totalPages;
 
-  const average = (
-    reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-  ).toFixed(1);
-
-  const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-  reviews.forEach((r) => counts[r.rating]++);
+  const average = meta.ratingAverage.toFixed(1);
+  const counts = meta.ratingCounts;
 
   document.querySelector("#all-review-count").textContent = total;
   document.querySelector("#rating-average").textContent = average;
@@ -158,6 +155,27 @@ function createReviewCard(review) {
   btnText.textContent = `도움됐어요 ${review.recommendCount}`;
 
   recommendBtn.append(icon, btnText);
+
+  //리뷰 추천
+  let isRecommended = false;
+
+  recommendBtn.addEventListener("click", async () => {
+    try {
+      await toggleRecommendReview(review.id);
+      if (isRecommended) {
+        review.recommendCount--;
+        isRecommended = false;
+        recommendBtn.classList.remove("bg-merino", "border-woody-brown");
+      } else {
+        review.recommendCount++;
+        isRecommended = true;
+        recommendBtn.classList.add("bg-merino", "border-woody-brown");
+      }
+      btnText.textContent = `도움됐어요 ${review.recommendCount}`;
+    } catch (e) {
+      console.error("추천 처리 실패 :", e);
+    }
+  });
 
   actionsDiv.append(recommendBtn);
 

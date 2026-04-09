@@ -3,17 +3,664 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>L'OcciShop 클론 프로젝트</title>
-    <script type="module" src="/src/js/main.js"></script>
+    <title>L'OCCITANE EN PROVENCE</title>
+    <link rel="stylesheet" href="/src/styles/style.css" />
   </head>
   <body>
-    <!-- 헤더 불러오기 (JS로 처리할 예정) -->
-    <header id="header"></header>
+    <!-- 헤더 마운트 포인트 (JS: renderHeader()로 교체) -->
+    <div id="header"></div>
 
-    <!-- 주요 콘텐츠 -->
-    <main class="container mx-auto p-4"></main>
+    <main>
+      <section class="relative w-full h-[80vh] overflow-hidden bg-[#f4f1ea]">
+        <video
+          src="src/assets/video/Loccitane-main.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          class="absolute inset-0 w-full h-full object-cover"
+        ></video>
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-center text-center"
+        >
+          <h1
+            class="text-white font-serif text-5xl md:text-7xl tracking-[0.2em] uppercase mb-8"
+          >
+            Amande Sublime
+          </h1>
+          <a
+            href="#"
+            class="text-white text-sm border-b border-white pb-1 hover:opacity-70 transition-opacity"
+          >
+            자세히 보기 >
+          </a>
+        </div>
+      </section>
+      <!-- 아몬드 컬렉션 -->
+      <section class="py-16 bg-white" aria-labelledby="almond-title">
+        <div class="max-w-7xl mx-auto px-6">
+          <header class="text-center mb-10">
+            <h2 id="almond-title" class="text-2xl font-bold text-gray-900 mb-5">
+              아몬드 컬렉션
+            </h2>
+            <!-- JS: createTag() 컴포넌트로 채워짐 -->
+            <nav
+              id="almond-tabs"
+              class="flex justify-center gap-2"
+              aria-label="아몬드 컬렉션 카테고리 필터"
+            ></nav>
+          </header>
 
-    <!-- 푸터 불러오기 (JS로 처리할 예정) -->
-    <footer id="footer"></footer>
+          <div class="relative">
+            <button
+              id="almond-prev"
+              class="swiper-btn absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10"
+              aria-label="이전 상품"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <!-- JS: createProductCard() 컴포넌트로 채워짐 -->
+            <ul
+              id="almond-grid"
+              class="grid grid-cols-2 md:grid-cols-4 gap-5"
+              aria-label="아몬드 컬렉션 상품 목록"
+            ></ul>
+
+            <button
+              id="almond-next"
+              class="swiper-btn absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10"
+              aria-label="다음 상품"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 언제나 사랑받는 기프트 -->
+      <section
+        class="py-16 bg-white border-t border-gray-100"
+        aria-labelledby="gift-title"
+      >
+        <div class="max-w-7xl mx-auto px-6">
+          <header class="text-center mb-10">
+            <h2 id="gift-title" class="text-2xl font-bold text-gray-900 mb-5">
+              언제나 사랑받는 기프트
+            </h2>
+            <!-- JS: createTag() 컴포넌트로 채워짐 -->
+            <nav
+              id="gift-tabs"
+              class="flex justify-center gap-2"
+              aria-label="기프트 가격대 필터"
+            ></nav>
+          </header>
+
+          <div class="relative">
+            <button
+              id="gift-prev"
+              class="swiper-btn absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-10"
+              aria-label="이전 상품"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <!-- JS: createProductCard() 컴포넌트로 채워짐 -->
+            <ul
+              id="gift-grid"
+              class="grid grid-cols-2 md:grid-cols-5 gap-4"
+              aria-label="기프트 상품 목록"
+            ></ul>
+
+            <button
+              id="gift-next"
+              class="swiper-btn absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-10"
+              aria-label="다음 상품"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 50 YEARS -->
+      <section
+        class="years-gradient relative overflow-hidden"
+        aria-label="50주년 기념"
+      >
+        <div
+          class="flex flex-col items-center justify-center py-20 text-center px-4"
+        >
+          <p class="text-white/80 text-sm tracking-widest mb-2">
+            1976년부터 이어온 연결의 가치
+          </p>
+          <p
+            class="font-serif font-bold text-white leading-none mt-2"
+            style="font-size: 10rem"
+            aria-label="50 YEARS"
+          >
+            50<span
+              class="text-5xl align-top mt-8 inline-block ml-2 tracking-widest"
+              aria-hidden="true"
+              >YEARS</span
+            >
+          </p>
+          <a
+            href="#"
+            class="mt-6 text-white text-sm border-b border-white pb-0.5 hover:opacity-70 transition-opacity"
+          >
+            50주년 스토리 보기
+          </a>
+        </div>
+      </section>
+
+      <!-- 카테고리 그리드 -->
+      <section class="bg-white py-8" aria-labelledby="category-title">
+        <h2 id="category-title" class="sr-only">상품 카테고리</h2>
+        <nav
+          class="max-w-7xl mx-auto px-4 grid grid-cols-4 gap-3"
+          aria-label="카테고리 목록"
+        >
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
+              <img
+                src="/src/assets/images/list_handcream.webp"
+                alt=""
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </figure>
+            <p class="text-xs text-center mt-2 text-gray-700">공식몰 혜택</p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
+              <img
+                src="/src/assets/images/list_handwash&soap.webp"
+                alt=""
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </figure>
+            <p class="text-xs text-center mt-2 text-gray-700">선물 추천</p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
+              <img
+                src="/src/assets/images/list_hand&nailcare.webp"
+                alt=""
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </figure>
+            <p class="text-xs text-center mt-2 text-gray-700">
+              핸드 &amp; 네일케어
+            </p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
+              <img
+                src="/src/assets/images/list_handcaregift.webp"
+                alt=""
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </figure>
+            <p class="text-xs text-center mt-2 text-gray-700">
+              핸드케어 기프트
+            </p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
+              <img
+                src="/src/assets/images/list_handcarerefill.webp"
+                alt=""
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </figure>
+            <p class="text-xs text-center mt-2 text-gray-700">핸드케어 리필</p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
+              <img
+                src="/src/assets/images/list_step1.webp"
+                alt=""
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </figure>
+            <p class="text-xs text-center mt-2 text-gray-700">STEP 1</p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
+              <img
+                src="/src/assets/images/list_step2.webp"
+                alt=""
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </figure>
+            <p class="text-xs text-center mt-2 text-gray-700">STEP 2</p>
+          </a>
+          <a href="#" class="group">
+            <figure class="aspect-square overflow-hidden bg-cararra rounded">
+              <img
+                src="/src/assets/images/list_step3.webp"
+                alt=""
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </figure>
+            <p class="text-xs text-center mt-2 text-gray-700">STEP 3</p>
+          </a>
+        </nav>
+      </section>
+
+      <!-- 선물 찾기 -->
+      <section class="gift-bg pt-12 pb-16" aria-labelledby="gift-finder-title">
+        <div class="max-w-7xl mx-auto px-8">
+          <!-- 아치형 이미지 그리드 — 1행 -->
+          <div class="flex justify-center gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-4" aria-hidden="true">
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/product1_0.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/product1_1.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/product1_2.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/product1_3.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/product1_4.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+          </div>
+
+          <!-- 아치형 이미지 그리드 — 2행 -->
+          <div class="flex justify-center gap-2 sm:gap-3 md:gap-4 mb-8 sm:mb-14" aria-hidden="true">
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/product1_5.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/product1_6.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/product1_7.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/handcare_1.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <figure class="rounded-t-full overflow-hidden bg-white shadow-sm flex-1 max-w-[180px] aspect-[12/17]">
+              <img
+                src="/src/assets/images/list_handcream.webp"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+            </figure>
+          </div>
+
+          <!-- 텍스트 -->
+          <div class="text-center">
+            <h2
+              id="gift-finder-title"
+              class="text-3xl font-bold text-gray-900 mb-6"
+            >
+              여러분을 위한 완벽한 선물을 찾아보세요.
+            </h2>
+            <p class="text-sm text-gray-700 leading-loose mb-8">
+              오뜨-프로방스에서 &#39;선물&#39;은<br />
+              하나의 아름다운 전통입니다.<br />
+              몇 가지 힌트만 들려주세요.<br />
+              당신과 사랑하는 이들을 위한<br />
+              정성 담긴 선물을 찾아드릴게요.
+            </p>
+            <a
+              href="#"
+              class="text-sm text-gray-800 border-b border-gray-800 pb-0.5 hover:opacity-60 transition-opacity"
+            >
+              여정 따라가기
+            </a>
+          </div>
+        </div>
+      </section>
+      <!-- 추천 제품 (rotating carousel) -->
+      <section
+        class="rotating overflow-hidden bg-[#f4f1ea]"
+        aria-labelledby="featured-title"
+      >
+        <!-- 슬라이드 트랙 (JS로 슬라이드 삽입) -->
+        <div id="rotating-track" class="flex will-change-transform"></div>
+
+        <!-- 하단 네비게이션 -->
+        <div
+          class="flex items-center justify-between px-12 py-4 border-t border-gray-200"
+        >
+          <button
+            id="rotating-prev"
+            class="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors"
+            aria-label="이전 상품"
+          >
+            <span class="text-xl leading-none">&#8249;</span>
+            <span id="rotating-prev-label" class="text-xs"></span>
+          </button>
+          <span
+            id="rotating-counter"
+            class="text-xs text-gray-400 tabular-nums"
+          ></span>
+          <button
+            id="rotating-next"
+            class="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors"
+            aria-label="다음 상품"
+          >
+            <span id="rotating-next-label" class="text-xs"></span>
+            <span class="text-xl leading-none">&#8250;</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Refill & Reuse -->
+      <section class="relative w-full h-[600px] md:h-screen overflow-hidden">
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          class="absolute top-0 left-0 w-full h-full object-cover"
+        >
+          <source
+            src="/src/assets/video/Loccitane-refill.mp4"
+            type="video/mp4"
+          />
+        </video>
+
+        <div
+          class="absolute inset-0 flex items-end justify-start p-10 md:p-20 bg-black/10"
+        >
+          <div class="text-white">
+            <p class="text-12xl font-medium md:text-xl">
+              리필의 새로운 정의: <br />
+              지속 가능한 아름다움을 향한 여정
+            </p>
+            <a
+              href="#"
+              class="text-white text-sm border-b border-white pb-1 hover:opacity-70 transition-opacity"
+            >
+              자세히 보기 >
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 매장 찾기 -->
+      <section
+        class="py-16 bg-spring-wood"
+        aria-labelledby="store-finder-title"
+      >
+        <div class="max-w-7xl mx-auto px-6">
+          <!-- 제목 -->
+          <div class="text-center mb-10">
+            <h2
+              id="store-finder-title"
+              class="text-2xl font-bold text-woody-brown"
+            >
+              매장 찾기
+            </h2>
+            <div class="w-8 h-[2px] bg-woody-brown mx-auto mt-2"></div>
+          </div>
+
+          <!-- 2컬럼 레이아웃 -->
+          <div class="grid grid-cols-2 gap-12 items-center">
+            <!-- 매장 이미지 -->
+            <figure class="overflow-hidden rounded">
+              <img
+                src="/src/assets/images/handcareHero.webp"
+                alt="록시땅 매장 내부"
+                class="w-full h-full object-cover"
+              />
+            </figure>
+
+            <!-- 검색 폼 -->
+            <div class="flex flex-col items-center text-center gap-6">
+              <h3 class="text-3xl font-bold text-woody-brown leading-snug">
+                가까운 록시땅 매장을<br />찾아보세요
+              </h3>
+              <p class="text-sm text-gray-600">
+                가까운 록시땅 매장에서 프로방스의 아름다움을 경험해보세요
+              </p>
+              <div class="w-full max-w-sm">
+                <p class="text-xs text-gray-700 mb-2 text-left">
+                  매장명을 입력하세요
+                </p>
+                <div class="flex">
+                  <input
+                    type="text"
+                    placeholder="ex, 입구정"
+                    class="flex-1 border border-gray-300 bg-white px-4 py-3 text-sm outline-none"
+                  />
+                  <button
+                    class="bg-woody-brown text-white px-5 py-3 text-sm whitespace-nowrap hover:opacity-80 transition-opacity"
+                  >
+                    가까운 매장 찾기
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 공식몰 혜택 -->
+      <section class="bg-spring-wood" aria-label="공식몰 혜택">
+        <ul
+          class="max-w-7xl mx-auto grid grid-cols-3 gap-6 divide-x divide-y divide-gray-200"
+        >
+          <li class="flex gap-4 items-start p-6">
+            <figure
+              class="shrink-0 w-20 h-20 overflow-hidden rounded bg-cararra"
+            >
+              <img
+                src="/src/assets/images/list_handcaregift.webp"
+                alt="첫 구매 혜택"
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <div>
+              <h3 class="text-sm font-bold text-woody-brown mb-1">
+                첫 구매 15% 할인
+              </h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                가입 후 첫 구매 시 15% 할인 혜택을 드립니다. (단품 구매 시
+                장바구니 자동 적용)
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 items-start p-6">
+            <figure
+              class="shrink-0 w-20 h-20 overflow-hidden rounded bg-cararra"
+            >
+              <img
+                src="/src/assets/images/handcare_1.webp"
+                alt="상시 할인"
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <div>
+              <h3 class="text-sm font-bold text-woody-brown mb-1">
+                전 제품 상시 5% 할인
+              </h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                모든 제품 구매 시 상시 5% 할인이 적용됩니다. (장바구니 자동
+                적용)
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 items-start p-6">
+            <figure
+              class="shrink-0 w-20 h-20 overflow-hidden rounded bg-cararra"
+            >
+              <img
+                src="/src/assets/images/list_handcarerefill.webp"
+                alt="기프트 증정"
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <div>
+              <h3 class="text-sm font-bold text-woody-brown mb-1">
+                구매 금액대별 기프트 증정
+              </h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                8/13 만원 이상 구매 시 추가 사은품을 드립니다. (단품 구매 시
+                자동 적용)
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 items-start p-6">
+            <figure
+              class="shrink-0 w-20 h-20 overflow-hidden rounded bg-cararra"
+            >
+              <img
+                src="/src/assets/images/list_handcaregift.webp"
+                alt="무료 배송"
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <div>
+              <h3 class="text-sm font-bold text-woody-brown mb-1">
+                전 구매 무료 배송
+              </h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                모든 고객님께 무료 배송 혜택을 드립니다.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 items-start p-6">
+            <figure
+              class="shrink-0 w-20 h-20 overflow-hidden rounded bg-cararra"
+            >
+              <img
+                src="/src/assets/images/list_step1.webp"
+                alt="생일 기프트"
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <div>
+              <h3 class="text-sm font-bold text-woody-brown mb-1">
+                생일 기프트 증정
+              </h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                생일을 맞이하신 고객님께 생일 기프트 쿠폰을 보내 드립니다. (SMS
+                수신 동의 필수)
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 items-start p-6">
+            <figure
+              class="shrink-0 w-20 h-20 overflow-hidden rounded bg-cararra"
+            >
+              <img
+                src="/src/assets/images/list_handcream.webp"
+                alt="고객 문의"
+                class="w-full h-full object-cover"
+              />
+            </figure>
+            <div>
+              <h3 class="text-sm font-bold text-woody-brown mb-1">
+                공식몰 고객 문의
+              </h3>
+              <p class="text-xs text-gray-600 leading-relaxed">
+                유선 문의 : (02) 2054-0500 | 이메일 문의 : loccitance@co.kr
+              </p>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- 푸터 마운트 포인트 (JS: renderFooter()로 교체) -->
+    <div id="footer"></div>
+
+    <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>
