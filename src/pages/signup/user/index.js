@@ -1,4 +1,5 @@
-const API_URL = "https://api.fullstackfamily.com/api/loccishop/v1/auth/signup";
+import { fetchAPI } from "/src/js/api/client.js";
+
 const CHECK_ID_URL =
   "https://api.fullstackfamily.com/api/loccishop/v1/auth/check-id";
 
@@ -275,23 +276,15 @@ window.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const response = await fetch(API_URL, {
+      await fetchAPI("/auth/signup", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
+        body: requestBody,
       });
-
-      const result = await response.json();
-
-      if (result.success) {
-        alert(`회원가입이 완료되었습니다.`);
-        window.location.href = "/src/pages/login/index.html";
-      } else {
-        alert("회원가입에 실패했습니다. 다시 시도해주세요.");
-      }
+      alert("회원가입이 완료되었습니다.");
+      window.location.href = "/src/pages/login/index.html";
     } catch (error) {
       console.error("회원가입 오류:", error);
-      alert("서버와 통신 중 오류가 발생했습니다.");
+      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
     }
   });
 });
