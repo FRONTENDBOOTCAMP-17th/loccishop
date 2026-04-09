@@ -123,7 +123,7 @@ async function initProductPage() {
     "#detail-ritual-steps",
     "/src/pages/product/detail/components/detail-ritual-steps.html",
   );
-  initRitualSteps();
+  initRitualSteps(id);
 
   await loadHTML(
     "#detail-recommended",
