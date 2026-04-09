@@ -1,41 +1,11 @@
-import { fetchAPI } from "/src/js/api/client.js";
+import { checkId, signupUser } from "/src/js/api/auth/index.js";
+import {
+  isValidUsername,
+  isValidEmail,
+  isValidPassword,
+} from "/src/js/signupUtils/validation.js";
+import { setValid, setError, clearState } from "/src/js/signupUtils/ui.js";
 
-const CHECK_ID_URL =
-  "https://api.fullstackfamily.com/api/loccishop/v1/auth/check-id";
-
-function isValidUsername(value) {
-  return value.length >= 4 && value.length <= 20;
-}
-
-function isValidPassword(value) {
-  return /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(
-    value,
-  );
-}
-
-function isValidEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-function setValid(errorIcon, checkIcon, errorText) {
-  if (errorIcon) errorIcon.style.display = "none";
-  checkIcon.style.display = "block";
-  if (errorText) errorText.style.display = "none";
-}
-
-function setError(errorIcon, checkIcon, errorText) {
-  if (errorIcon) errorIcon.style.display = "block";
-  checkIcon.style.display = "none";
-  if (errorText) errorText.style.display = "block";
-}
-
-function clearState(errorIcon, checkIcon, errorText) {
-  if (errorIcon) errorIcon.style.display = "none";
-  checkIcon.style.display = "none";
-  if (errorText) errorText.style.display = "none";
-}
-
-// 브라우저 뒤로가기로 돌아왔을 때 폼 초기화
 window.addEventListener("pageshow", (e) => {
   if (e.persisted) {
     const form = document.getElementById("signupForm");
@@ -45,246 +15,278 @@ window.addEventListener("pageshow", (e) => {
   }
 });
 
-window.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("signupForm");
-  const userId = document.getElementById("userId");
-  const userPw = document.getElementById("userPw");
-  const userPwConfirm = document.getElementById("userPwConfirm");
-  const userName = document.getElementById("userName");
-  const userEmail = document.getElementById("userEmail");
-  const userAddress = document.getElementById("userAddress");
-  const userDetailAddress = document.getElementById("userDetailAddress");
+function getElements() {
+  return {
+    form: document.getElementById("signupForm"),
+    userId: document.getElementById("userId"),
+    userPw: document.getElementById("userPw"),
+    userPwConfirm: document.getElementById("userPwConfirm"),
+    userName: document.getElementById("userName"),
+    userEmail: document.getElementById("userEmail"),
+    userAddress: document.getElementById("userAddress"),
+    userDetailAddress: document.getElementById("userDetailAddress"),
+    idErrorIcon: document.getElementById("idErrorIcon"),
+    idCheckIcon: document.getElementById("idCheckIcon"),
+    idErrorText: document.getElementById("idErrorText"),
+    idDuplicateText: document.getElementById("idDuplicateText"),
+    idAvailableText: document.getElementById("idAvailableText"),
+    pwErrorIcon: document.getElementById("pwErrorIcon"),
+    pwCheckIcon: document.getElementById("pwCheckIcon"),
+    pwGuideText: document.getElementById("pwGuideText"),
+    pwErrorText: document.getElementById("pwErrorText"),
+    pwConfirmErrorIcon: document.getElementById("pwConfirmErrorIcon"),
+    pwConfirmCheckIcon: document.getElementById("pwConfirmCheckIcon"),
+    pwConfirmErrorText: document.getElementById("pwConfirmErrorText"),
+    nameErrorIcon: document.getElementById("nameErrorIcon"),
+    nameCheckIcon: document.getElementById("nameCheckIcon"),
+    nameErrorText: document.getElementById("nameErrorText"),
+    emailErrorIcon: document.getElementById("emailErrorIcon"),
+    emailCheckIcon: document.getElementById("emailCheckIcon"),
+    emailErrorText: document.getElementById("emailErrorText"),
+    addressCheckIcon: document.getElementById("addressCheckIcon"),
+    detailAddressCheckIcon: document.getElementById("detailAddressCheckIcon"),
+  };
+}
 
-  const idErrorIcon = document.getElementById("idErrorIcon");
-  const idCheckIcon = document.getElementById("idCheckIcon");
-  const idErrorText = document.getElementById("idErrorText");
-  const idDuplicateText = document.getElementById("idDuplicateText");
-  const idAvailableText = document.getElementById("idAvailableText");
-  let isIdChecked = false;
-  let isIdAvailable = false;
-
-  const pwErrorIcon = document.getElementById("pwErrorIcon");
-  const pwCheckIcon = document.getElementById("pwCheckIcon");
-  const pwGuideText = document.getElementById("pwGuideText");
-  const pwErrorText = document.getElementById("pwErrorText");
-
-  const pwConfirmErrorIcon = document.getElementById("pwConfirmErrorIcon");
-  const pwConfirmCheckIcon = document.getElementById("pwConfirmCheckIcon");
-  const pwConfirmErrorText = document.getElementById("pwConfirmErrorText");
-
-  const nameErrorIcon = document.getElementById("nameErrorIcon");
-  const nameCheckIcon = document.getElementById("nameCheckIcon");
-  const nameErrorText = document.getElementById("nameErrorText");
-
-  const emailErrorIcon = document.getElementById("emailErrorIcon");
-  const emailCheckIcon = document.getElementById("emailCheckIcon");
-  const emailErrorText = document.getElementById("emailErrorText");
-
-  const addressCheckIcon = document.getElementById("addressCheckIcon");
-  const detailAddressCheckIcon = document.getElementById(
-    "detailAddressCheckIcon",
-  );
-
-  // 초기 상태: 아이콘과 에러 텍스트 숨김
+function initUI(els) {
   [
-    idErrorIcon,
-    idCheckIcon,
-    pwErrorIcon,
-    pwCheckIcon,
-    pwConfirmErrorIcon,
-    pwConfirmCheckIcon,
-    nameErrorIcon,
-    nameCheckIcon,
-    emailErrorIcon,
-    emailCheckIcon,
-    addressCheckIcon,
-    detailAddressCheckIcon,
+    els.idErrorIcon,
+    els.idCheckIcon,
+    els.pwErrorIcon,
+    els.pwCheckIcon,
+    els.pwConfirmErrorIcon,
+    els.pwConfirmCheckIcon,
+    els.nameErrorIcon,
+    els.nameCheckIcon,
+    els.emailErrorIcon,
+    els.emailCheckIcon,
+    els.addressCheckIcon,
+    els.detailAddressCheckIcon,
   ].forEach((el) => {
-    if (el) el.style.display = "none";
+    if (el) {
+      el.style.display = "none";
+    }
   });
 
   [
-    idErrorText,
-    idDuplicateText,
-    idAvailableText,
-    pwErrorText,
-    pwConfirmErrorText,
-    nameErrorText,
-    emailErrorText,
+    els.idErrorText,
+    els.idDuplicateText,
+    els.idAvailableText,
+    els.pwErrorText,
+    els.pwConfirmErrorText,
+    els.nameErrorText,
+    els.emailErrorText,
   ].forEach((el) => {
-    if (el) el.style.display = "none";
+    if (el) {
+      el.style.display = "none";
+    }
   });
+}
 
-  // 비밀번호 보기/숨기기
+function bindPasswordToggle(els) {
   document.getElementById("togglePassword").addEventListener("click", () => {
-    userPw.type = userPw.type === "password" ? "text" : "password";
+    els.userPw.type = els.userPw.type === "password" ? "text" : "password";
   });
   document
     .getElementById("togglePasswordConfirm")
     .addEventListener("click", () => {
-      userPwConfirm.type =
-        userPwConfirm.type === "password" ? "text" : "password";
+      els.userPwConfirm.type =
+        els.userPwConfirm.type === "password" ? "text" : "password";
     });
+}
 
-  // 실시간 유효성 검사
-  userId.addEventListener("input", () => {
-    // 아이디가 바뀌면 중복확인 초기화
-    isIdChecked = false;
-    isIdAvailable = false;
-    idDuplicateText.style.display = "none";
-    idAvailableText.style.display = "none";
+function bindIdValidation(els, state) {
+  els.userId.addEventListener("input", () => {
+    state.isIdChecked = false;
+    state.isIdAvailable = false;
+    els.idDuplicateText.style.display = "none";
+    els.idAvailableText.style.display = "none";
 
-    if (!userId.value) {
-      return clearState(idErrorIcon, idCheckIcon, idErrorText);
+    if (!els.userId.value) {
+      return clearState(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
     }
-    isValidUsername(userId.value)
-      ? setValid(idErrorIcon, idCheckIcon, idErrorText)
-      : setError(idErrorIcon, idCheckIcon, idErrorText);
+    isValidUsername(els.userId.value)
+      ? setValid(els.idErrorIcon, els.idCheckIcon, els.idErrorText)
+      : setError(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
   });
 
-  // 중복확인 버튼
   document.getElementById("checkIdBtn").addEventListener("click", async () => {
-    if (!isValidUsername(userId.value)) {
-      setError(idErrorIcon, idCheckIcon, idErrorText);
-      return userId.focus();
+    if (!isValidUsername(els.userId.value)) {
+      setError(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
+      return els.userId.focus();
     }
 
     try {
-      const response = await fetch(
-        `${CHECK_ID_URL}?username=${encodeURIComponent(userId.value)}`,
-      );
-      const result = await response.json();
+      const result = await checkId(els.userId.value);
 
-      isIdChecked = true;
-      if (result.success && result.data.isAvailable) {
-        isIdAvailable = true;
-        idDuplicateText.style.display = "none";
-        idAvailableText.style.display = "block";
-        setValid(idErrorIcon, idCheckIcon, idErrorText);
+      state.isIdChecked = true;
+      if (result.isAvailable) {
+        state.isIdAvailable = true;
+        els.idDuplicateText.style.display = "none";
+        els.idAvailableText.style.display = "block";
+        setValid(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
       } else {
-        isIdAvailable = false;
-        idAvailableText.style.display = "none";
-        idDuplicateText.style.display = "block";
-        setError(idErrorIcon, idCheckIcon, null);
+        state.isIdAvailable = false;
+        els.idAvailableText.style.display = "none";
+        els.idDuplicateText.style.display = "block";
+        setError(els.idErrorIcon, els.idCheckIcon, null);
       }
     } catch (error) {
       console.error("중복확인 오류:", error);
       alert("중복확인 중 오류가 발생했습니다.");
     }
   });
+}
 
-  userPw.addEventListener("input", () => {
-    if (!userPw.value) {
-      clearState(pwErrorIcon, pwCheckIcon, pwErrorText);
-      pwGuideText.style.display = "block";
+function bindPasswordValidation(els) {
+  els.userPw.addEventListener("input", () => {
+    if (!els.userPw.value) {
+      clearState(els.pwErrorIcon, els.pwCheckIcon, els.pwErrorText);
+      els.pwGuideText.style.display = "block";
       return;
     }
-    pwGuideText.style.display = "none";
-    isValidPassword(userPw.value)
-      ? setValid(pwErrorIcon, pwCheckIcon, pwErrorText)
-      : setError(pwErrorIcon, pwCheckIcon, pwErrorText);
+    els.pwGuideText.style.display = "none";
+    isValidPassword(els.userPw.value)
+      ? setValid(els.pwErrorIcon, els.pwCheckIcon, els.pwErrorText)
+      : setError(els.pwErrorIcon, els.pwCheckIcon, els.pwErrorText);
 
-    if (userPwConfirm.value) {
-      userPw.value === userPwConfirm.value
-        ? setValid(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText)
-        : setError(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText);
+    if (els.userPwConfirm.value) {
+      els.userPw.value === els.userPwConfirm.value
+        ? setValid(
+          els.pwConfirmErrorIcon,
+          els.pwConfirmCheckIcon,
+          els.pwConfirmErrorText,
+        )
+        : setError(
+          els.pwConfirmErrorIcon,
+          els.pwConfirmCheckIcon,
+          els.pwConfirmErrorText,
+        );
     }
   });
 
-  userPwConfirm.addEventListener("input", () => {
-    if (!userPwConfirm.value)
+  els.userPwConfirm.addEventListener("input", () => {
+    if (!els.userPwConfirm.value) {
       return clearState(
-        pwConfirmErrorIcon,
-        pwConfirmCheckIcon,
-        pwConfirmErrorText,
+        els.pwConfirmErrorIcon,
+        els.pwConfirmCheckIcon,
+        els.pwConfirmErrorText,
       );
-    userPw.value === userPwConfirm.value
-      ? setValid(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText)
-      : setError(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText);
+    }
+    els.userPw.value === els.userPwConfirm.value
+      ? setValid(
+        els.pwConfirmErrorIcon,
+        els.pwConfirmCheckIcon,
+        els.pwConfirmErrorText,
+      )
+      : setError(
+        els.pwConfirmErrorIcon,
+        els.pwConfirmCheckIcon,
+        els.pwConfirmErrorText,
+      );
+  });
+}
+
+function bindFieldValidations(els) {
+  els.userName.addEventListener("input", () => {
+    if (!els.userName.value) {
+      return clearState(els.nameErrorIcon, els.nameCheckIcon, els.nameErrorText);
+    }
+    els.userName.value.trim()
+      ? setValid(els.nameErrorIcon, els.nameCheckIcon, els.nameErrorText)
+      : setError(els.nameErrorIcon, els.nameCheckIcon, els.nameErrorText);
   });
 
-  userName.addEventListener("input", () => {
-    if (!userName.value)
-      return clearState(nameErrorIcon, nameCheckIcon, nameErrorText);
-    userName.value.trim()
-      ? setValid(nameErrorIcon, nameCheckIcon, nameErrorText)
-      : setError(nameErrorIcon, nameCheckIcon, nameErrorText);
+  els.userEmail.addEventListener("input", () => {
+    if (!els.userEmail.value) {
+      return clearState(
+        els.emailErrorIcon,
+        els.emailCheckIcon,
+        els.emailErrorText,
+      );
+    }
+    isValidEmail(els.userEmail.value)
+      ? setValid(els.emailErrorIcon, els.emailCheckIcon, els.emailErrorText)
+      : setError(els.emailErrorIcon, els.emailCheckIcon, els.emailErrorText);
   });
 
-  userEmail.addEventListener("input", () => {
-    if (!userEmail.value)
-      return clearState(emailErrorIcon, emailCheckIcon, emailErrorText);
-    isValidEmail(userEmail.value)
-      ? setValid(emailErrorIcon, emailCheckIcon, emailErrorText)
-      : setError(emailErrorIcon, emailCheckIcon, emailErrorText);
-  });
-
-  // 주소: 값이 있으면 체크, 없으면 숨김
-  userAddress.addEventListener("input", () => {
-    addressCheckIcon.style.display = userAddress.value.trim()
+  els.userAddress.addEventListener("input", () => {
+    els.addressCheckIcon.style.display = els.userAddress.value.trim()
       ? "block"
       : "none";
   });
 
-  userDetailAddress.addEventListener("input", () => {
-    detailAddressCheckIcon.style.display = userDetailAddress.value.trim()
+  els.userDetailAddress.addEventListener("input", () => {
+    els.detailAddressCheckIcon.style.display = els.userDetailAddress.value.trim()
       ? "block"
       : "none";
   });
+}
 
-  // 뒤로 가기
+async function handleSubmit(e, els, state) {
+  e.preventDefault();
+
+  if (!isValidUsername(els.userId.value)) {
+    setError(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
+    return els.userId.focus();
+  }
+  if (!state.isIdChecked || !state.isIdAvailable) {
+    alert("아이디 중복확인을 해주세요.");
+    return els.userId.focus();
+  }
+  if (!isValidPassword(els.userPw.value)) {
+    setError(els.pwErrorIcon, els.pwCheckIcon, els.pwErrorText);
+    return els.userPw.focus();
+  }
+  if (els.userPw.value !== els.userPwConfirm.value) {
+    setError(
+      els.pwConfirmErrorIcon,
+      els.pwConfirmCheckIcon,
+      els.pwConfirmErrorText,
+    );
+    return els.userPwConfirm.focus();
+  }
+  if (!els.userName.value.trim()) {
+    setError(els.nameErrorIcon, els.nameCheckIcon, els.nameErrorText);
+    return els.userName.focus();
+  }
+  if (!isValidEmail(els.userEmail.value)) {
+    setError(els.emailErrorIcon, els.emailCheckIcon, els.emailErrorText);
+    return els.userEmail.focus();
+  }
+
+  const requestBody = {
+    username: els.userId.value,
+    password: els.userPw.value,
+    name: els.userName.value.trim(),
+    email: els.userEmail.value.trim(),
+    baseAddress: els.userAddress.value.trim(),
+    detailAddress: els.userDetailAddress.value.trim(),
+  };
+
+  try {
+    await signupUser(requestBody);
+    alert("회원가입이 완료되었습니다.");
+    window.location.href = "/src/pages/login/index.html";
+  } catch (error) {
+    console.error("회원가입 오류:", error);
+    alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const els = getElements();
+  const state = { isIdChecked: false, isIdAvailable: false };
+
+  initUI(els);
+  bindPasswordToggle(els);
+  bindIdValidation(els, state);
+  bindPasswordValidation(els);
+  bindFieldValidations(els);
+
   document.getElementById("backBtn").addEventListener("click", () => {
     window.location.href = "/src/pages/login/index.html";
   });
 
-  // 폼 제출
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    if (!isValidUsername(userId.value)) {
-      setError(idErrorIcon, idCheckIcon, idErrorText);
-      return userId.focus();
-    }
-    if (!isIdChecked || !isIdAvailable) {
-      alert("아이디 중복확인을 해주세요.");
-      return userId.focus();
-    }
-    if (!isValidPassword(userPw.value)) {
-      setError(pwErrorIcon, pwCheckIcon, pwErrorText);
-      return userPw.focus();
-    }
-    if (userPw.value !== userPwConfirm.value) {
-      setError(pwConfirmErrorIcon, pwConfirmCheckIcon, pwConfirmErrorText);
-      return userPwConfirm.focus();
-    }
-    if (!userName.value.trim()) {
-      setError(nameErrorIcon, nameCheckIcon, nameErrorText);
-      return userName.focus();
-    }
-    if (!isValidEmail(userEmail.value)) {
-      setError(emailErrorIcon, emailCheckIcon, emailErrorText);
-      return userEmail.focus();
-    }
-
-    const requestBody = {
-      username: userId.value,
-      password: userPw.value,
-      name: userName.value.trim(),
-      email: userEmail.value.trim(),
-      baseAddress: userAddress.value.trim(),
-      detailAddress: userDetailAddress.value.trim(),
-    };
-
-    try {
-      await fetchAPI("/auth/signup", {
-        method: "POST",
-        body: requestBody,
-      });
-      alert("회원가입이 완료되었습니다.");
-      window.location.href = "/src/pages/login/index.html";
-    } catch (error) {
-      console.error("회원가입 오류:", error);
-      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
-    }
-  });
+  els.form.addEventListener("submit", (e) => handleSubmit(e, els, state));
 });
