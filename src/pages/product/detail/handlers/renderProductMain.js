@@ -2,12 +2,23 @@ export function renderProductMain(product) {
   document.querySelector("#product-title").textContent = product.name;
   document.querySelector("#short-description").textContent =
     product.shortDescription;
-  document.querySelector("#product-Price").textContent =
-    product.price.toLocaleString();
-  document.querySelector("#product-discountRate").textContent =
-    `${product.discountRate}%`;
-  document.querySelector("#product-discountPrice").textContent =
-    product.discountPrice.toLocaleString();
+
+  const priceEl = document.querySelector("#product-Price");
+  const discountRateEl = document.querySelector("#product-discountRate");
+  const discountPriceEl = document.querySelector("#product-discountPrice");
+
+  if (product.discountPrice !== null && product.discountRate) {
+    // 할인 있을 때
+    priceEl.textContent = product.price.toLocaleString();
+    discountRateEl.textContent = `${product.discountRate}%`;
+    discountPriceEl.textContent = product.discountPrice.toLocaleString();
+  } else {
+    // 할인 없을 때
+    priceEl.classList.add("hidden"); // 취소선 가격 숨김
+    discountRateEl.classList.add("hidden"); // 할인율 숨김
+    discountPriceEl.textContent = product.price.toLocaleString(); // 원가를 discountPrice 스타일로
+  }
+
   document.querySelector("#product-review-count").textContent =
     product.reviewCount;
 
