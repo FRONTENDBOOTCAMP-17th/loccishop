@@ -175,21 +175,24 @@ function createReviewCard(review) {
   recommendBtn.append(icon, btnText);
 
   //리뷰 추천
-  let isRecommended = false;
+  let isRecommended = review.isRecommended ?? false;
+
+  // 초기 스타일 적용
+  if (isRecommended) {
+    recommendBtn.classList.add("bg-merino", "border-woody-brown");
+  }
 
   recommendBtn.addEventListener("click", async () => {
     try {
-      await toggleRecommendReview(review.id);
-      if (isRecommended) {
-        review.recommendCount--;
-        isRecommended = false;
-        recommendBtn.classList.remove("bg-merino", "border-woody-brown");
-      } else {
-        review.recommendCount++;
-        isRecommended = true;
-        recommendBtn.classList.add("bg-merino", "border-woody-brown");
-      }
-      btnText.textContent = `도움됐어요 ${review.recommendCount}`;
+      const res = await toggleRecommendReview(review.id);
+      const { isRecommended: newState, recommendCount } = res;
+
+      isRecommended = newState;
+
+      recommendBtn.classList.toggle("bg-merino", isRecommended);
+      recommendBtn.classList.toggle("border-woody-brown", isRecommended);
+
+      btnText.textContent = `도움됐어요 ${recommendCount}`;
     } catch (e) {
       console.error("추천 처리 실패 :", e);
     }
