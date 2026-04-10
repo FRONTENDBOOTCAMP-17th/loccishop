@@ -9,7 +9,7 @@
   </head>
   <body>
     <header id="header"></header>
-    <main>
+    <main class="min-w-100">
       <section
         class="relative w-full h-119 bg-[url('/src/assets/images/handcareHero.webp')] bg-cover bg-center flex justify-center"
       >
@@ -19,15 +19,13 @@
           핸드 케어
         </h2>
       </section>
-      <div
-        class="px-6 md:px-16 lg:px-32 pt-10 flex flex-col max-w-7xl mx-auto w-full"
-      >
+      <div class="mt-6 lg:mt-10 flex flex-col p-1 mx-auto w-full px-1">
         <p
-          class="text-[18px] font-normal leading-6 text-center text-woody-brown"
+          class="text-[18px] font-normal leading-6 text-center text-woody-brown w-[1397px] h-[48px] mx-auto"
         >
           이 핸드 크림은 20% 시어 버터를 함유해 손에 깊은 영양과 보습을 선사하며
           피부 장벽을 강화해 줍니다. 96% 천연 유래 지수*의 시어 핸드 크림은
-          리치한 텍스처지만 빠르게 흡수되며, 건조한 손 을 눈에 띄게 부드럽고
+          리치한 텍스처지만 빠르게 흡수되며, 건조한 손을 눈에 띄게 부드럽고
           매끈하게 변화시켜 줍니다. 96% 천연 유래 지수* | 실리콘 무첨가 *ISO
           16128 가이드라인에 따라 계산한 지수임
         </p>
@@ -35,56 +33,14 @@
           <span class="border-b-1 border-b-woody-brown">자세히 보기</span>
         </button>
       </div>
-      <h2
-        class="px-13 pt-6 pb-3 text-[18px] font-normal leading-6 text-woody-brown"
-      >
-        제품 카테고리
-      </h2>
-      <ul class="flex gap-1.5 py-1 px-13">
-        <li>
-          <a
-            href="#"
-            class="bg-spring-wood text-sm font-normal leading-5 border border-empress rounded text-woody-brown whitespace-nowrap py-1.5 px-2.5"
-          >
-            핸드 케어 전체 보기</a
-          >
-        </li>
-        <li>
-          <a
-            href=""
-            class="bg-spring-wood text-sm font-normal leading-5 border border-empress rounded text-woody-brown whitespace-nowrap py-1.5 px-2.5"
-            >핸드 크림</a
-          >
-        </li>
-        <li>
-          <a
-            href=""
-            class="bg-spring-wood text-sm font-normal leading-5 border border-empress rounded text-woody-brown whitespace-nowrap py-1.5 px-2.5"
-            >핸드 워시 & 솝</a
-          >
-        </li>
-        <li>
-          <a
-            href=""
-            class="bg-spring-wood text-sm font-normal leading-5 border border-empress rounded text-woody-brown whitespace-nowrap py-1.5 px-2.5"
-            >핸드 & 네일 케어</a
-          >
-        </li>
-        <li>
-          <a
-            href=""
-            class="bg-spring-wood text-sm font-normal leading-5 border border-empress rounded text-woody-brown whitespace-nowrap py-1.5 px-2.5"
-            >핸드 케어 리필</a
-          >
-        </li>
-        <li>
-          <a
-            href=""
-            class="bg-spring-wood text-sm font-normal leading-5 border border-empress rounded text-woody-brown whitespace-nowrap py-1.5 px-2.5"
-            >핸드 케어 기프트</a
-          >
-        </li>
-      </ul>
+      <div class="mx-auto w-full max-w-[1400px] px-4">
+        <h2
+          class="pt-6 pb-3 text-[18px] font-normal leading-6 text-woody-brown"
+        >
+          제품 카테고리
+        </h2>
+        <ul id="category-tag-list" class="flex gap-1.5 py-1"></ul>
+      </div>
       <section class="mb-10 px-4">
         <h2
           class="text-[44px] font-medium leading-[48px] tracking-[1px] uppercase text-center text-woody-brown pt-6 pb-4"
@@ -117,17 +73,20 @@
         <!-- 상품카드 -->
         <div
           id="product-list-container"
-          class="flex gap-2 px-6 mx-auto pt-16 items-start overflow-x-auto max-w-[1400px]"
+          class="flex gap-2 px-4 lg:px-6 mx-auto pt-16 items-start overflow-x-auto max-w-[1400px]"
         ></div>
       </section>
-      <div class="flex justify-center p-4 bg-grey-96 max-w-[1200px] mx-auto">
-        <div class="py-8">
+      <div
+        class="flex flex-col lg:flex-row justify-center p-4 bg-grey-96 w-fit mx-auto rounded"
+      >
+        <div class="lg:py-8">
           <img
             src="/src/assets/images/handcare_1.webp"
             alt="아이코닉 시어 버터 핸드 크림"
+            class="rounded"
           />
         </div>
-        <div class="flex flex-col items-center px-14 py-5 gap-5">
+        <div class="flex flex-col items-center pt-5 px-14 lg:py-5 gap-5">
           <h2
             class="py-3 text-center text-[28px] font-medium leading-8 tracking-[1] uppercase"
           >

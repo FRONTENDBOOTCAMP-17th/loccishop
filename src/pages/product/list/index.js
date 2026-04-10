@@ -1,4 +1,26 @@
 import { renderProductCards } from "/src/components/ui/product-card-list.js";
+import { createTag } from "/src/components/ui/tag.js";
+
+const categories = [
+  '핸드 케어 전체 보기',
+  '핸드 크림',
+  '핸드 워시 & 솝',
+  '핸드 & 네일 케어',
+  '핸드 케어 리필',
+  '핸드 케어 기프트 세트',
+];
+
+const categoryTagList = document.querySelector('#category-tag-list');
+
+categories.forEach((category) => {
+  const li = document.createElement('li');
+  const tag = createTag({ text: category });
+  tag.className =
+    'min-w-16 rounded px-2.5 py-1.5 text-sm text-center font-normal leading-5 cursor-pointer border border-empress text-woody-brown bg-spring-wood hover:bg-grey-96 transition-colors duration-200 whitespace-nowrap';
+
+  li.appendChild(tag);
+  categoryTagList.appendChild(li);
+});
 
 const productDataList = [
   {

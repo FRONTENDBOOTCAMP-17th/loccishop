@@ -23,7 +23,7 @@
   /* 그린계열 */
   --color-teal-green: #3d8b7a;
 
-  /* 로그인,회원가입 배경2(샌드컬러) */
+  /* 로그인,회원가입 배경2, 버튼 hover시(샌드컬러) */
   --color-grey-96: #f9f5f0;
 
   /* 로그인 input */
@@ -87,7 +87,12 @@
 
   /* 선물 찾기 섹션 배경 — 노란색 → 흰색 그라데이션 */
   .gift-bg {
-    background: linear-gradient(to bottom, #f9d840 0%, #fffbdc 45%, #fefce8 100%);
+    background: linear-gradient(
+      to bottom,
+      #f9d840 0%,
+      #fffbdc 45%,
+      #fefce8 100%
+    );
   }
 
   /* 슬라이더 버튼 */
