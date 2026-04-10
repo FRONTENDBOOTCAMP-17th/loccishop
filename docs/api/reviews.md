@@ -109,16 +109,20 @@ console.log(result.data.imageUrl);
 
 ### Response
 
-| key                      | 설명                 | 비고                       |
-| ------------------------ | -------------------- | -------------------------- |
-| reviews[].id             | 리뷰 고유 번호       |                            |
-| reviews[].title          | 리뷰 제목            |                            |
-| reviews[].content        | 리뷰 본문            |                            |
-| reviews[].rating         | 별점                 |                            |
-| reviews[].author         | 작성자 이름          |                            |
-| reviews[].createdAt      | 작성일               |                            |
-| reviews[].reviewImages[] | 리뷰 이미지 URL 배열 | 텍스트 리뷰면 빈 배열 `[]` |
-| reviews[].recommendCount | 추천 수              |                            |
+| key                      | 설명                 | 비고                                                                |
+| ------------------------ | -------------------- | ------------------------------------------------------------------- |
+| reviews[].id             | 리뷰 고유 번호       |                                                                     |
+| reviews[].isMyReview     | 본인 리뷰 여부       | 로그인한 사용자가 작성한 리뷰면 `true`, 그 외(비로그인/타인)는 `false` |
+| reviews[].title          | 리뷰 제목            |                                                                     |
+| reviews[].content        | 리뷰 본문            |                                                                     |
+| reviews[].rating         | 별점                 |                                                                     |
+| reviews[].author         | 작성자 이름          |                                                                     |
+| reviews[].createdAt      | 작성일               |                                                                     |
+| reviews[].reviewImages[] | 리뷰 이미지 URL 배열 | 텍스트 리뷰면 빈 배열 `[]`                                          |
+| reviews[].recommendCount | 추천 수              |                                                                     |
+| reviews[].isRecommended  | 추천 여부 (본인 기준) | 로그인 사용자가 이 리뷰에 추천했으면 `true`                         |
+
+> `isMyReview` 필드는 본인 리뷰에만 수정/삭제 버튼을 노출하는 데 사용합니다. 비로그인 상태에서는 항상 `false`입니다.
 
 ### Example
 
@@ -127,13 +131,15 @@ console.log(result.data.imageUrl);
   "reviews": [
     {
       "id": 101,
+      "isMyReview": true,
       "title": "핸드크림계 국밥",
       "content": "코코넛 향에 하드한 핸드크림. 보습력이 매우 우수함...",
       "rating": 5,
       "author": "Jay",
       "createdAt": "2025-06-01",
       "reviewImages": ["https://cdn.../thumb.jpg"],
-      "recommendCount": 12
+      "recommendCount": 12,
+      "isRecommended": false
     }
   ]
 }
