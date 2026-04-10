@@ -1,7 +1,11 @@
 import { fetchProductReviews } from "/src/js/api/product/index.js";
 import { renderStars } from "/src/pages/product/detail/handlers/renderStars.js";
 import { createPagination } from "/src/components/ui/pagination.js";
-import { toggleRecommendReview } from "/src/js/api/review/index.js";
+import {
+  toggleRecommendReview,
+  deleteReview,
+} from "/src/js/api/review/index.js";
+import { openEditModal } from "./reviewModal.js";
 
 const reviewState = {
   page: 1,
@@ -81,8 +85,14 @@ export async function initReviews(
   }
   reviewList.innerHTML = "";
 
+  const onRefresh = () =>
+    initReviews(productId, {
+      sort: reviewState.sort,
+      rating: reviewState.rating,
+    });
+
   reviews.forEach((review) => {
-    reviewList.append(createReviewCard(review));
+    reviewList.append(createReviewCard(review, onRefresh));
   });
 }
 
@@ -110,7 +120,7 @@ export function initSortButtons(productId) {
 }
 
 //리뷰목록
-function createReviewCard(review) {
+function createReviewCard(review, onRefresh) {
   const li = document.createElement("li");
   li.className = "h-full";
 
@@ -156,7 +166,8 @@ function createReviewCard(review) {
 
   // 추천 버튼
   const actionsDiv = document.createElement("div");
-  actionsDiv.className = "flex justify-end text-xs mt-auto pt-3";
+  actionsDiv.className =
+    "flex justify-between items-center text-xs mt-auto pt-3";
 
   const recommendBtn = document.createElement("button");
   recommendBtn.type = "button";
@@ -200,6 +211,39 @@ function createReviewCard(review) {
 
   actionsDiv.append(recommendBtn);
 
+  if (review.isMyReview) {
+    const myActions = document.createElement("div");
+    myActions.className = "flex gap-2";
+
+    const editBtn = document.createElement("button");
+    editBtn.type = "button";
+    editBtn.textContent = "수정";
+    editBtn.className =
+      "text-xs text-gray-500 underline underline-offset-2 hover:text-woody-brown";
+    editBtn.addEventListener("click", () => openEditModal(review, onRefresh));
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.textContent = "삭제";
+    deleteBtn.className =
+      "text-xs text-gray-500 underline underline-offset-2 hover:text-red-500";
+    deleteBtn.addEventListener("click", async () => {
+      if (!confirm("리뷰를 삭제하시겠습니까?")) {
+        return;
+      }
+      try {
+        await deleteReview(review.id);
+        onRefresh();
+      } catch (e) {
+        console.error("삭제 실패:", e);
+        alert("삭제에 실패했습니다.");
+      }
+    });
+
+    myActions.append(editBtn, deleteBtn);
+    actionsDiv.append(myActions);
+  }
+
   article.append(starsDiv, metaDiv, title, content, imagesDiv, actionsDiv);
   li.append(article);
   return li;
@@ -228,8 +272,16 @@ export function initPagination(productId) {
       const { reviews } = result;
 
       const reviewList = document.querySelector("#review-list");
-      reviewList.innerHTML = ""; // 더보기와 달리 페이지 교체라 초기화
-      reviews.forEach((review) => reviewList.append(createReviewCard(review)));
+      reviewList.innerHTML = "";
+      const onRefresh = () =>
+        initReviews(productId, {
+          sort: reviewState.sort,
+          rating: reviewState.rating,
+        });
+
+      reviews.forEach((review) =>
+        reviewList.append(createReviewCard(review, onRefresh)),
+      );
     },
   });
 
