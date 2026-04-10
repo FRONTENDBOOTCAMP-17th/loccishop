@@ -5,6 +5,24 @@ export function toggleRecommendReview(reviewId) {
   return fetchAPI(`/reviews/${reviewId}/recommend`, { method: "POST" });
 }
 
+//내 리뷰 확인
+export function checkMyReview(productId) {
+  return fetchAPI(`/products/${productId}/reviews`);
+}
+
+//리뷰 수정
+export function updateReview(reviewId, body) {
+  return fetchAPI(`/members/me/reviews/${reviewId}`, {
+    method: "PATCH",
+    body,
+  });
+}
+
+//리뷰 삭제
+export function deleteReview(reviewId) {
+  return fetchAPI(`/members/me/reviews/${reviewId}`, { method: "DELETE" });
+}
+
 // 리뷰 이미지 업로드
 export async function uploadReviewImages(imageFiles) {
   const urls = [];
