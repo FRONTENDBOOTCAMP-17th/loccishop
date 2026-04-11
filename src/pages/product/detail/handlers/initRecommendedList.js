@@ -9,6 +9,7 @@ export async function initRecommendedList(productId) {
 
   renderProductCards(
     products.map((product) => ({
+      id: product.id,
       image: product.images[0],
       imageAlt: product.name,
       badgeType: product.badge,

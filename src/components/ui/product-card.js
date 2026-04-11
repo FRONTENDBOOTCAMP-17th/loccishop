@@ -1,6 +1,8 @@
 import { createBadge } from "/src/components/ui/badge.js";
+import { toggleIsWished } from "/src/js/api/wishList/index.js";
 
 export function createProductCard({
+  id,
   image,
   imageAlt = "",
   badgeType = null,
@@ -14,6 +16,15 @@ export function createProductCard({
   isWished = false,
   layout = "vertical",
 } = {}) {
+  // 장바구니 이벤트 공통 함수
+  async function handleCartClick(e) {
+    e.stopPropagation();
+    const { fetchProduct } = await import("/src/js/api/product/index.js");
+    const { openCartDrawer } = await import("/src/components/ui/cartDrawer.js");
+    const product = await fetchProduct(id);
+    await openCartDrawer(product);
+  }
+
   //---------------가로형----------------
   if (layout === "horizontal") {
     const card = document.createElement("article");
@@ -100,7 +111,11 @@ export function createProductCard({
     cartIcon.className = "w-4 h-4";
     cartBtn.append(cartIcon);
 
+    cartBtn.addEventListener("click", handleCartClick);
+
     card.append(imageWrapper, infoWrapper, cartBtn);
+    card._id = id;
+    card._cartBtn = cartBtn;
     return card;
   }
 
@@ -197,8 +212,29 @@ export function createProductCard({
     priceRow.append(discountWrapper);
   }
 
+  // 장바구니 버튼
+  cartBtn.addEventListener("click", handleCartClick);
+
+  // 찜 버튼
+  let wished = isWished;
+  wishBtn.addEventListener("click", async (e) => {
+    e.stopPropagation();
+    try {
+      await toggleIsWished(id);
+      wished = !wished;
+      heartIcon.src = wished
+        ? "/src/assets/icon/heart.svg"
+        : "/src/assets/icon/heart-empty.svg";
+      heartIcon.alt = wished ? "찜 해제" : "찜하기";
+    } catch (err) {
+      console.error("위시리스트 오류:", err);
+    }
+  });
+
   infoWrapper.append(sizeRow, nameEl, priceRow);
   card.append(imageWrapper, infoWrapper);
-
+  card._id = id;
+  card._cartBtn = cartBtn;
+  card._wishBtn = wishBtn;
   return card;
 }

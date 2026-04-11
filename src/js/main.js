@@ -1,16 +1,18 @@
 import "/src/styles/style.css";
 import { renderHeader } from "/src/components/header/header.js";
 import { renderFooter } from "/src/components/footer/footer.js";
+import { renderLoginModal } from "/src/components/login-modal/loginModal.js";
 import { createProductCard } from "/src/components/ui/product-card.js";
 import { createButton } from "/src/components/ui/button.js";
 import { createTag } from "/src/components/ui/tag.js";
 import { fetchProducts } from "/src/js/api/product/index.js";
 
-// ── 헤더 / 푸터 마운트 ────────────────────────────────────────────
+// ── 헤더 / 푸터 / 로그인 모달 마운트 ─────────────────────────────
 const headerAnchor = document.getElementById("header");
 const footerAnchor = document.getElementById("footer");
 if (headerAnchor) headerAnchor.replaceWith(renderHeader());
 if (footerAnchor) footerAnchor.replaceWith(renderFooter());
+document.body.append(renderLoginModal());
 
 // ── API 데이터 → 카드 props 변환 ──────────────────────────────────
 function toCardProps(product) {

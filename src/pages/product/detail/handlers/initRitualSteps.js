@@ -14,17 +14,24 @@ export async function initRitualSteps(productId) {
   data.steps.forEach((step) => {
     const li = document.createElement("li");
     li.className = "flex-1 h-full";
-    li.append(
-      createProductCard({
-        layout: "horizontal",
-        badgeText: `${step.step} 단계`,
-        name: step.productName,
-        size: step.volume,
-        originalPrice: step.price,
-        image: step.imageUrl,
-        imageAlt: step.productName,
-      }),
-    );
+
+    const cardElement = createProductCard({
+      id: step.productId,
+      layout: "horizontal",
+      badgeText: `${step.step} 단계`,
+      name: step.productName,
+      size: step.volume,
+      originalPrice: step.price,
+      image: step.imageUrl,
+      imageAlt: step.productName,
+    });
+
+    // 카드 클릭 → 상세 페이지 이동
+    cardElement.addEventListener("click", () => {
+      window.location.href = `/src/pages/product/detail/?id=${step.productId}`;
+    });
+
+    li.append(cardElement);
     list.append(li);
   });
 }

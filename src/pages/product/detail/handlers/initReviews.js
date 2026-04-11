@@ -3,20 +3,30 @@ import { renderStars } from "/src/pages/product/detail/handlers/renderStars.js";
 import { createPagination } from "/src/components/ui/pagination.js";
 import { toggleRecommendReview } from "/src/js/api/review/index.js";
 
-let currentPage = 1;
-let currentSort = "latest";
-let currentProductId = null;
-let totalPages = 1;
-let currentRating = null;
+const reviewState = {
+  page: 1,
+  sort: "latest",
+  productId: null,
+  totalPages: 1,
+  rating: null,
+
+  // 상태를 초기화하는 메서드
+  reset(productId) {
+    this.page = 1;
+    this.sort = "latest";
+    this.productId = productId;
+    this.totalPages = 1;
+    this.rating = null;
+  },
+};
 
 export async function initReviews(
   productId,
   { sort = "latest", rating = null } = {},
 ) {
-  currentPage = 1;
-  currentSort = sort;
-  currentProductId = productId;
-  currentRating = rating;
+  reviewState.reset(productId);
+  reviewState.sort = sort;
+  reviewState.rating = rating;
 
   const result = await fetchProductReviews(productId, {
     page: 1,
@@ -25,16 +35,24 @@ export async function initReviews(
     ...(rating && { rating }),
   });
   const { reviews, meta } = result;
+  reviewState.totalPages = meta.pagination.totalPages;
 
   if (!reviews || reviews.length === 0) {
+    const reviewList = document.querySelector("#review-list");
+    reviewList.innerHTML = "";
+
+    const empty = document.createElement("p");
+    empty.className = "text-sm text-zambezi text-center py-10 col-span-2";
+    empty.textContent = "해당 평점의 리뷰가 없습니다.";
+    reviewList.append(empty);
     return;
   }
 
   const total = meta.pagination.total;
-  totalPages = meta.pagination.totalPages;
 
   const average = meta.ratingAverage.toFixed(1);
   const counts = meta.ratingCounts;
+  const totalCount = Object.values(counts).reduce((sum, c) => sum + c, 0);
 
   document.querySelector("#all-review-count").textContent = total;
   document.querySelector("#rating-average").textContent = average;
@@ -51,7 +69,7 @@ export async function initReviews(
 
   [5, 4, 3, 2, 1].forEach((star) => {
     const count = counts[star];
-    const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+    const percent = totalCount > 0 ? Math.round((count / totalCount) * 100) : 0;
     document.querySelector(`#bar-${star}`).style.width = `${percent}%`;
     document.querySelector(`#count-${star}`).textContent =
       count.toLocaleString();
@@ -77,9 +95,15 @@ export function initSortButtons(productId) {
     btn.addEventListener("click", async () => {
       const text = btn.textContent.trim();
       if (text === "베스트순") {
-        await initReviews(productId, { sort: "rating_high" });
+        await initReviews(productId, {
+          sort: "rating_high",
+          rating: reviewState.rating,
+        });
       } else if (text === "최신순") {
-        await initReviews(productId, { sort: "latest" });
+        await initReviews(productId, {
+          sort: "latest",
+          rating: reviewState.rating,
+        });
       }
     });
   });
@@ -96,20 +120,9 @@ function createReviewCard(review) {
 
   // 별점
   const starsDiv = document.createElement("div");
-  starsDiv.className = "flex";
   starsDiv.setAttribute("role", "img");
   starsDiv.setAttribute("aria-label", `별점 ${review.rating}점`);
-  for (let i = 0; i < review.rating; i++) {
-    const star = document.createElement("span");
-    star.textContent = "⭐";
-    star.setAttribute("aria-hidden", "true");
-    starsDiv.append(star);
-  }
-
-  // 제목
-  const title = document.createElement("h3");
-  title.className = "text-sm font-bold";
-  title.textContent = review.title ?? "";
+  renderStars(review.rating, starsDiv);
 
   // 작성자 + 날짜
   const metaDiv = document.createElement("div");
@@ -119,6 +132,11 @@ function createReviewCard(review) {
   const dateSpan = document.createElement("span");
   dateSpan.textContent = review.createdAt.slice(0, 10);
   metaDiv.append(authorSpan, dateSpan);
+
+  // 제목
+  const title = document.createElement("h3");
+  title.className = "text-sm font-bold";
+  title.textContent = review.title ?? "";
 
   // 본문
   const content = document.createElement("p");
@@ -157,21 +175,24 @@ function createReviewCard(review) {
   recommendBtn.append(icon, btnText);
 
   //리뷰 추천
-  let isRecommended = false;
+  let isRecommended = review.isRecommended ?? false;
+
+  // 초기 스타일 적용
+  if (isRecommended) {
+    recommendBtn.classList.add("bg-merino", "border-woody-brown");
+  }
 
   recommendBtn.addEventListener("click", async () => {
     try {
-      await toggleRecommendReview(review.id);
-      if (isRecommended) {
-        review.recommendCount--;
-        isRecommended = false;
-        recommendBtn.classList.remove("bg-merino", "border-woody-brown");
-      } else {
-        review.recommendCount++;
-        isRecommended = true;
-        recommendBtn.classList.add("bg-merino", "border-woody-brown");
-      }
-      btnText.textContent = `도움됐어요 ${review.recommendCount}`;
+      const res = await toggleRecommendReview(review.id);
+      const { isRecommended: newState, recommendCount } = res;
+
+      isRecommended = newState;
+
+      recommendBtn.classList.toggle("bg-merino", isRecommended);
+      recommendBtn.classList.toggle("border-woody-brown", isRecommended);
+
+      btnText.textContent = `도움됐어요 ${recommendCount}`;
     } catch (e) {
       console.error("추천 처리 실패 :", e);
     }
@@ -179,7 +200,7 @@ function createReviewCard(review) {
 
   actionsDiv.append(recommendBtn);
 
-  article.append(starsDiv, title, metaDiv, content, imagesDiv, actionsDiv);
+  article.append(starsDiv, metaDiv, title, content, imagesDiv, actionsDiv);
   li.append(article);
   return li;
 }
@@ -192,16 +213,16 @@ export function initPagination(productId) {
   }
 
   const pagination = createPagination({
-    totalPages,
+    totalPages: reviewState.totalPages,
     currentPage: 1,
     onPageChange: async (page) => {
-      currentPage = page;
+      reviewState.page = page;
 
       const result = await fetchProductReviews(productId, {
         page,
-        sort: currentSort,
+        sort: reviewState.sort,
         limit: 4,
-        ...(currentRating && { rating: currentRating }),
+        ...(reviewState.rating && { rating: reviewState.rating }),
       });
 
       const { reviews } = result;
@@ -230,30 +251,39 @@ export function initFilterButton(productId) {
 
   const options = [
     { label: "전체", value: null },
-    { label: "⭐⭐⭐⭐⭐ 5점", value: 5 },
-    { label: "⭐⭐⭐⭐ 4점", value: 4 },
-    { label: "⭐⭐⭐ 3점", value: 3 },
-    { label: "⭐⭐ 2점", value: 2 },
-    { label: "⭐ 1점", value: 1 },
+    { label: "5점", value: 5 },
+    { label: "4점", value: 4 },
+    { label: "3점", value: 3 },
+    { label: "2점", value: 2 },
+    { label: "1점", value: 1 },
   ];
 
   options.forEach(({ label, value }) => {
     const li = document.createElement("li");
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "w-full text-left px-4 py-2 text-sm hover:bg-cararra";
-    btn.textContent = label;
+    btn.className =
+      "flex items-center w-full text-left px-4 py-2 text-sm hover:bg-cararra";
+
+    if (value === null) {
+      btn.textContent = "전체";
+    } else {
+      btn.innerHTML = `
+    <span class="inline-flex gap-0.5 mr-1">
+      ${'<img src="/src/assets/icon/star.svg" alt="" aria-hidden="true" class="w-3.5 h-3.5" />'.repeat(value)}
+    </span>
+    ${label}
+  `;
+    }
 
     btn.addEventListener("click", async () => {
-      currentRating = value;
       dropdown.classList.add("hidden");
 
-      // 필터 버튼 텍스트 업데이트
       filterBtn.querySelector("span").textContent = value
         ? `${value}점`
         : "필터";
 
-      await initReviews(productId, { sort: currentSort, rating: value });
+      await initReviews(productId, { sort: reviewState.sort, rating: value });
       initPagination(productId);
     });
 

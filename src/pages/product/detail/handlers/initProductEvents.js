@@ -22,18 +22,22 @@ export function initProductEvents(productId) {
   const writeReviewBtn = document.querySelector("#write-review-btn");
   if (writeReviewBtn) {
     writeReviewBtn.addEventListener("click", async () => {
-      // TODO: API 완성되면 아래 주석 해제
-      // const { isReviewable, orderId } = await fetchReviewable({ productId });
-      // if (!isReviewable) {
-      //   alert("구매한 내역이 없거나 이미 리뷰를 작성하셨습니다.");
-      //   return;
-      // }
+      const { isReviewable, orderId } = await fetchReviewable({ productId });
+      if (!isReviewable) {
+        alert("구매한 내역이 없거나 이미 리뷰를 작성하셨습니다.");
+        return;
+      }
+      let reviewModal;
 
-      // 임시: 바로 모달 열기
-      const reviewModal = createModal({
-        title: "리뷰 작성하기",
-        content: createReviewForm(productId, null),
+      const reviewForm = await createReviewForm(productId, orderId, () => {
+        reviewModal.close();
       });
+
+      reviewModal = createModal({
+        title: "리뷰 작성하기",
+        content: reviewForm,
+      });
+
       reviewModal.open();
     });
   }
