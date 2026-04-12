@@ -15,100 +15,126 @@
       공식몰 회원 5만원 이상 구매 시 기프트 증정
     </div>
     <main>
-      <!-- 회원 인사 & 추가 정보 배너 -->
+      <!-- ── 회원 인사 & 추가 정보 배너 ─────────────────────────── -->
       <section class="border-b border-gray-200">
-        <div
-          class="max-w-279.5 mx-auto px-4 md:px-10 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-        >
-          <!-- 왼쪽: 이름 + 추가 정보 안내 -->
-          <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
-            <span class="text-[18px] font-semibold text-woody-brown"
-              >박현우.</span
+        <div class="max-w-360 mx-auto px-4 md:px-10 py-5">
+          <div class="flex flex-col sm:flex-row items-center gap-0">
+            <div
+              class="flex items-center pr-6 md:pr-10 py-2 sm:py-0 self-start sm:self-center"
             >
-            <div class="hidden sm:block w-px h-5 bg-gray-300"></div>
-            <div class="flex flex-col gap-0.5">
-              <span class="text-[13px] font-medium text-abbey"
-                >추가 정보 입력</span
+              <p
+                class="text-xl font-semibold text-woody-brown whitespace-nowrap"
               >
-              <span class="text-[12px] text-abbey/70"
-                >나의 피부 관심사를 알려주세요.</span
+                사용자.
+              </p>
+            </div>
+            <div
+              class="hidden sm:block w-px self-stretch bg-gray-300 mr-6 md:mr-10"
+            ></div>
+            <div
+              class="flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 w-full"
+            >
+              <div>
+                <p class="text-sm font-bold text-woody-brown mb-1">
+                  추가 정보 입력
+                </p>
+                <p class="text-xs text-abbey leading-relaxed">
+                  추가 정보를 입력하고 고객님께 꼭 맞는 록시땅 서비스를
+                  경험해보세요.
+                </p>
+              </div>
+              <button
+                type="button"
+                class="shrink-0 bg-[#f5e642] text-woody-brown text-xs font-semibold px-5 py-2 hover:brightness-95 transition-all"
               >
+                입력하기
+              </button>
             </div>
           </div>
-          <!-- 오른쪽: 입력하기 버튼 -->
-          <button
-            type="button"
-            class="self-start md:self-auto bg-[#b8860b] text-white-solid text-[13px] font-medium px-5 py-2 hover:bg-[#9a7009] transition-colors whitespace-nowrap"
-          >
-            입력하기
-          </button>
         </div>
       </section>
 
-      <!-- 탭 내비게이션 -->
-      <nav class="border-b border-gray-200 overflow-x-auto">
-        <div class="max-w-279.5 mx-auto px-4 md:px-10">
+      <!-- ── 마이페이지 탭 네비게이션 ──────────────────────────────── -->
+      <nav
+        class="border-b border-gray-200 bg-spring-wood"
+        aria-label="마이페이지 메뉴"
+      >
+        <div class="max-w-360 mx-auto overflow-x-auto">
           <ul class="flex items-center whitespace-nowrap text-[13px] min-w-max">
             <li>
               <a
-                href="#"
-                class="block px-3 py-4 text-abbey hover:text-woody-brown transition-colors"
-                >로그인/회원 정보</a
+                href="/src/pages/mypage/profile/index.html"
+                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
               >
+                로그인/회원 정보
+              </a>
+            </li>
+            <li class="text-gray-300 select-none">|</li>
+            <li>
+              <a
+                href="/src/pages/mypage/edit/index.html"
+                class="inline-flex items-center h-12 px-3 md:px-5 font-semibold text-woody-brown border-b-2 border-woody-brown"
+                aria-current="page"
+              >
+                내 정보
+              </a>
             </li>
             <li class="text-gray-300 select-none">|</li>
             <li>
               <a
                 href="#"
-                class="block px-3 py-4 text-abbey hover:text-woody-brown transition-colors"
-                >내 정보</a
+                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
               >
+                내 주문 내역
+              </a>
             </li>
             <li class="text-gray-300 select-none">|</li>
             <li>
               <a
                 href="#"
-                class="block px-3 py-4 text-abbey hover:text-woody-brown transition-colors"
-                >내 주문 내역</a
+                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
               >
+                내 찜한 내역
+              </a>
             </li>
             <li class="text-gray-300 select-none">|</li>
             <li>
               <a
                 href="#"
-                class="block px-3 py-4 text-abbey hover:text-woody-brown transition-colors"
-                >내 활동 내역</a
+                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
               >
+                내 알림 내역
+              </a>
             </li>
-            <li class="text-gray-300 select-none">|</li>
-            <li>
-              <a
-                href="#"
-                class="block px-3 py-4 text-abbey hover:text-woody-brown transition-colors"
-                >내 알림 내역</a
+            <li class="ml-auto">
+              <button
+                type="button"
+                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
               >
-            </li>
-            <li class="text-gray-300 select-none">|</li>
-            <li>
-              <a
-                href="#"
-                class="block px-3 py-4 text-abbey hover:text-woody-brown transition-colors"
-                >로그아웃 ×</a
-              >
+                로그아웃 ✕
+              </button>
             </li>
           </ul>
         </div>
       </nav>
 
-      <!-- 브레드크럼 -->
-      <div class="max-w-279.5 mx-auto px-4 md:px-10 py-3">
-        <ol class="flex items-center gap-1.5 text-[12px] text-abbey/70">
-          <li>
-            <a href="/" class="hover:text-woody-brown transition-colors">홈</a>
-          </li>
-          <li class="select-none">/</li>
-          <li class="text-abbey font-medium">내 계정</li>
-        </ol>
+      <!-- ── 브레드크럼 ──────────────────────────────────────────── -->
+      <div class="max-w-360 mx-auto px-4 md:px-10 py-2.5">
+        <nav aria-label="breadcrumb">
+          <ol class="flex items-center gap-1.5 text-[11px] text-empress">
+            <li>
+              <a href="/" class="hover:text-woody-brown hover:underline">홈</a>
+            </li>
+            <li class="text-gray-300">/</li>
+            <li>
+              <a href="#" class="hover:text-woody-brown hover:underline"
+                >내 프로필</a
+              >
+            </li>
+            <li class="text-gray-300">/</li>
+            <li class="text-woody-brown font-medium">계정 정보</li>
+          </ol>
+        </nav>
       </div>
       <!-- ── 비밀번호 변경 폼 ─────────────────────────────────────── -->
       <section class="py-14 px-4">
