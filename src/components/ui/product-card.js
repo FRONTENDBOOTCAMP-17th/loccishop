@@ -219,6 +219,11 @@ export function createProductCard({
   let wished = isWished;
   wishBtn.addEventListener("click", async (e) => {
     e.stopPropagation();
+    const token = localStorage.getItem("token"); // 'token'으로 수정
+    if (!token) {
+      alert("로그인이 필요한 서비스입니다.");
+      return;
+    }
     try {
       await toggleIsWished(id);
       wished = !wished;
