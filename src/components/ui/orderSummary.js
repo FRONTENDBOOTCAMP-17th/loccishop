@@ -1,0 +1,172 @@
+import { cartItemList } from "/src/js/api/cart/index.js";
+
+// 주문 요약 초기화
+// showCoupon: 장바구니 페이지에서 쿠폰 입력 표시 여부
+// showCartToggle: 배송/결제 페이지에서 장바구니 보기 토글 표시 여부
+// btnText: 버튼 텍스트
+// onBtnClick: 버튼 클릭 콜백
+export async function initOrderSummary({
+  showCoupon = false,
+  showCartToggle = false,
+  btnText = "결제 계속하기",
+  onBtnClick = null,
+} = {}) {
+  const section = document.querySelector("#order-summary-section");
+  if (!section) return;
+
+  section.innerHTML = "";
+
+  const data = await cartItemList();
+  const { items, total, shipping } = data;
+
+  // 1. 장바구니 보기 토글 (배송/결제 페이지)
+  if (showCartToggle) {
+    const toggleWrapper = document.createElement("div");
+    toggleWrapper.className = "border border-gray-200 rounded p-4";
+
+    const toggleBtn = document.createElement("button");
+    toggleBtn.type = "button";
+    toggleBtn.className =
+      "flex justify-between items-center w-full text-sm font-bold";
+
+    const toggleLabel = document.createElement("span");
+    toggleLabel.textContent = `장바구니 보기 (${items.length})`;
+
+    const toggleIcon = document.createElement("span");
+    toggleIcon.className = "text-xs text-zambezi";
+    toggleIcon.textContent = "▼";
+
+    toggleBtn.append(toggleLabel, toggleIcon);
+
+    const cartSummaryList = document.createElement("ul");
+    cartSummaryList.className = "hidden flex-col gap-2 mt-3";
+
+    items.forEach((item) => {
+      const li = document.createElement("li");
+      li.className = "flex justify-between text-xs text-zambezi py-1";
+
+      const name = document.createElement("span");
+      name.textContent = `${item.productName} x${item.quantity}`;
+      name.className = "truncate flex-1 mr-2";
+
+      const price = document.createElement("span");
+      price.textContent = `₩${item.subtotal.toLocaleString()}`;
+      price.className = "flex-shrink-0";
+
+      li.append(name, price);
+      cartSummaryList.append(li);
+    });
+
+    let isOpen = false;
+    toggleBtn.addEventListener("click", () => {
+      isOpen = !isOpen;
+      cartSummaryList.classList.toggle("hidden", !isOpen);
+      cartSummaryList.classList.toggle("flex", isOpen);
+      toggleIcon.textContent = isOpen ? "▲" : "▼";
+    });
+
+    toggleWrapper.append(toggleBtn, cartSummaryList);
+    section.append(toggleWrapper);
+  }
+
+  // 2. 쿠폰 영역 (장바구니 페이지)
+  if (showCoupon) {
+    const couponDiv = document.createElement("div");
+    couponDiv.className =
+      "border border-gray-200 rounded p-4 flex flex-col gap-3";
+
+    const couponTitle = document.createElement("p");
+    couponTitle.className = "text-sm font-bold";
+    couponTitle.textContent = "쿠폰 코드가 있으신가요?";
+
+    const couponRow = document.createElement("div");
+    couponRow.className = "flex gap-2";
+
+    const couponInput = document.createElement("input");
+    couponInput.type = "text";
+    couponInput.id = "coupon-input";
+    couponInput.placeholder = "쿠폰 코드 입력";
+    couponInput.className =
+      "flex-1 border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-woody-brown";
+
+    const couponBtn = document.createElement("button");
+    couponBtn.type = "button";
+    couponBtn.id = "coupon-btn";
+    couponBtn.className =
+      "px-4 py-2 border border-gray-300 rounded text-sm hover:bg-cararra transition-colors";
+    couponBtn.textContent = "적용";
+
+    couponRow.append(couponInput, couponBtn);
+    couponDiv.append(couponTitle, couponRow);
+    section.append(couponDiv);
+  }
+
+  // 3. 주문 요약
+  const summaryDiv = document.createElement("div");
+  summaryDiv.className =
+    "border border-gray-200 rounded p-4 flex flex-col gap-3";
+
+  const productRow = document.createElement("div");
+  productRow.className = "flex justify-between text-sm";
+  const productLabel = document.createElement("span");
+  productLabel.textContent = "제품";
+  const productPrice = document.createElement("span");
+  productPrice.id = "summary-product-price";
+  productPrice.textContent = `₩${(total - shipping).toLocaleString()}`;
+  productRow.append(productLabel, productPrice);
+
+  const shippingRow = document.createElement("div");
+  shippingRow.className = "flex justify-between text-sm";
+  const shippingLabel = document.createElement("span");
+  shippingLabel.textContent = "배송비";
+  const shippingFee = document.createElement("span");
+  shippingFee.id = "summary-shipping";
+  shippingFee.className = "text-blue-500";
+  shippingFee.textContent =
+    shipping === 0 ? "무료" : `₩${shipping.toLocaleString()}`;
+  shippingRow.append(shippingLabel, shippingFee);
+
+  const totalRow = document.createElement("div");
+  totalRow.className =
+    "border-t border-gray-200 pt-3 flex justify-between text-base font-bold";
+  const totalLabel = document.createElement("span");
+  totalLabel.textContent = "총 주문금액";
+  const totalPrice = document.createElement("span");
+  totalPrice.id = "summary-total";
+  totalPrice.textContent = `₩${total.toLocaleString()}`;
+  totalRow.append(totalLabel, totalPrice);
+
+  summaryDiv.append(productRow, shippingRow, totalRow);
+  section.append(summaryDiv);
+
+  // 4. 버튼
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.id = "order-summary-btn";
+  btn.className =
+    "w-full bg-woody-brown text-white py-4 rounded text-sm font-bold hover:bg-opacity-90 transition-opacity";
+  btn.textContent = btnText;
+
+  if (onBtnClick) {
+    btn.addEventListener("click", onBtnClick);
+  }
+
+  section.append(btn);
+}
+
+export function updateOrderSummary({ total, shipping }) {
+  const productPrice = document.querySelector("#summary-product-price");
+  const shippingFee = document.querySelector("#summary-shipping");
+  const totalPrice = document.querySelector("#summary-total");
+
+  if (productPrice) {
+    productPrice.textContent = `₩${(total - shipping).toLocaleString()}`;
+  }
+  if (shippingFee) {
+    shippingFee.textContent =
+      shipping === 0 ? "무료" : `₩${shipping.toLocaleString()}`;
+  }
+  if (totalPrice) {
+    totalPrice.textContent = `₩${total.toLocaleString()}`;
+  }
+}
