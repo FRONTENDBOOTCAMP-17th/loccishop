@@ -21,7 +21,7 @@
       </section>
       <div class="mt-6 lg:mt-10 flex flex-col p-1 mx-auto w-full px-1">
         <p
-          class="text-[18px] font-normal leading-6 text-center text-woody-brown w-[1397px] h-[48px] mx-auto"
+          class="text-[18px] font-normal leading-6 text-center text-woody-brown w-full max-w-349.25 mx-auto"
         >
           이 핸드 크림은 20% 시어 버터를 함유해 손에 깊은 영양과 보습을 선사하며
           피부 장벽을 강화해 줍니다. 96% 천연 유래 지수*의 시어 핸드 크림은
@@ -77,13 +77,13 @@
         ></div>
       </section>
       <div
-        class="flex flex-col lg:flex-row justify-center p-4 bg-grey-96 w-fit mx-auto rounded"
+        class="flex flex-col lg:flex-row lg:items-center justify-center p-4 bg-grey-96 w-fit mx-auto rounded"
       >
         <div class="lg:py-8">
           <img
             src="/src/assets/images/handcare_1.webp"
             alt="아이코닉 시어 버터 핸드 크림"
-            class="rounded"
+            class="rounded w-[380px] h-[253px] sm:w-[511px] sm:h-[340px] md:w-[606px] md:h-[403px] lg:w-[406px] lg:h-[270px] xl:w-[551px] xl:h-[367px] object-cover"
           />
         </div>
         <div class="flex flex-col items-center pt-5 px-14 lg:py-5 gap-5">
@@ -129,10 +129,10 @@
           카테고리 별 만나보기
         </h2>
         <div class="max-w-[1132px] mx-auto px-6">
-          <ul class="flex flex-wrap justify-center gap-4">
+          <ul class="grid grid-cols-2 md:grid-cols-6 gap-4">
             <!-- 핸드 크림 -->
-            <li>
-              <a href="/" class="flex flex-col gap-3 group w-[277px]">
+            <li class="md:col-span-2 odd:pt-9 md:odd:pt-0">
+              <a href="/" class="flex flex-col gap-3 group w-full">
                 <img
                   src="/src/assets/images/list_handcream.webp"
                   alt="핸드 크림"
@@ -153,8 +153,8 @@
               </a>
             </li>
             <!-- 핸드 워시 & 솝 -->
-            <li>
-              <a href="/" class="flex flex-col gap-3 group w-[277px]">
+            <li class="md:col-span-2 odd:pt-9 md:odd:pt-0">
+              <a href="/" class="flex flex-col gap-3 group w-full">
                 <img
                   src="/src/assets/images/list_handwash&soap.webp"
                   alt="핸드 워시 & 솝"
@@ -175,8 +175,8 @@
               </a>
             </li>
             <!-- 핸드 ＆ 네일 케어 -->
-            <li>
-              <a href="/" class="flex flex-col gap-3 group w-[277px]">
+            <li class="md:col-span-2 odd:pt-9 md:odd:pt-0">
+              <a href="/" class="flex flex-col gap-3 group w-full">
                 <img
                   src="/src/assets/images/list_hand&nailcare.webp"
                   alt="핸드 & 네일 케어"
@@ -197,8 +197,8 @@
               </a>
             </li>
             <!-- 핸드 케어 리필 -->
-            <li>
-              <a href="/" class="flex flex-col gap-3 group w-[277px]">
+            <li class="md:col-span-2 md:col-start-2 odd:pt-9 md:odd:pt-0">
+              <a href="/" class="flex flex-col gap-3 group w-full">
                 <img
                   src="/src/assets/images/list_handcarerefill.webp"
                   alt="핸드 케어 리필"
@@ -219,8 +219,8 @@
               </a>
             </li>
             <!-- 핸드 케어 기프트 -->
-            <li>
-              <a href="/" class="flex flex-col gap-3 group w-[277px]">
+            <li class="md:col-span-2 md:col-start-4 odd:pt-9 md:odd:pt-0">
+              <a href="/" class="flex flex-col gap-3 group w-full">
                 <img
                   src="/src/assets/images/list_handcaregift.webp"
                   alt="핸드 케어 기프트"
@@ -245,22 +245,24 @@
       </section>
       <section>
         <h2
-          class="text-center text-woody-brown text-[44px] font-medium leading-12 tracking-[1px]"
+          class="text-center text-woody-brown text-[44px] font-medium leading-12 tracking-[1px] mt-8 mb-8 lg:mb-16"
         >
           감각적인 핸드 케어 리추얼
         </h2>
         <div class="mx-auto max-w-[1134px] w-full">
-          <ul class="flex justify-center">
+          <ul
+            class="flex flex-col items-center lg:flex-row lg:items-start lg:justify-center lg:gap-4 mx-auto"
+          >
             <!-- step 1 -->
-            <li>
+            <li class="lg:flex-1">
               <a
                 href="/"
-                class="flex flex-col gap-3 group w-[351px] p-2 pb-4 bg-grey-96"
+                class="flex flex-col gap-3 group w-full h-[519px] sm:h-[614px] lg:w-full lg:h-auto p-2 pb-4 bg-grey-96"
               >
                 <img
                   src="/src/assets/images/list_step1.webp"
                   alt="핸드 케어 step1"
-                  class="h-[218px] w-full object-cover shrink-0 mb-4 rounded-sm"
+                  class="flex-1 h-0 min-h-0 lg:flex-none lg:h-[218px] w-full object-cover shrink-0 mb-4 rounded-sm"
                 />
 
                 <div class="flex flex-col pt-4 gap-6">
@@ -289,15 +291,15 @@
               </a>
             </li>
             <!-- step 2 -->
-            <li>
+            <li class="lg:flex-1">
               <a
                 href="/"
-                class="flex flex-col gap-3 group w-[351px] p-2 pb-4 bg-grey-96"
+                class="flex flex-col gap-3 group w-full h-[519px] sm:h-[614px] lg:w-full lg:h-auto p-2 pb-4 bg-grey-96"
               >
                 <img
                   src="/src/assets/images/list_step2.webp"
                   alt="핸드 케어 step1"
-                  class="h-[218px] w-full object-cover shrink-0 mb-4 rounded-sm"
+                  class="flex-1 h-0 min-h-0 lg:flex-none lg:h-[218px] w-full object-cover shrink-0 mb-4 rounded-sm"
                 />
 
                 <div class="flex flex-col pt-4 gap-6">
@@ -326,15 +328,15 @@
               </a>
             </li>
             <!-- step 3 -->
-            <li>
+            <li class="lg:flex-1">
               <a
                 href="/"
-                class="flex flex-col gap-3 group w-[351px] p-2 pb-4 bg-grey-96"
+                class="flex flex-col gap-3 group w-full h-[519px] sm:h-[614px] lg:w-full lg:h-auto p-2 pb-4 bg-grey-96"
               >
                 <img
                   src="/src/assets/images/list_step3.webp"
                   alt="핸드 케어 step3"
-                  class="h-[218px] w-full object-cover shrink-0 mb-4 rounded-sm"
+                  class="flex-1 h-0 min-h-0 lg:flex-none lg:h-[218px] w-full object-cover shrink-0 mb-4 rounded-sm"
                 />
 
                 <div class="flex flex-col pt-4 gap-6">
