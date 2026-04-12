@@ -14,14 +14,16 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
+        login: resolve(__dirname, "/src/pages/login/index.html"),
+        signup: resolve(__dirname, "/src/pages/signup/index.html"),
+        adminSignup: resolve(__dirname, "/src/pages/admin/signup/index.html"),
+        productList: resolve(__dirname, "/src/pages/product/list/index.html"),
         productDetail: resolve(
           __dirname,
-          "src/pages/product/detail/index.html",
+          "/src/pages/product/detail/index.html",
         ),
-        productList: resolve(__dirname, "src/pages/product/list/index.html"),
-        login: resolve(__dirname, "src/pages/login/index.html"),
-        signup: resolve(__dirname, "src/pages/signup/index.html"),
-        adminSignup: resolve(__dirname, "src/pages/admin/signup/index.html"),
+        cart: resolve(__dirname, "/src/pages/cart/index.html"),
+        shipping: resolve(__dirname, "/src/pages/order/shipping/index.html"),
       },
     },
   },
