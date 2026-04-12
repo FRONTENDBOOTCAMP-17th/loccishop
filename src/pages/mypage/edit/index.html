@@ -14,9 +14,6 @@
     >
       공식몰 회원 5만원 이상 구매 시 기프트 증정
     </div>
-
-    <header id="header"></header>
-
     <main>
       <!-- ── 회원 인사 & 추가 정보 배너 ─────────────────────────── -->
       <section class="border-b border-gray-200">
@@ -28,7 +25,7 @@
               <p
                 class="text-xl font-semibold text-woody-brown whitespace-nowrap"
               >
-                박현무.
+                사용자.
               </p>
             </div>
             <div
@@ -131,11 +128,11 @@
             <li class="text-gray-300">/</li>
             <li>
               <a href="#" class="hover:text-woody-brown hover:underline"
-                >내 정보</a
+                >내 프로필</a
               >
             </li>
             <li class="text-gray-300">/</li>
-            <li class="text-woody-brown font-medium">내 정보</li>
+            <li class="text-woody-brown font-medium">계정 정보</li>
           </ol>
         </nav>
       </div>
@@ -162,20 +159,18 @@
                       class="text-sm font-medium text-woody-brown"
                       id="view-name"
                     >
-                      박현무
+                      사용자
                     </p>
                   </div>
                   <div>
                     <p class="text-[11px] text-empress mb-1.5">이메일</p>
-                    <p class="text-sm text-woody-brown" id="view-email">
-                      lol0817@hakkan.com
-                    </p>
+                    <p class="text-sm text-woody-brown" id="view-email"></p>
                   </div>
                 </div>
                 <div>
                   <p class="text-[11px] text-empress mb-1.5">휴대폰 번호</p>
                   <p class="text-sm text-woody-brown" id="view-phone">
-                    010-4108-7506
+                    010-4108-0000
                   </p>
                 </div>
                 <div>
@@ -213,9 +208,9 @@
                 </button>
                 <button
                   type="button"
-                  class="text-[13px] text-empress hover:text-woody-brown transition-colors px-2 py-2.5"
+                  class="text-[13px] hover:underline text-empress hover:text-woody-brown transition-colors p-2 mx-auto"
                 >
-                  탈퇴
+                  회원탈퇴
                 </button>
               </div>
             </div>
@@ -258,7 +253,7 @@
                       type="email"
                       id="email"
                       name="email"
-                      value="lol0817@hakkan.com"
+                      value="lol0000@hakkan.com"
                       class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full focus:outline-none focus:border-woody-brown"
                     />
                     <img
@@ -282,60 +277,9 @@
                       type="text"
                       id="name"
                       name="name"
-                      value="박현무"
+                      value="사용자"
                       class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full focus:outline-none focus:border-woody-brown"
                       required
-                    />
-                  </div>
-                </div>
-
-                <!-- 휴대폰 번호 -->
-                <div class="flex flex-col">
-                  <label
-                    for="phone"
-                    class="text-[14px] font-medium leading-5 text-abbey"
-                  >
-                    휴대폰 번호*
-                  </label>
-                  <div class="flex gap-2 mt-2">
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value="010-4108-7506"
-                      class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-3 flex-1 focus:outline-none focus:border-woody-brown"
-                      required
-                    />
-                    <button
-                      type="button"
-                      class="h-10 px-4 bg-orange-90 text-[13px] font-medium whitespace-nowrap hover:brightness-95 transition-all"
-                    >
-                      휴대폰 번호인증
-                    </button>
-                  </div>
-                </div>
-
-                <!-- 우편번호 -->
-                <div class="flex flex-col">
-                  <label
-                    for="zipcode"
-                    class="text-[14px] font-medium leading-5 text-abbey"
-                  >
-                    우편번호*
-                  </label>
-                  <div class="flex gap-2 mt-2">
-                    <button
-                      type="button"
-                      class="h-10 px-4 bg-orange-90 text-[13px] font-medium whitespace-nowrap hover:brightness-95 transition-all"
-                    >
-                      우편번호 찾기
-                    </button>
-                    <input
-                      type="text"
-                      id="zipcode"
-                      name="zipcode"
-                      value="12345"
-                      class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-3 flex-1 focus:outline-none focus:border-woody-brown"
                     />
                   </div>
                 </div>
