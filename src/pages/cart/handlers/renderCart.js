@@ -1,16 +1,5 @@
 import { editCartItem, deleteCartItem } from "/src/js/api/cart/index.js";
-
-//주요 요약
-function updateSummary({ subtotal, total, shipping }) {
-  const productPrice = document.getElementById("summary-product-price");
-  const shippingFee = document.getElementById("summary-shipping");
-  const totalPrice = document.getElementById("summary-total");
-
-  productPrice.textContent = `₩${subtotal.toLocaleString()}`;
-  shippingFee.textContent =
-    shipping === 0 ? "무료" : `₩${shipping.toLocaleString()}`;
-  totalPrice.textContent = `₩${total.toLocaleString()}`;
-}
+import { updateOrderSummary } from "/src/components/ui/orderSummary.js";
 
 //장바구니 렌더링
 export function renderCart({ items, total, shipping }) {
@@ -36,12 +25,12 @@ export function renderCart({ items, total, shipping }) {
     cartList.append(empty);
 
     cartCount.textContent = 0;
-    updateSummary({ subtotal: 0, total: 0, shipping: 0 });
+    updateOrderSummary({ subtotal: 0, total: 0, shipping: 0 });
     return;
   }
 
   cartCount.textContent = items.length;
-  updateSummary({ subtotal: total - shipping, total, shipping });
+  updateOrderSummary({ subtotal: total - shipping, total, shipping });
   items.forEach((item) => {
     cartList.append(createCartItem(item));
   });
@@ -134,7 +123,7 @@ function createCartItem(item) {
     currentQty--;
     qtyDisplay.textContent = currentQty;
     totalEl.textContent = `₩${((discountPrice ?? price) * currentQty).toLocaleString()}`;
-    updateSummary({
+    updateOrderSummary({
       subtotal: result.summary.subtotal,
       total: result.summary.total,
       shipping: result.summary.shipping,
@@ -155,7 +144,7 @@ function createCartItem(item) {
     currentQty++;
     qtyDisplay.textContent = currentQty;
     totalEl.textContent = `₩${((discountPrice ?? price) * currentQty).toLocaleString()}`;
-    updateSummary({
+    updateOrderSummary({
       subtotal: result.summary.subtotal,
       total: result.summary.total,
       shipping: result.summary.shipping,
@@ -203,9 +192,9 @@ function createCartItem(item) {
         empty.append(msg, link);
         cartList.append(empty);
 
-        updateSummary({ subtotal: 0, total: 0, shipping: 0 });
+        updateOrderSummary({ subtotal: 0, total: 0, shipping: 0 });
       } else {
-        updateSummary({
+        updateOrderSummary({
           subtotal: result.summary.subtotal,
           total: result.summary.total,
           shipping: result.summary.shipping,
