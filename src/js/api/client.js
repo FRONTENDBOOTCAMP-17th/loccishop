@@ -17,6 +17,8 @@ export async function fetchAPI(path, options = {}) {
   if (!res.ok) {
     if (res.status === 401) {
       localStorage.removeItem("token"); // 만료된 토큰 제거
+      localStorage.removeItem("role");
+      localStorage.removeItem("member");
       alert("로그인이 필요한 서비스입니다.");
       return;
     }
@@ -47,6 +49,8 @@ export async function fetchAPIWithFormData(path, formData) {
   if (!res.ok) {
     if (res.status === 401) {
       localStorage.removeItem("token"); // 만료된 토큰 제거
+      localStorage.removeItem("role");
+      localStorage.removeItem("member");
       alert("로그인이 필요한 서비스입니다.");
       return;
     }
