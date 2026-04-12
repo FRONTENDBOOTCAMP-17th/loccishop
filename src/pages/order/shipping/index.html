@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>배송지 | L'OcciShop</title>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/pages/order/shipping/index.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  </head>
+  <body>
+    <header id="header"></header>
+    <main class="min-w-[400px] px-4 py-10 overflow-x-hidden">
+      <div id="step-indicator"></div>
+      <div class="max-w-[1000px] mx-auto px-4">
+        <h2 class="text-xl font-bold mb-6">배송 정보</h2>
+        <div class="flex flex-col lg:flex-row gap-24">
+          <!-- 좌측: 배송 정보 -->
+          <section class="flex-1 flex flex-col gap-6">
+            <!-- 탭 -->
+            <div class="flex border-b border-gray-200">
+              <button
+                id="tab-select"
+                type="button"
+                class="px-6 py-3 text-sm font-bold border-b-2 border-woody-brown text-woody-brown"
+              >
+                배송지 선택
+              </button>
+              <button
+                id="tab-new"
+                type="button"
+                class="px-6 py-3 text-sm text-gray-400 border-b-2 border-transparent hover:text-woody-brown transition-colors"
+              >
+                신규입력
+              </button>
+            </div>
+
+            <!-- 배송지 선택 탭 -->
+            <div id="panel-select" class="flex flex-col">
+              <ul
+                id="address-list"
+                class="flex flex-col divide-y divide-gray-200"
+              ></ul>
+            </div>
+
+            <div id="panel-new" class="hidden flex-col gap-4"></div>
+
+            <!-- 배송 메모 -->
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-bold" for="delivery-memo"
+                >배송 메모</label
+              >
+              <select
+                id="delivery-memo"
+                class="border border-gray-200 rounded px-3 py-2 text-sm outline-none focus:border-woody-brown bg-white"
+              >
+                <option value="">배송 메모를 선택해 주세요.</option>
+                <option value="문 앞에 놔주세요">문 앞에 놔주세요</option>
+                <option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
+                <option value="택배함에 넣어주세요">택배함에 넣어주세요</option>
+                <option value="배송 전 연락 바랍니다">
+                  배송 전 연락 바랍니다
+                </option>
+                <option value="직접입력">직접입력</option>
+              </select>
+              <input
+                type="text"
+                id="delivery-memo-custom"
+                placeholder="배송 메모를 입력하세요"
+                class="hidden border border-gray-200 rounded px-3 py-2 text-sm outline-none focus:border-woody-brown"
+              />
+            </div>
+          </section>
+
+          <!-- 우측 주문 금액 내역 -->
+          <section
+            id="order-summary-section"
+            class="lg:w-[340px] flex flex-col gap-4"
+          ></section>
+        </div>
+      </div>
+    </main>
+    <footer id="footer"></footer>
+  </body>
+</html>
