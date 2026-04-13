@@ -12,7 +12,6 @@ function setupToggle(inputId, btnId) {
 
 setupToggle("current-pw", "toggle-current-pw");
 setupToggle("new-pw", "toggle-new-pw");
-setupToggle("confirm-pw", "toggle-confirm-pw");
 
 // ── 에러 상태 유틸 ────────────────────────────────────────────────
 function setError(inputId, iconId, msgId, show) {
@@ -68,7 +67,6 @@ document.getElementById("pw-form")?.addEventListener("submit", async (e) => {
 
   const currentPassword = document.getElementById("current-pw").value;
   const newPassword = document.getElementById("new-pw").value;
-  const confirmPassword = document.getElementById("confirm-pw").value;
   let hasError = false;
 
   // 현재 비밀번호
@@ -89,20 +87,12 @@ document.getElementById("pw-form")?.addEventListener("submit", async (e) => {
     setError("new-pw", "new-pw-error-icon", "new-pw-error-msg", false);
   }
 
-  // 새 비밀번호 확인
-  if (!confirmPassword || confirmPassword !== newPassword) {
-    setError("confirm-pw", "confirm-pw-error-icon", "confirm-pw-error-msg", true);
-    hasError = true;
-  } else {
-    setError("confirm-pw", "confirm-pw-error-icon", "confirm-pw-error-msg", false);
-  }
-
   if (hasError) return;
 
   try {
     await fetchAPI("/members/me/password", {
       method: "PATCH",
-      body: { currentPassword, newPassword, confirmPassword },
+      body: { currentPassword, newPassword },
     });
     alert("비밀번호가 변경되었습니다. 다시 로그인해주세요.");
     localStorage.removeItem("token");
@@ -117,7 +107,4 @@ document.getElementById("pw-form")?.addEventListener("submit", async (e) => {
 // ── 입력 시 에러 초기화 ───────────────────────────────────────────
 document.getElementById("current-pw")?.addEventListener("input", () => {
   setError("current-pw", "current-pw-error-icon", "current-pw-error-msg", false);
-});
-document.getElementById("confirm-pw")?.addEventListener("input", () => {
-  setError("confirm-pw", "confirm-pw-error-icon", "confirm-pw-error-msg", false);
 });
