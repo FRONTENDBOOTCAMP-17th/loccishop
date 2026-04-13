@@ -34,3 +34,10 @@ export function signupAdmin(requestBody) {
 export function fetchMe() {
   return fetchAPI("/members/me");
 }
+
+//로그아웃
+export function logoutUser() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  localStorage.removeItem("member");
+}
