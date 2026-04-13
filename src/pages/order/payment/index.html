@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>결제 | L'OcciShop</title>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/pages/order/payment/index.js"></script>
+  </head>
+  <body>
+    <header id="header"></header>
+    <main class="min-w-[400px] px-4 py-10 overflow-x-hidden">
+      <div id="step-indicator"></div>
+      <div class="max-w-[1000px] mx-auto px-4">
+        <h2 class="text-xl font-bold mb-6">결제 수단 선택</h2>
+        <div class="flex flex-col lg:flex-row gap-12">
+          <!-- 좌측: 결제 정보 -->
+          <section class="flex-1 flex flex-col gap-8">
+            <!-- 결제 수단 -->
+            <div class="flex flex-col gap-3">
+              <h3 class="text-sm font-bold">결제 수단</h3>
+              <div class="grid grid-cols-3 gap-3">
+                <!-- 신용/체크카드 -->
+                <button
+                  type="button"
+                  data-method="CARD"
+                  class="payment-method-btn flex flex-col items-center justify-center gap-2 border-2 border-gray-200 rounded-xl p-4 hover:border-woody-brown transition-colors cursor-pointer"
+                >
+                  <img src="/src/assets/icon/card.svg" alt="" class="w-8 h-8" />
+                  <span class="text-xs text-center leading-4"
+                    >신용/체크카드</span
+                  >
+                </button>
+
+                <!-- 카카오페이 -->
+                <button
+                  type="button"
+                  data-method="KAKAO_PAY"
+                  class="payment-method-btn flex flex-col items-center justify-center gap-2 border-2 border-gray-200 rounded-xl p-4 hover:border-woody-brown transition-colors cursor-pointer"
+                >
+                  <img
+                    src="/src/assets/icon/kakaopay.svg"
+                    alt=""
+                    class="w-8 h-8"
+                  />
+                  <span class="text-xs text-center leading-4">카카오페이</span>
+                </button>
+
+                <!-- 네이버페이 -->
+                <button
+                  type="button"
+                  data-method="NAVER_PAY"
+                  class="payment-method-btn flex flex-col items-center justify-center gap-2 border-2 border-gray-200 rounded-xl p-4 hover:border-woody-brown transition-colors cursor-pointer"
+                >
+                  <img
+                    src="/src/assets/icon/naverpay.svg"
+                    alt=""
+                    class="w-8 h-8"
+                  />
+                  <span class="text-xs text-center leading-4">네이버페이</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 포인트 사용 -->
+            <div class="flex flex-col gap-3">
+              <h3 class="text-sm font-bold">포인트 사용</h3>
+              <div
+                class="border border-gray-200 rounded-xl p-4 flex flex-col gap-3"
+              >
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-zambezi">보유 포인트</span>
+                  <span id="available-point" class="font-bold">0P</span>
+                </div>
+                <div class="flex gap-2">
+                  <input
+                    type="number"
+                    id="use-point-input"
+                    placeholder="사용할 포인트 입력"
+                    min="0"
+                    class="flex-1 border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-woody-brown"
+                  />
+                  <button
+                    type="button"
+                    id="use-point-btn"
+                    class="px-4 py-2 border border-gray-300 rounded text-sm hover:bg-cararra transition-colors"
+                  >
+                    적용
+                  </button>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-zambezi">사용 포인트</span>
+                  <span id="used-point" class="font-bold text-woody-brown"
+                    >0P</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- 약관 동의 -->
+            <div class="flex flex-col gap-3">
+              <h3 class="text-sm font-bold">결제</h3>
+              <div
+                class="border border-gray-200 rounded-xl p-4 flex flex-col gap-3"
+              >
+                <div class="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="agree-terms"
+                    class="cursor-pointer accent-woody-brown w-4 h-4"
+                  />
+                  <label for="agree-terms" class="text-sm cursor-pointer">
+                    본인은
+                    <span class="underline underline-offset-2">이용약관</span>
+                    및
+                    <span class="underline underline-offset-2"
+                      >개인정보처리방침</span
+                    >
+                    을 읽고 동의하였습니다.*
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 우측: 주문 요약 -->
+          <section
+            id="order-summary-section"
+            class="lg:w-[340px] flex flex-col gap-4"
+          ></section>
+        </div>
+      </div>
+    </main>
+    <footer id="footer"></footer>
+  </body>
+</html>
