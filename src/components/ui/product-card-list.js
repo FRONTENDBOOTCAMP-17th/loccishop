@@ -95,18 +95,7 @@ export function renderProductCards(products) {
 
   container.innerHTML = "";
   products.forEach((product) => {
-    const cardElement = createProductCard({
-      id: product.id,
-      image: product.images?.[0] ?? "",
-      imageAlt: product.name,
-      badgeType: product.badge?.toLowerCase() ?? null,
-      name: product.name,
-      size: product.size,
-      originalPrice: product.price,
-      discountRate: product.discountRate ?? null,
-      discountPrice: product.discountPrice ?? null,
-      isWished: product.isWished ?? false,
-    });
+    const cardElement = createProductCard(product);
     container.appendChild(cardElement);
     cardElement.style.cursor = "pointer";
 
