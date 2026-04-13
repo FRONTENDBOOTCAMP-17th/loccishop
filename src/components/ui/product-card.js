@@ -221,7 +221,6 @@ export function createProductCard({
     e.stopPropagation();
     try {
       const result = await toggleIsWished(id);
-      console.log("위시리스트 응답:", result);
       wished = result.isWished;
       heartIcon.src = wished
         ? "/src/assets/icon/heart.svg"
