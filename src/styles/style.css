@@ -45,6 +45,15 @@
   body {
     @apply bg-spring-wood;
     @apply text-woody-brown;
+
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  main {
+    @apply flex-1;
   }
 
   /* 특정 클래스가 붙은 body 스타일 */
