@@ -17,15 +17,23 @@ async function initShippingPage() {
     showCoupon: false,
     showCartToggle: true,
     btnText: "결제하기",
-    onBtnClick: () => {
+    onBtnClick: async () => {
       const addressId = getSelectedAddressId();
 
       if (!addressId) {
         alert("배송지를 선택해주세요.");
         return;
       }
+
+      const addresses = await fetchAddresses();
+      const selectedAddress = addresses.find((a) => a.addressId === addressId);
+
       const memo = getDeliveryMemo();
-      sessionStorage.setItem("selectedAddressId", addressId);
+
+      sessionStorage.setItem(
+        "selectedAddress",
+        JSON.stringify(selectedAddress),
+      );
       sessionStorage.setItem("deliveryMemo", memo);
       location.href = "/src/pages/order/payment/index.html";
     },
