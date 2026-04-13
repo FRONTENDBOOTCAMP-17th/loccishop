@@ -71,7 +71,7 @@ export function renderLoginModal() {
               로그인
             </button>
             <div>
-              <a href="/src/pages/admin/signup/index.html" class="text-[14px] font-medium hover:underline">관리자 회원가입</a>
+              <a href="/src/pages/signup/admin/index.html" class="text-[14px] font-medium hover:underline">관리자 회원가입</a>
               <span>/</span>
               <a href="/src/pages/signup/user/index.html" class="text-[14px] font-medium hover:underline">회원가입</a>
             </div>
