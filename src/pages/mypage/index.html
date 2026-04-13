@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>내 정보 수정 | L'OcciShop</title>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/pages/mypage/edit/index.js"></script>
+  </head>
+  <body>
+    <header id="header"></header>
+    <main>
+      <!-- ── 내 프로필 ────────────────────────────────────────────── -->
+      <section class="border-t border-gray-200">
+        <div class="max-w-360 mx-auto px-4 md:px-10">
+          <!-- 섹션 제목 -->
+          <h1
+            class="text-[22px] font-semibold text-center text-woody-brown py-6 border-b border-gray-200"
+          >
+            내 프로필
+          </h1>
+
+          <!-- ── VIEW MODE ──────────────────────────────────────── -->
+          <div id="view-mode" class="py-8">
+            <div class="flex flex-col md:flex-row gap-8">
+              <!-- 프로필 정보 -->
+              <div class="flex-1 space-y-6">
+                <div class="flex flex-wrap gap-x-16 gap-y-6">
+                  <div>
+                    <p class="text-[11px] text-empress mb-1.5">이름</p>
+                    <p
+                      class="text-sm font-medium text-woody-brown"
+                      id="view-name"
+                    >
+                      사용자
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-[11px] text-empress mb-1.5">이메일</p>
+                    <p class="text-sm text-woody-brown" id="view-email">
+                      example@email.com
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 버튼 영역 -->
+              <div
+                class="flex flex-row md:flex-col items-start gap-2 md:gap-3 md:pt-1"
+              >
+                <button
+                  id="to-edit-btn"
+                  type="button"
+                  class="bg-woody-brown text-white-solid text-[13px] px-6 py-2.5 hover:bg-dark-woody transition-colors whitespace-nowrap"
+                >
+                  수정하기
+                </button>
+                <button
+                  type="button"
+                  class="text-[13px] hover:underline text-empress hover:text-woody-brown transition-colors p-2 mx-auto"
+                >
+                  회원탈퇴
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── EDIT MODE (기본 hidden) ────────────────────────── -->
+          <div id="edit-mode" class="hidden py-8">
+            <div class="flex flex-col md:flex-row gap-8">
+              <!-- 폼 영역 -->
+              <form id="edit-form" class="flex-1 space-y-5">
+                <!-- 이메일 주소 -->
+                <div class="flex flex-col">
+                  <label
+                    for="email"
+                    class="text-[14px] font-medium leading-5 text-abbey"
+                  >
+                    이메일 주소
+                  </label>
+                  <div class="relative mt-2">
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value="example@email.com"
+                      class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full focus:outline-none focus:border-woody-brown"
+                    />
+                    <img
+                      src="/src/assets/icon/check.svg"
+                      alt="이메일 확인됨"
+                      class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                    />
+                  </div>
+                </div>
+
+                <!-- 이름 -->
+                <div class="flex flex-col">
+                  <label
+                    for="name"
+                    class="text-[14px] font-medium leading-5 text-abbey"
+                  >
+                    이름*
+                  </label>
+                  <div class="relative mt-2">
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value="사용자"
+                      class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full focus:outline-none focus:border-woody-brown"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- 주소 -->
+                <div class="flex flex-col">
+                  <label
+                    for="address"
+                    class="text-[14px] font-medium leading-5 text-abbey"
+                  >
+                    주소
+                  </label>
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-3 w-full mt-2 focus:outline-none focus:border-woody-brown"
+                  />
+                </div>
+
+                <!-- 상세주소 -->
+                <div class="flex flex-col">
+                  <label
+                    for="address-detail"
+                    class="text-[14px] font-medium leading-5 text-abbey"
+                  >
+                    상세주소
+                  </label>
+                  <input
+                    type="text"
+                    id="address-detail"
+                    name="address-detail"
+                    class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-3 w-full mt-2 focus:outline-none focus:border-woody-brown"
+                  />
+                </div>
+              </form>
+
+              <!-- 버튼 영역 -->
+              <div
+                class="flex flex-row md:flex-col items-start gap-2 md:gap-3 md:pt-1"
+              >
+                <button
+                  id="submit-edit-btn"
+                  type="submit"
+                  form="edit-form"
+                  class="bg-woody-brown text-white-solid text-[13px] px-6 py-2.5 hover:bg-dark-woody transition-colors whitespace-nowrap"
+                >
+                  수정하기
+                </button>
+                <button
+                  id="cancel-edit-btn"
+                  type="button"
+                  class="text-[13px] text-empress hover:text-woody-brown transition-colors px-2 py-2.5"
+                >
+                  취소
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="footer"></footer>
+  </body>
+</html>

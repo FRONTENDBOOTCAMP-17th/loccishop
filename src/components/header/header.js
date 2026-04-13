@@ -15,14 +15,14 @@ export function renderHeader() {
       <a href="/">
         <img tabindex="-1" src="/src/assets/logo/Loccitane.svg" alt="L'Occitane 홈으로" />
       </a>
-      <ul class="flex gap-4">
+      <ul class="flex gap-4 items-center">
         <li>
           <button type="button" id="loginBtn" aria-label="로그인">
             <img tabindex="-1" src="/src/assets/icon/myPage.svg" alt="로그인" />
           </button>
         </li>
-        <li><a href="#"><img tabindex="-1" src="/src/assets/icon/heart-empty.svg" alt="위시리스트" /></a></li>
-        <li><a href="#"><img tabindex="-1" src="/src/assets/icon/cart.svg" alt="장바구니" /></a></li>
+        <li><a href="/src/pages/wishlist/index.html"><img tabindex="-1" src="/src/assets/icon/heart-empty.svg" alt="위시리스트" /></a></li>
+        <li><a href="/src/pages/cart/index.html"><img tabindex="-1" src="/src/assets/icon/cart.svg" alt="장바구니" /></a></li>
       </ul>
     </div>
 
@@ -43,7 +43,13 @@ export function renderHeader() {
     </div>
   `;
 
-  nav.querySelector("#loginBtn").addEventListener("click", openLoginModal);
+  nav.querySelector("#loginBtn").addEventListener("click", () => {
+    if (localStorage.getItem("token")) {
+      window.location.href = "/src/pages/mypage/index.html";
+    } else {
+      openLoginModal();
+    }
+  });
 
   if (!document.getElementById("loginModal")) {
     document.body.append(renderLoginModal());
