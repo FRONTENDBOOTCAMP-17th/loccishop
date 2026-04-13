@@ -1,4 +1,7 @@
-import { openLoginModal } from "/src/components/login-modal/loginModal.js";
+import {
+  openLoginModal,
+  renderLoginModal,
+} from "/src/components/login-modal/loginModal.js";
 
 export function renderHeader() {
   const nav = document.createElement("nav");
@@ -41,6 +44,10 @@ export function renderHeader() {
   `;
 
   nav.querySelector("#loginBtn").addEventListener("click", openLoginModal);
+
+  if (!document.getElementById("loginModal")) {
+    document.body.append(renderLoginModal());
+  }
 
   return nav;
 }

@@ -7,6 +7,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const idErrorIcon = document.getElementById("idErrorIcon");
   const idErrorText = document.getElementById("idErrorText");
   const togglePasswordBtn = document.getElementById("togglePassword");
+  const closeBtn = document.getElementById("loginClose");
+
+  closeBtn.addEventListener("click", () => history.back());
 
   // 비밀번호 입력 시 눈 아이콘 표시/숨김
   passwordInput.addEventListener("input", () => {
