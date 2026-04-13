@@ -23,26 +23,11 @@ document.getElementById("edit-form")?.addEventListener("submit", (e) => {
   // TODO: API 연동 후 실제 저장 로직 구현
   const name = document.getElementById("name")?.value ?? "";
   const email = document.getElementById("email")?.value ?? "";
-  const phone = document.getElementById("phone")?.value ?? "";
 
   const viewName = document.getElementById("view-name");
   const viewEmail = document.getElementById("view-email");
-  const viewPhone = document.getElementById("view-phone");
   if (viewName) viewName.textContent = name;
   if (viewEmail) viewEmail.textContent = email;
-  if (viewPhone) viewPhone.textContent = phone;
 
   showViewMode();
-});
-
-// ── 광고/판촉 수신 동의 아코디언 ──────────────────────────────────
-const accordionBtn = document.getElementById("promo-accordion-btn");
-const accordionContent = document.getElementById("promo-accordion-content");
-const accordionIcon = document.getElementById("promo-accordion-icon");
-
-accordionBtn?.addEventListener("click", () => {
-  const isExpanded = accordionBtn.getAttribute("aria-expanded") === "true";
-  accordionBtn.setAttribute("aria-expanded", String(!isExpanded));
-  accordionContent.classList.toggle("hidden");
-  accordionIcon.style.transform = isExpanded ? "" : "rotate(90deg)";
 });
