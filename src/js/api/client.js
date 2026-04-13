@@ -1,3 +1,5 @@
+import { openLoginModal } from "/src/components/login-modal/loginModal.js";
+
 const BASE_URL = "https://api.fullstackfamily.com/api/loccishop/v1";
 
 export async function fetchAPI(path, options = {}) {
@@ -20,6 +22,7 @@ export async function fetchAPI(path, options = {}) {
       localStorage.removeItem("role");
       localStorage.removeItem("member");
       alert("로그인이 필요한 서비스입니다.");
+      openLoginModal();
       return;
     }
     throw new Error(`API 오류: ${res.status}`);
@@ -52,6 +55,7 @@ export async function fetchAPIWithFormData(path, formData) {
       localStorage.removeItem("role");
       localStorage.removeItem("member");
       alert("로그인이 필요한 서비스입니다.");
+      openLoginModal();
       return;
     }
     throw new Error(`API 오류: ${res.status}`);

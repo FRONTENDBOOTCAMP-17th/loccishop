@@ -1,101 +1,26 @@
 import { renderProductCards } from "/src/components/ui/product-card-list.js";
 import { createTag } from "/src/components/ui/tag.js";
+import { fetchProducts } from "/src/js/api/product/index.js";
 
 const categories = [
-  '핸드 케어 전체 보기',
-  '핸드 크림',
-  '핸드 워시 & 솝',
-  '핸드 & 네일 케어',
-  '핸드 케어 리필',
-  '핸드 케어 기프트 세트',
+  "핸드 케어 전체 보기",
+  "핸드 크림",
+  "핸드 워시 & 솝",
+  "핸드 & 네일 케어",
+  "핸드 케어 리필",
+  "핸드 케어 기프트 세트",
 ];
 
-const categoryTagList = document.querySelector('#category-tag-list');
+const categoryTagList = document.querySelector("#category-tag-list");
 
 categories.forEach((category) => {
-  const li = document.createElement('li');
+  const li = document.createElement("li");
   const tag = createTag({ text: category });
   tag.className =
-    'min-w-16 rounded px-2.5 py-1.5 text-sm text-center font-normal leading-5 cursor-pointer border border-empress text-woody-brown bg-spring-wood hover:bg-grey-96 transition-colors duration-200 whitespace-nowrap';
-
+    "min-w-16 rounded px-2.5 py-1.5 text-sm text-center font-normal leading-5 cursor-pointer border border-empress text-woody-brown bg-spring-wood hover:bg-grey-96 transition-colors duration-200 whitespace-nowrap";
   li.appendChild(tag);
   categoryTagList.appendChild(li);
 });
-
-const productDataList = [
-  {
-    image: "/src/assets/images/product1_0.webp",
-    imageAlt: "시어 버터 핸드 크림 30ml",
-    badgeType: "NEW",
-    size: "30 ml",
-    name: "시어 버터 핸드 크림 (카리테 콩포르)",
-    originalPrice: 17000,
-    discountRate: 50,
-    discountPrice: 8500,
-    isWished: true,
-  },
-  {
-    image: "/src/assets/images/product1_0.webp",
-    imageAlt: "시어 버터 핸드 크림 75ml",
-    badgeType: "NEW",
-    size: "75 ml",
-    name: "시어 버터 핸드 크림 (카리테 콩포르)",
-    originalPrice: 29000,
-    discountRate: null,
-    discountPrice: null,
-    isWished: false,
-  },
-  {
-    image: "/src/assets/images/product1_0.webp",
-    imageAlt: "시어 버터 핸드 크림 150ml",
-    badgeType: "NEW",
-    size: "150 ml",
-    name: "시어 버터 핸드 크림 (카리테 콩포르)",
-    originalPrice: 42000,
-    discountRate: null,
-    discountPrice: null,
-    isWished: false,
-  },
-  {
-    image: "/src/assets/images/product1_0.webp",
-    imageAlt: "시어 버터 핸드 크림 150ml",
-    badgeType: "NEW",
-    size: "150 ml",
-    name: "시어 버터 핸드 크림 (카리테 콩포르)",
-    originalPrice: 42000,
-    discountRate: null,
-    discountPrice: null,
-    isWished: false,
-  },
-  {
-    image: "/src/assets/images/product1_0.webp",
-    imageAlt: "시어 버터 핸드 크림 150ml",
-    badgeType: "NEW",
-    size: "150 ml",
-    name: "시어 버터 핸드 크림 (카리테 콩포르)",
-    originalPrice: 42000,
-    discountRate: null,
-    discountPrice: null,
-    isWished: false,
-  },
-  {
-    image: "/src/assets/images/product1_0.webp",
-    imageAlt: "시어 버터 핸드 크림 150ml",
-    badgeType: "NEW",
-    size: "150 ml",
-    name: "시어 버터 핸드 크림 (카리테 콩포르)",
-    originalPrice: 42000,
-    discountRate: null,
-    discountPrice: null,
-    isWished: false,
-  },
-];
-
-const productDataByCategory = {
-  shea: productDataList,
-  almond: productDataList,
-  fragrance: productDataList,
-};
 
 const tabs = document.querySelectorAll("#category-tabs li");
 
@@ -108,13 +33,51 @@ function setActiveTab(activeTab) {
   activeTab.classList.add("text-woody-brown", "underline");
 }
 
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    setActiveTab(tab);
-    renderProductCards(productDataByCategory[tab.dataset.category]);
-  });
-});
+const TAB_KEYWORDS = {
+  shea: ["시어"],
+  almond: ["아몬드"],
+  fragrance: ["퍼퓸"],
+};
 
-// 초기 상태: 시어 버터 탭 활성화
-setActiveTab(tabs[0]);
-renderProductCards(productDataByCategory.shea);
+function filterByTab(products, category) {
+  const keywords = TAB_KEYWORDS[category];
+  if (!keywords) {
+    return products;
+  }
+  const filtered = products.filter((p) =>
+    keywords.some((kw) => p.name.toLowerCase().includes(kw.toLowerCase())),
+  );
+  return filtered.length ? filtered : products;
+}
+
+function toCardProps(product) {
+  return {
+    id: product.id,
+    image: product.images?.[0] ?? "",
+    imageAlt: product.name,
+    badgeType: product.badge?.toLowerCase() ?? null,
+    name: product.name,
+    size: product.size,
+    originalPrice: product.price,
+    discountRate: product.discountRate ?? null,
+    discountPrice: product.discountPrice ?? null,
+    isWished: product.isWished ?? false,
+  };
+}
+
+async function init() {
+  const data = await fetchProducts({ limit: 30 });
+  const allProducts = (data.products ?? []).map(toCardProps);
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      setActiveTab(tab);
+      renderProductCards(filterByTab(allProducts, tab.dataset.category));
+    });
+  });
+
+  setActiveTab(tabs[0]);
+  renderProductCards(filterByTab(allProducts, "shea"));
+}
+
+init().catch((err) => console.error("초기화 실패:", err));
