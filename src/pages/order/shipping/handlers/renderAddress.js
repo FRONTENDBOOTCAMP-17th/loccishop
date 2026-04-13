@@ -105,6 +105,10 @@ function createAddressItem(address, isSelected = false) {
   zipEl.className = "text-sm text-zambezi";
 
   infoWrapper.append(nameRow, phoneEl, addressEl, zipEl);
+  infoWrapper.addEventListener("click", () => {
+    radio.checked = true;
+    selectedAddressId = addressId;
+  });
 
   //수정,삭제 버튼
   const buttonWrapper = document.createElement("div");
