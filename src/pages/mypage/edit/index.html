@@ -10,128 +10,6 @@
   <body>
     <header id="header"></header>
     <main>
-      <!-- ── 회원 인사 & 추가 정보 배너 ─────────────────────────── -->
-      <section class="border-b border-gray-200">
-        <div class="max-w-360 mx-auto px-4 md:px-10 py-5">
-          <div class="flex flex-col sm:flex-row items-center gap-0">
-            <div
-              class="flex items-center pr-6 md:pr-10 py-2 sm:py-0 self-start sm:self-center"
-            >
-              <p
-                class="text-xl font-semibold text-woody-brown whitespace-nowrap"
-              >
-                사용자.
-              </p>
-            </div>
-            <div
-              class="hidden sm:block w-px self-stretch bg-gray-300 mr-6 md:mr-10"
-            ></div>
-            <div
-              class="flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 w-full"
-            >
-              <div>
-                <p class="text-sm font-bold text-woody-brown mb-1">
-                  추가 정보 입력
-                </p>
-                <p class="text-xs text-abbey leading-relaxed">
-                  추가 정보를 입력하고 고객님께 꼭 맞는 록시땅 서비스를
-                  경험해보세요.
-                </p>
-              </div>
-              <button
-                type="button"
-                class="shrink-0 bg-[#f5e642] text-woody-brown text-xs font-semibold px-5 py-2 hover:brightness-95 transition-all"
-              >
-                입력하기
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ── 마이페이지 탭 네비게이션 ──────────────────────────────── -->
-      <nav
-        class="border-b border-gray-200 bg-spring-wood"
-        aria-label="마이페이지 메뉴"
-      >
-        <div class="max-w-360 mx-auto overflow-x-auto">
-          <ul class="flex items-center whitespace-nowrap text-[13px] min-w-max">
-            <li>
-              <a
-                href="/src/pages/mypage/profile/index.html"
-                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
-              >
-                로그인/회원 정보
-              </a>
-            </li>
-            <li class="text-gray-300 select-none">|</li>
-            <li>
-              <a
-                href="/src/pages/mypage/edit/index.html"
-                class="inline-flex items-center h-12 px-3 md:px-5 font-semibold text-woody-brown border-b-2 border-woody-brown"
-                aria-current="page"
-              >
-                내 정보
-              </a>
-            </li>
-            <li class="text-gray-300 select-none">|</li>
-            <li>
-              <a
-                href="#"
-                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
-              >
-                내 주문 내역
-              </a>
-            </li>
-            <li class="text-gray-300 select-none">|</li>
-            <li>
-              <a
-                href="#"
-                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
-              >
-                내 찜한 내역
-              </a>
-            </li>
-            <li class="text-gray-300 select-none">|</li>
-            <li>
-              <a
-                href="#"
-                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
-              >
-                내 알림 내역
-              </a>
-            </li>
-            <li class="ml-auto">
-              <button
-                type="button"
-                class="inline-flex items-center h-12 px-3 md:px-5 text-empress hover:text-woody-brown transition-colors"
-              >
-                로그아웃 ✕
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      <!-- ── 브레드크럼 ──────────────────────────────────────────── -->
-      <div class="max-w-360 mx-auto px-4 md:px-10 py-2.5">
-        <nav aria-label="breadcrumb">
-          <ol class="flex items-center gap-1.5 text-[11px] text-empress">
-            <li>
-              <a href="/" class="hover:text-woody-brown hover:underline">홈</a>
-            </li>
-            <li class="text-gray-300">/</li>
-            <li>
-              <a href="#" class="hover:text-woody-brown hover:underline"
-                >내 프로필</a
-              >
-            </li>
-            <li class="text-gray-300">/</li>
-            <li class="text-woody-brown font-medium">계정 정보</li>
-          </ol>
-        </nav>
-      </div>
-
       <!-- ── 내 프로필 ────────────────────────────────────────────── -->
       <section class="border-t border-gray-200">
         <div class="max-w-360 mx-auto px-4 md:px-10">
@@ -159,7 +37,9 @@
                   </div>
                   <div>
                     <p class="text-[11px] text-empress mb-1.5">이메일</p>
-                    <p class="text-sm text-woody-brown" id="view-email"></p>
+                    <p class="text-sm text-woody-brown" id="view-email">
+                      example@email.com
+                    </p>
                   </div>
                 </div>
               </div>
@@ -203,7 +83,7 @@
                       type="email"
                       id="email"
                       name="email"
-                      value="lol0000@hakkan.com"
+                      value="example@email.com"
                       class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full focus:outline-none focus:border-woody-brown"
                     />
                     <img
@@ -265,7 +145,6 @@
                     class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-3 w-full mt-2 focus:outline-none focus:border-woody-brown"
                   />
                 </div>
-
               </form>
 
               <!-- 버튼 영역 -->
@@ -292,7 +171,6 @@
           </div>
         </div>
       </section>
-
     </main>
 
     <footer id="footer"></footer>
