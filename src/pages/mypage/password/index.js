@@ -1,10 +1,4 @@
-// ── 로그인 타입에 따라 상태 전환 ──────────────────────────────────
-// 실제 연동 시 API 응답의 isSocialLogin 값으로 대체
-// URL 파라미터 ?sns=true 로 SNS 상태 확인 (개발/테스트용)
-const isSNS = new URLSearchParams(window.location.search).get("sns") === "true";
-
-document.getElementById("sns-form").classList.toggle("hidden", !isSNS);
-document.getElementById("regular-form").classList.toggle("hidden", isSNS);
+import { fetchAPI } from "/src/js/api/client.js";
 
 // ── 비밀번호 표시 토글 ────────────────────────────────────────────
 function setupToggle(inputId, btnId) {
@@ -65,21 +59,20 @@ function updateStrength(value) {
 
 document.getElementById("new-pw")?.addEventListener("input", (e) => {
   updateStrength(e.target.value);
-  // 새 비밀번호 에러 초기화
   setError("new-pw", "new-pw-error-icon", "new-pw-error-msg", false);
 });
 
 // ── 폼 유효성 검사 & 제출 ─────────────────────────────────────────
-document.getElementById("pw-form")?.addEventListener("submit", (e) => {
+document.getElementById("pw-form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const currentPw = document.getElementById("current-pw").value;
-  const newPw = document.getElementById("new-pw").value;
-  const confirmPw = document.getElementById("confirm-pw").value;
+  const currentPassword = document.getElementById("current-pw").value;
+  const newPassword = document.getElementById("new-pw").value;
+  const confirmPassword = document.getElementById("confirm-pw").value;
   let hasError = false;
 
   // 현재 비밀번호
-  if (!currentPw) {
+  if (!currentPassword) {
     setError("current-pw", "current-pw-error-icon", "current-pw-error-msg", true);
     hasError = true;
   } else {
@@ -88,7 +81,7 @@ document.getElementById("pw-form")?.addEventListener("submit", (e) => {
 
   // 새 비밀번호 (최소 요건 확인)
   const isValidNewPw =
-    newPw.length >= 8 && /[a-zA-Z]/.test(newPw) && /[0-9]/.test(newPw);
+    newPassword.length >= 8 && /[a-zA-Z]/.test(newPassword) && /[0-9]/.test(newPassword);
   if (!isValidNewPw) {
     setError("new-pw", "new-pw-error-icon", "new-pw-error-msg", true);
     hasError = true;
@@ -97,7 +90,7 @@ document.getElementById("pw-form")?.addEventListener("submit", (e) => {
   }
 
   // 새 비밀번호 확인
-  if (!confirmPw || confirmPw !== newPw) {
+  if (!confirmPassword || confirmPassword !== newPassword) {
     setError("confirm-pw", "confirm-pw-error-icon", "confirm-pw-error-msg", true);
     hasError = true;
   } else {
@@ -106,8 +99,19 @@ document.getElementById("pw-form")?.addEventListener("submit", (e) => {
 
   if (hasError) return;
 
-  // TODO: API 연동 후 실제 변경 요청
-  console.log("비밀번호 변경 요청");
+  try {
+    await fetchAPI("/members/me/password", {
+      method: "PATCH",
+      body: { currentPassword, newPassword, confirmPassword },
+    });
+    alert("비밀번호가 변경되었습니다. 다시 로그인해주세요.");
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("member");
+    window.location.href = "/src/pages/login/index.html";
+  } catch {
+    setError("current-pw", "current-pw-error-icon", "current-pw-error-msg", true);
+  }
 });
 
 // ── 입력 시 에러 초기화 ───────────────────────────────────────────
