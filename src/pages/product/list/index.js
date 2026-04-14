@@ -55,7 +55,7 @@ function toCardProps(product) {
     id: product.id,
     image: product.images?.[0] ?? "",
     imageAlt: product.name,
-    badgeType: product.badge?.toLowerCase() ?? null,
+    badgeType: product.badge ?? null,
     name: product.name,
     size: product.size,
     originalPrice: product.price,
