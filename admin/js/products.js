@@ -464,10 +464,6 @@ export function renderProductsSection(container) {
         document.getElementById("p-full-ingredients").value;
       const disclosure = document.getElementById("p-disclosure").value;
       const validIngredients = keyIngredients.filter((i) => i.name);
-      console.log("keyIngredients:", keyIngredients);
-      console.log("validIngredients:", validIngredients);
-      console.log("body.productInfo:", body.productInfo);
-      console.log("body 전체:", body);
 
       if (
         howToUse ||
