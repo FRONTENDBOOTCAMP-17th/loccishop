@@ -1,27 +1,14 @@
-import { fetchAPI, fetchAPIWithFormData } from "/src/js/api/client.js";
+import { fetchAPI } from "/src/js/api/client.js";
 
-export function fetchCarousels() {
-  return fetchAPI("/carousels");
-}
+export async function fetchCarousels(position = "sub1") {
+  const data = await fetchAPI(`/banners?position=${position}`);
+  const list = data?.banners ?? [];
 
-export function createCarousel({ imageUrl, name, desc }) {
-  return fetchAPI("/carousels", {
-    method: "POST",
-    body: { imageUrl, name, desc },
-  });
-}
-
-export function createCarouselWithFile(formData) {
-  return fetchAPIWithFormData("/carousels", formData);
-}
-
-export function updateCarousel(id, { imageUrl, name, desc }) {
-  return fetchAPI(`/carousels/${id}`, {
-    method: "PUT",
-    body: { imageUrl, name, desc },
-  });
-}
-
-export function updateCarouselWithFile(id, formData) {
-  return fetchAPIWithFormData(`/carousels/${id}`, formData);
+  return list
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map(({ imageUrl, title, linkUrl }) => ({
+      imageUrl,
+      name: title,
+      href: linkUrl ?? "#",
+    }));
 }

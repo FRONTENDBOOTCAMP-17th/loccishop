@@ -152,11 +152,26 @@ function giftFilter(products, label) {
 
 // ── 초기 렌더링 ───────────────────────────────────────────────────
 async function init() {
-  const [almondData, giftData, carouselSlides] = await Promise.all([
-    fetchProducts({ limit: 16 }),
-    fetchProducts({ limit: 15 }),
-    fetchCarousels().catch(() => []),
-  ]);
+  const carouselPosition = window.innerWidth < 1024 ? "mobile" : "sub1";
+  const [almondData, giftData, mobileSlides, desktopSlides] = await Promise.all(
+    [
+      fetchProducts({ limit: 16 }),
+      fetchProducts({ limit: 15 }),
+      fetchCarousels("mobile").catch(() => []),
+      fetchCarousels("sub1").catch(() => []),
+    ],
+  );
+
+  const slideSets = {
+    mobile: mobileSlides,
+    sub1: desktopSlides,
+  };
+
+  // 두 세트 이미지 미리 로드 (resize 시 즉시 표시)
+  [...slideSets.mobile, ...slideSets.sub1].forEach(({ imageUrl }) => {
+    const img = new Image();
+    img.src = imageUrl;
+  });
 
   const almondProducts = (almondData.products ?? []).map(toCardProps);
   const giftProducts = giftData.products ?? [];
@@ -183,7 +198,7 @@ async function init() {
     filterFn: giftFilter,
   });
 
-  initRotatingCarousel(carouselSlides?.length ? carouselSlides : FALLBACK_SLIDES);
+  initRotatingCarousel(slideSets[carouselPosition], slideSets);
 }
 
 init().catch((err) => console.error("초기화 실패:", err));
@@ -225,31 +240,7 @@ if (mainCategoryList) {
 
 // ── 추천 제품 캐러셀 (rotating) ───────────────────────────────────
 
-// API 미구현 시 사용할 임시 데이터 (API 연동 후 제거)
-const FALLBACK_SLIDES = [
-  {
-    imageUrl: "/src/assets/images/product1_1.webp",
-    name: "아몬드 수딩 밀크 컨센트레이트 (아맹드 쉬블리므)",
-    desc: "풍부한 아몬드 오일이 피부에 깊은 보습을 선사하며\n부드럽고 촉촉한 피부로 가꿔드립니다.",
-  },
-  {
-    imageUrl: "/src/assets/images/product1_0.webp",
-    name: "아몬드 서플 스킨 오일 (아맹드 쉬블리므)",
-    desc: "바디 리추얼의 새로운 기준, 수분은 잡고 탄력은\n깨우는 바디 케어를 경험해보세요.",
-  },
-  {
-    imageUrl: "/src/assets/images/handcareHero.webp",
-    name: "시어 버터 핸드크림 (로즈 ET 리엔)",
-    desc: "프로방스에서 자란 시어 버터가 손 피부를\n촉촉하고 부드럽게 가꿔드립니다.",
-  },
-  {
-    imageUrl: "/src/assets/images/handcare_1.webp",
-    name: "아몬드 핸드 크림 (아맹드 쉬블리므)",
-    desc: "달콤한 아몬드 향과 함께 손을 감싸는\n깊은 보습 케어를 경험해보세요.",
-  },
-];
-
-function initRotatingCarousel(slides) {
+function initRotatingCarousel(initialSlides, slideSets) {
   const track = document.getElementById("rotating-track");
   const prevBtn = document.getElementById("rotating-prev");
   const nextBtn = document.getElementById("rotating-next");
@@ -261,25 +252,46 @@ function initRotatingCarousel(slides) {
 
   const section = track.closest("section");
 
-  // 슬라이드 생성
-  slides.forEach((slide) => {
-    track.append(createCarouselSlide(slide));
-  });
+  let slides = initialSlides;
 
-  let currentIdx = 0;
+  let currentVIdx = 1;
+
+  function buildTrack(newSlides) {
+    slides = newSlides;
+    track.innerHTML = "";
+    track.append(createCarouselSlide(slides[slides.length - 1])); // 마지막 클론
+    slides.forEach((s) => track.append(createCarouselSlide(s)));
+    track.append(createCarouselSlide(slides[0])); // 첫번째 클론
+  }
+
+  function renderSlides(newSlides) {
+    buildTrack(newSlides);
+    currentVIdx = 1;
+    applyTranslate(getTranslateForIdx(currentVIdx), false);
+    updateSlideStyles();
+    updateNav();
+  }
+
+  buildTrack(slides);
+
   let isDragging = false;
   let dragStartX = 0;
   let dragStartTranslate = 0;
   let currentTranslate = 0;
 
   function getSlideWidth() {
-    return window.innerWidth * 0.68;
+    const w = window.innerWidth;
+    if (w >= 1280) return 942;
+    if (w >= 1024) return 914;
+    if (w >= 768) return 450;
+    return Math.min(450, w * 0.9);
   }
 
-  function getTranslateForIdx(idx) {
+  function getTranslateForIdx(vIdx) {
     const slideW = getSlideWidth();
-    const peek = (window.innerWidth - slideW) / 2;
-    return peek - idx * slideW;
+    const clientW = document.documentElement.clientWidth;
+    const peek = (clientW - slideW) / 2;
+    return peek - vIdx * slideW;
   }
 
   function applyTranslate(px, animate = true) {
@@ -290,12 +302,16 @@ function initRotatingCarousel(slides) {
     currentTranslate = px;
   }
 
-  // 슬라이드별 scale/opacity 적용 (중앙=1, 양쪽=0.78)
-  // 1024px 미만에서는 비활성 슬라이드의 텍스트 영역 숨김
+  function getRealIdx() {
+    if (currentVIdx === 0) return slides.length - 1;
+    if (currentVIdx === slides.length + 1) return 0;
+    return currentVIdx - 1;
+  }
+
   function updateSlideStyles() {
     const isMobile = window.innerWidth < 1024;
     track.querySelectorAll(".rotating-slide").forEach((slide, i) => {
-      const isActive = i === currentIdx;
+      const isActive = i === currentVIdx;
       slide.style.transform = isActive ? "scale(1)" : "scale(0.78)";
       slide.style.opacity = isActive ? "1" : "0.5";
 
@@ -308,28 +324,44 @@ function initRotatingCarousel(slides) {
 
   function updateNav() {
     const total = slides.length;
-    counter.textContent = `${currentIdx + 1} / ${total}`;
-    prevLabel.textContent =
-      currentIdx > 0 ? slides[currentIdx - 1].name : "";
-    nextLabel.textContent =
-      currentIdx < total - 1 ? slides[currentIdx + 1].name : "";
-    prevBtn.style.visibility = currentIdx > 0 ? "visible" : "hidden";
-    nextBtn.style.visibility = currentIdx < total - 1 ? "visible" : "hidden";
+    const realIdx = getRealIdx();
+    counter.textContent = `${realIdx + 1} / ${total}`;
+    prevLabel.textContent = slides[(realIdx - 1 + total) % total].name;
+    nextLabel.textContent = slides[(realIdx + 1) % total].name;
   }
 
-  function goTo(idx) {
-    currentIdx = Math.max(0, Math.min(slides.length - 1, idx));
-    applyTranslate(getTranslateForIdx(currentIdx), true);
+  function goTo(vIdx) {
+    currentVIdx = vIdx;
+    applyTranslate(getTranslateForIdx(currentVIdx), true);
     updateSlideStyles();
     updateNav();
+
+    // 클론에 도달하면 애니메이션 종료 후 실제 슬라이드로 순간 이동
+    track.addEventListener(
+      "transitionend",
+      () => {
+        if (currentVIdx === 0) {
+          currentVIdx = slides.length;
+          applyTranslate(getTranslateForIdx(currentVIdx), false);
+          updateSlideStyles();
+        } else if (currentVIdx === slides.length + 1) {
+          currentVIdx = 1;
+          applyTranslate(getTranslateForIdx(currentVIdx), false);
+          updateSlideStyles();
+        }
+      },
+      { once: true },
+    );
   }
 
   // 초기 렌더링
-  goTo(0);
+  applyTranslate(getTranslateForIdx(currentVIdx), false);
+  updateSlideStyles();
+  updateNav();
 
   // 버튼
-  prevBtn.addEventListener("click", () => goTo(currentIdx - 1));
-  nextBtn.addEventListener("click", () => goTo(currentIdx + 1));
+  prevBtn.addEventListener("click", () => goTo(currentVIdx - 1));
+  nextBtn.addEventListener("click", () => goTo(currentVIdx + 1));
 
   // 마우스 드래그
   track.addEventListener("mousedown", (e) => {
@@ -351,9 +383,9 @@ function initRotatingCarousel(slides) {
     isDragging = false;
     section.classList.remove("is-dragging");
     const delta = e.clientX - dragStartX;
-    if (delta < -60) goTo(currentIdx + 1);
-    else if (delta > 60) goTo(currentIdx - 1);
-    else goTo(currentIdx);
+    if (delta < -60) goTo(currentVIdx + 1);
+    else if (delta > 60) goTo(currentVIdx - 1);
+    else goTo(currentVIdx);
   });
 
   // 터치 드래그
@@ -377,15 +409,22 @@ function initRotatingCarousel(slides) {
 
   track.addEventListener("touchend", (e) => {
     const delta = e.changedTouches[0].clientX - dragStartX;
-    if (delta < -60) goTo(currentIdx + 1);
-    else if (delta > 60) goTo(currentIdx - 1);
-    else goTo(currentIdx);
+    if (delta < -60) goTo(currentVIdx + 1);
+    else if (delta > 60) goTo(currentVIdx - 1);
+    else goTo(currentVIdx);
   });
 
-  // 리사이즈 시 위치 재계산 + 텍스트 표시 여부 갱신
+  // 리사이즈 시 위치 재계산 + position 변경 시 슬라이드 재로드
+  let lastPosition = window.innerWidth < 1024 ? "mobile" : "sub1";
+
   window.addEventListener("resize", () => {
-    applyTranslate(getTranslateForIdx(currentIdx), false);
+    applyTranslate(getTranslateForIdx(currentVIdx), false);
     updateSlideStyles();
+
+    const newPosition = window.innerWidth < 1024 ? "mobile" : "sub1";
+    if (newPosition !== lastPosition) {
+      lastPosition = newPosition;
+      renderSlides(slideSets[newPosition]);
+    }
   });
 }
-
