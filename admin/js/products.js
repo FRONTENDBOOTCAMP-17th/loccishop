@@ -1,4 +1,5 @@
-import { fetchAPI, uploadImage } from "./api.js";
+import { fetchAPI, uploadImage } from "/admin/js/api.js";
+import { createPagination } from "/src/components/ui/pagination.js";
 
 export async function loadProducts(page = 1, keyword = "") {
   const params = new URLSearchParams({ page, limit: 20 });
@@ -290,37 +291,40 @@ export function renderProductsSection(container) {
     currentPage = page;
     const data = await loadProducts(page, keyword);
     const products = data.products ?? [];
-    const pagination = data.meta?.pagination ?? {};
+    const limit = 20;
 
     const tbody = document.getElementById("product-tbody");
     tbody.innerHTML = products
       .map(
         (p) => `
-      <tr>
-        <td>${p.id}</td>
-        <td class="td-name">${p.name}</td>
-        <td>${p.price?.toLocaleString()}원</td>
-        <td>${p.discountPrice ? p.discountPrice.toLocaleString() + "원" : "-"}</td>
-        <td>${p.stock}</td>
-        <td class="td-actions">
-          <button class="btn-sm btn-edit" data-id="${p.id}">수정</button>
-          <button class="btn-sm btn-delete" data-id="${p.id}">삭제</button>
-        </td>
-      </tr>
-    `,
+    <tr>
+      <td>${p.id}</td>
+      <td class="td-name">${p.name}</td>
+      <td>${p.price?.toLocaleString()}원</td>
+      <td>${p.discountPrice ? p.discountPrice.toLocaleString() + "원" : "-"}</td>
+      <td>${p.stock}</td>
+      <td class="td-actions">
+        <button class="btn-sm btn-edit" data-id="${p.id}">수정</button>
+        <button class="btn-sm btn-delete" data-id="${p.id}">삭제</button>
+      </td>
+    </tr>
+  `,
       )
       .join("");
 
+    // 페이지네이션 — 이 블록만 있어야 함
     const pg = document.getElementById("product-pagination");
     pg.innerHTML = "";
-    for (let i = 1; i <= (pagination.totalPages ?? 1); i++) {
-      const btn = document.createElement("button");
-      btn.className = `page-btn ${i === page ? "active" : ""}`;
-      btn.textContent = i;
-      btn.addEventListener("click", () =>
-        render(i, document.getElementById("product-search").value),
-      );
-      pg.append(btn);
+    const hasNext = products.length === limit;
+    const totalPages = hasNext ? page + 1 : page;
+    if (page > 1 || hasNext) {
+      const nav = createPagination({
+        totalPages,
+        currentPage: page,
+        onPageChange: (p) =>
+          render(p, document.getElementById("product-search").value),
+      });
+      pg.append(nav);
     }
 
     tbody.querySelectorAll(".btn-edit").forEach((btn) => {
@@ -334,7 +338,6 @@ export function renderProductsSection(container) {
       btn.addEventListener("click", async () => {
         if (!confirm("삭제하시겠습니까?")) return;
         await deleteProduct(btn.dataset.id);
-
         render(currentPage);
       });
     });
