@@ -84,7 +84,7 @@ export function renderBannersSection(container) {
         <div class="banner-info">
           <p class="banner-title">${b.title}</p>
           <p class="banner-meta">${b.startDate?.slice(0, 10) ?? "-"} ~ ${b.endDate?.slice(0, 10) ?? "-"}</p>
-          <p class="banner-meta">순서: ${b.displayOrder ?? "-"}</p>
+          <p class="banner-meta">순서: ${b.sortOrder ?? "-"}</p>
         </div>
         <div class="banner-actions">
           <button class="btn-sm btn-edit" data-id="${b.id}">수정</button>
@@ -120,7 +120,7 @@ export function renderBannersSection(container) {
     document.getElementById("b-title").value = banner?.title ?? "";
     document.getElementById("b-image-url").value = banner?.imageUrl ?? "";
     document.getElementById("b-link").value = banner?.linkUrl ?? "";
-    document.getElementById("b-order").value = banner?.displayOrder ?? 1;
+    document.getElementById("b-order").value = banner?.sortOrder ?? 1;
     document.getElementById("b-start").value =
       banner?.startDate?.slice(0, 16) ?? "";
     document.getElementById("b-end").value =
@@ -159,7 +159,7 @@ export function renderBannersSection(container) {
       if (linkUrl) body.linkUrl = linkUrl;
 
       const displayOrder = Number(document.getElementById("b-order").value);
-      if (displayOrder) body.displayOrder = displayOrder;
+      if (displayOrder) body.sortOrder = displayOrder;
 
       const startDate = document.getElementById("b-start").value;
       if (startDate) body.startDate = startDate;
