@@ -16,7 +16,7 @@ export default defineConfig({
         main: resolve(__dirname, "index.html"),
         login: resolve(__dirname, "/src/pages/login/index.html"),
         signup: resolve(__dirname, "/src/pages/signup/index.html"),
-        adminSignup: resolve(__dirname, "/src/pages/admin/signup/index.html"),
+        adminSignup: resolve(__dirname, "/src/pages/signup/admin/index.html"),
         productList: resolve(__dirname, "/src/pages/product/list/index.html"),
         productDetail: resolve(
           __dirname,
@@ -26,6 +26,8 @@ export default defineConfig({
         shipping: resolve(__dirname, "/src/pages/order/shipping/index.html"),
         payment: resolve(__dirname, "/src/pages/order/payment/index.html"),
         complete: resolve(__dirname, "/src/pages/order/complete/index.html"),
+        adminLogin: resolve(__dirname, "/admin/index.html"),
+        dashboard: resolve(__dirname, "/admin/dashboard.html"),
       },
     },
   },
