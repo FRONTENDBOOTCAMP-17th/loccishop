@@ -1,7 +1,8 @@
 import { fetchAPI, uploadImage } from "./api.js";
 
-export async function loadBanners() {
-  return fetchAPI("/banners");
+export async function loadBanners(position = "") {
+  const query = position ? `?position=${position}` : "";
+  return fetchAPI(`/banners${query}`);
 }
 
 export async function createBanner(data) {
@@ -16,11 +17,35 @@ export async function deleteBanner(id) {
   return fetchAPI(`/admin/banners/${id}`, { method: "DELETE" });
 }
 
+const POSITION_TABS = [
+  { value: "", label: "전체" },
+  { value: "main", label: "메인" },
+  { value: "sub1", label: "서브1" },
+  { value: "sub2", label: "서브2" },
+  { value: "mobile", label: "모바일" },
+];
+
+const POSITION_LABELS = {
+  main: "메인",
+  sub1: "서브1",
+  sub2: "서브2",
+  mobile: "모바일",
+};
+
 export function renderBannersSection(container) {
   container.innerHTML = `
     <div class="section-header">
       <h2 class="section-title">배너 관리</h2>
       <button class="btn btn-primary" id="banner-add-btn">+ 배너 등록</button>
+    </div>
+    <div class="tab-bar" id="banner-tab-bar">
+      ${POSITION_TABS.map(
+        (t) => `
+        <button class="tab-btn${t.value === "" ? " active" : ""}" data-position="${t.value}">
+          ${t.label}
+        </button>
+      `,
+      ).join("")}
     </div>
     <div class="banner-grid" id="banner-grid"></div>
     <div class="modal-overlay hidden" id="banner-modal">
@@ -45,6 +70,14 @@ export function renderBannersSection(container) {
               <input type="text" id="b-link" class="form-input" />
             </div>
             <div class="form-group">
+              <label>위치 *</label>
+              <select id="b-position" class="form-input">
+                ${POSITION_TABS.filter((t) => t.value !== "")
+                  .map((t) => `<option value="${t.value}">${t.label}</option>`)
+                  .join("")}
+              </select>
+            </div>
+            <div class="form-group">
               <label>표시 순서</label>
               <input type="number" id="b-order" class="form-input" value="1" />
             </div>
@@ -67,9 +100,10 @@ export function renderBannersSection(container) {
   `;
 
   let editingId = null;
+  let currentPosition = "";
 
   async function render() {
-    const data = await loadBanners();
+    const data = await loadBanners(currentPosition);
     const grid = document.getElementById("banner-grid");
     const list = data.banners ?? [];
 
@@ -83,8 +117,9 @@ export function renderBannersSection(container) {
         </div>
         <div class="banner-info">
           <p class="banner-title">${b.title}</p>
+          <p class="banner-meta">위치: ${POSITION_LABELS[b.position] ?? b.position ?? "-"}</p>
           <p class="banner-meta">${b.startDate?.slice(0, 10) ?? "-"} ~ ${b.endDate?.slice(0, 10) ?? "-"}</p>
-          <p class="banner-meta">순서: ${b.displayOrder ?? "-"}</p>
+          <p class="banner-meta">순서: ${b.sortOrder ?? "-"}</p>
         </div>
         <div class="banner-actions">
           <button class="btn-sm btn-edit" data-id="${b.id}">수정</button>
@@ -120,7 +155,8 @@ export function renderBannersSection(container) {
     document.getElementById("b-title").value = banner?.title ?? "";
     document.getElementById("b-image-url").value = banner?.imageUrl ?? "";
     document.getElementById("b-link").value = banner?.linkUrl ?? "";
-    document.getElementById("b-order").value = banner?.displayOrder ?? 1;
+    document.getElementById("b-position").value = banner?.position ?? "main";
+    document.getElementById("b-order").value = banner?.sortOrder ?? 1;
     document.getElementById("b-start").value =
       banner?.startDate?.slice(0, 16) ?? "";
     document.getElementById("b-end").value =
@@ -132,6 +168,19 @@ export function renderBannersSection(container) {
     document.getElementById("banner-modal").classList.add("hidden");
     editingId = null;
   }
+
+  document.getElementById("banner-tab-bar").addEventListener("click", (e) => {
+    const btn = e.target.closest(".tab-btn");
+    if (!btn) return;
+
+    document
+      .querySelectorAll(".tab-btn")
+      .forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    currentPosition = btn.dataset.position;
+    render();
+  });
 
   document
     .getElementById("banner-add-btn")
@@ -153,13 +202,14 @@ export function renderBannersSection(container) {
       const body = {
         title: document.getElementById("b-title").value,
         imageUrl,
+        position: document.getElementById("b-position").value,
       };
 
       const linkUrl = document.getElementById("b-link").value;
       if (linkUrl) body.linkUrl = linkUrl;
 
-      const displayOrder = Number(document.getElementById("b-order").value);
-      if (displayOrder) body.displayOrder = displayOrder;
+      const sortOrder = Number(document.getElementById("b-order").value);
+      if (sortOrder) body.sortOrder = sortOrder;
 
       const startDate = document.getElementById("b-start").value;
       if (startDate) body.startDate = startDate;
