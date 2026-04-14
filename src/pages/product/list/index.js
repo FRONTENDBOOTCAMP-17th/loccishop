@@ -1,6 +1,11 @@
 import { renderProductCards } from "/src/components/ui/product-card-list.js";
 import { createTag } from "/src/components/ui/tag.js";
 import { fetchProducts } from "/src/js/api/product/index.js";
+import {
+  setupProductTabs,
+  toCardProps,
+} from "/src/components/ui/productTabs.js";
+import { createCategoryCard } from "/src/components/ui/categoryCard.js";
 
 const categories = [
   "핸드 케어 전체 보기",
@@ -22,25 +27,14 @@ categories.forEach((category) => {
   categoryTagList.appendChild(li);
 });
 
-const tabs = document.querySelectorAll("#category-tabs li");
-
-function setActiveTab(activeTab) {
-  tabs.forEach((tab) => {
-    tab.classList.remove("text-woody-brown", "underline");
-    tab.classList.add("text-empress");
-  });
-  activeTab.classList.remove("text-empress");
-  activeTab.classList.add("text-woody-brown", "underline");
-}
-
 const TAB_KEYWORDS = {
-  shea: ["시어"],
-  almond: ["아몬드"],
-  fragrance: ["퍼퓸"],
+  "시어 버터": ["시어"],
+  아몬드: ["아몬드"],
+  프래그런스: ["퍼퓸"],
 };
 
-function filterByTab(products, category) {
-  const keywords = TAB_KEYWORDS[category];
+function tabFilter(products, label) {
+  const keywords = TAB_KEYWORDS[label];
   if (!keywords) {
     return products;
   }
@@ -69,15 +63,61 @@ async function init() {
   const data = await fetchProducts({ limit: 30 });
   const allProducts = (data.products ?? []).map(toCardProps);
 
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      setActiveTab(tab);
-      renderProductCards(filterByTab(allProducts, tab.dataset.category));
-    });
+  setupProductTabs({
+    navEl: document.querySelector("#category-tabs"),
+    tabs: ["시어 버터", "아몬드", "프래그런스"],
+    allProducts,
+    filterFn: tabFilter,
+    onTabChange: renderProductCards,
   });
-
-  setActiveTab(tabs[0]);
-  renderProductCards(filterByTab(allProducts, "shea"));
+  setupProductTabs({
+    navEl: document.querySelector("#category-tabs"),
+    tabs: ["시어 버터", "아몬드", "프래그런스"],
+    allProducts,
+    filterFn: tabFilter,
+    onTabChange: renderProductCards,
+  });
 }
 
 init().catch((err) => console.error("초기화 실패:", err));
+
+// ── 카테고리 별 만나보기 ──────────────────────────────────────────
+const LIST_CATEGORIES = [
+  {
+    image: "/src/assets/images/list_handcream.webp",
+    alt: "핸드 크림",
+    label: "핸드 크림",
+    liClass: "md:col-span-2 odd:pt-9 md:odd:pt-0",
+  },
+  {
+    image: "/src/assets/images/list_handwash&soap.webp",
+    alt: "핸드 워시 & 솝",
+    label: "핸드 워시 & 솝",
+    liClass: "md:col-span-2 odd:pt-9 md:odd:pt-0",
+  },
+  {
+    image: "/src/assets/images/list_hand&nailcare.webp",
+    alt: "핸드 & 네일 케어",
+    label: "핸드 & 네일 케어",
+    liClass: "md:col-span-2 odd:pt-9 md:odd:pt-0",
+  },
+  {
+    image: "/src/assets/images/list_handcarerefill.webp",
+    alt: "핸드 케어 리필",
+    label: "핸드 케어 리필",
+    liClass: "md:col-span-2 md:col-start-2 odd:pt-9 md:odd:pt-0",
+  },
+  {
+    image: "/src/assets/images/list_handcaregift.webp",
+    alt: "핸드 케어 기프트",
+    label: "핸드 케어 기프트",
+    liClass: "md:col-span-2 md:col-start-4 odd:pt-9 md:odd:pt-0",
+  },
+];
+
+const listCategoryList = document.getElementById("list-category-list");
+if (listCategoryList) {
+  LIST_CATEGORIES.forEach((item) => {
+    listCategoryList.append(createCategoryCard(item));
+  });
+}
