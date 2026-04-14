@@ -129,118 +129,10 @@
           카테고리 별 만나보기
         </h2>
         <div class="max-w-[1132px] mx-auto px-6">
-          <ul class="grid grid-cols-2 md:grid-cols-6 gap-4">
-            <!-- 핸드 크림 -->
-            <li class="md:col-span-2 odd:pt-9 md:odd:pt-0">
-              <a href="/" class="flex flex-col gap-3 group w-full">
-                <img
-                  src="/src/assets/images/list_handcream.webp"
-                  alt="핸드 크림"
-                  class="h-[344px] w-full object-cover shrink-0"
-                />
-                <div class="flex items-center gap-1">
-                  <span
-                    class="text-[16px] font-normal leading-[22px] group-hover:underline text-woody-brown"
-                  >
-                    핸드 크림
-                  </span>
-                  <img
-                    src="/src/assets/icon/product-list-arrow.svg"
-                    alt="핸드 크림"
-                    class="w-2 h-2"
-                  />
-                </div>
-              </a>
-            </li>
-            <!-- 핸드 워시 & 솝 -->
-            <li class="md:col-span-2 odd:pt-9 md:odd:pt-0">
-              <a href="/" class="flex flex-col gap-3 group w-full">
-                <img
-                  src="/src/assets/images/list_handwash&soap.webp"
-                  alt="핸드 워시 & 솝"
-                  class="h-[344px] w-full object-cover shrink-0"
-                />
-                <div class="flex items-center gap-1">
-                  <span
-                    class="text-[16px] font-normal leading-[22px] group-hover:underline text-woody-brown"
-                  >
-                    핸드 워시 & 솝
-                  </span>
-                  <img
-                    src="/src/assets/icon/product-list-arrow.svg"
-                    alt="핸드 워시 & 솝"
-                    class="w-2 h-2"
-                  />
-                </div>
-              </a>
-            </li>
-            <!-- 핸드 ＆ 네일 케어 -->
-            <li class="md:col-span-2 odd:pt-9 md:odd:pt-0">
-              <a href="/" class="flex flex-col gap-3 group w-full">
-                <img
-                  src="/src/assets/images/list_hand&nailcare.webp"
-                  alt="핸드 & 네일 케어"
-                  class="h-[344px] w-full object-cover shrink-0"
-                />
-                <div class="flex items-center gap-1">
-                  <span
-                    class="text-[16px] font-normal leading-[22px] group-hover:underline text-woody-brown"
-                  >
-                    핸드 & 네일 케어
-                  </span>
-                  <img
-                    src="/src/assets/icon/product-list-arrow.svg"
-                    alt="핸드 & 네일 케어"
-                    class="w-2 h-2"
-                  />
-                </div>
-              </a>
-            </li>
-            <!-- 핸드 케어 리필 -->
-            <li class="md:col-span-2 md:col-start-2 odd:pt-9 md:odd:pt-0">
-              <a href="/" class="flex flex-col gap-3 group w-full">
-                <img
-                  src="/src/assets/images/list_handcarerefill.webp"
-                  alt="핸드 케어 리필"
-                  class="h-[344px] w-full object-cover shrink-0"
-                />
-                <div class="flex items-center gap-1">
-                  <span
-                    class="text-[16px] font-normal leading-[22px] group-hover:underline text-woody-brown"
-                  >
-                    핸드 케어 리필
-                  </span>
-                  <img
-                    src="/src/assets/icon/product-list-arrow.svg"
-                    alt="핸드 케어 리필"
-                    class="w-2 h-2"
-                  />
-                </div>
-              </a>
-            </li>
-            <!-- 핸드 케어 기프트 -->
-            <li class="md:col-span-2 md:col-start-4 odd:pt-9 md:odd:pt-0">
-              <a href="/" class="flex flex-col gap-3 group w-full">
-                <img
-                  src="/src/assets/images/list_handcaregift.webp"
-                  alt="핸드 케어 기프트"
-                  class="h-[344px] w-full object-cover shrink-0"
-                />
-                <div class="flex items-center gap-1">
-                  <span
-                    class="text-[16px] font-normal leading-[22px] group-hover:underline text-woody-brown"
-                  >
-                    핸드 케어 기프트
-                  </span>
-                  <img
-                    src="/src/assets/icon/product-list-arrow.svg"
-                    alt="핸드 케어 기프트"
-                    class="w-2 h-2"
-                  />
-                </div>
-              </a>
-            </li>
-          </ul>
+          <ul
+            id="list-category-list"
+            class="grid grid-cols-2 md:grid-cols-6 gap-4"
+          ></ul>
         </div>
       </section>
       <section>
@@ -249,12 +141,13 @@
         >
           감각적인 핸드 케어 리추얼
         </h2>
-        <div class="mx-auto max-w-[1134px] w-full">
+        <!-- step 1,2,3 -->
+        <div class="mx-auto max-w-[1400px] w-full">
           <ul
-            class="flex flex-col items-center lg:flex-row lg:items-start lg:justify-center lg:gap-4 mx-auto"
+            class="flex flex-col items-center lg:flex-row lg:items-start lg:justify-center lg:gap-4 mx-[25px] px-4 mb-10 md:mx-10 md:mb-12 lg:mx-0 lg:mb-14 lg:px-2"
           >
             <!-- step 1 -->
-            <li class="lg:flex-1">
+            <li class="w-full lg:w-[310px] xl:w-[405px]">
               <a
                 href="/"
                 class="flex flex-col gap-3 group w-full h-[519px] sm:h-[614px] lg:w-full lg:h-auto p-2 pb-4 bg-grey-96"
@@ -272,8 +165,7 @@
                     STEP 1
                   </h2>
                   <p class="text-woody-brown text-[16px] font-normal leading-5">
-                    리퀴드 핸드 솝으로 부드럽게 마사지하며 클렌징 후 깨끗이
-                    행궈주세요.
+                    리퀴드 핸드 솝으로 부드럽게 마사지하<br class="hidden lg:block xl:hidden">며 클렌징 후<br class="hidden xl:block"> 깨끗이 행궈주세요.
                   </p>
                   <div class="flex items-center gap-1">
                     <span
@@ -291,7 +183,7 @@
               </a>
             </li>
             <!-- step 2 -->
-            <li class="lg:flex-1">
+            <li class="w-full lg:w-[310px] xl:w-[405px]">
               <a
                 href="/"
                 class="flex flex-col gap-3 group w-full h-[519px] sm:h-[614px] lg:w-full lg:h-auto p-2 pb-4 bg-grey-96"
@@ -309,8 +201,7 @@
                     STEP 2
                   </h2>
                   <p class="text-woody-brown text-[16px] font-normal leading-5">
-                    핸드 크림을 손에 넉넉히 덜어 손바닥과 손등, 손톱, 큐티클까지
-                    부드럽게 마사지 해주세요.
+                    핸드 크림을 손에 넉넉히 덜어 손바닥<br class="hidden lg:block xl:hidden">과 손등, 손톱,<br class="hidden xl:block"> 큐티클까지 부드럽게 마<br class="hidden lg:block xl:hidden">사지 해주세요.
                   </p>
                   <div class="flex items-center gap-1">
                     <span
@@ -328,7 +219,7 @@
               </a>
             </li>
             <!-- step 3 -->
-            <li class="lg:flex-1">
+            <li class="w-full lg:w-[310px] xl:w-[405px]">
               <a
                 href="/"
                 class="flex flex-col gap-3 group w-full h-[519px] sm:h-[614px] lg:w-full lg:h-auto p-2 pb-4 bg-grey-96"
@@ -346,8 +237,7 @@
                     STEP 3
                   </h2>
                   <p class="text-woody-brown text-[16px] font-normal leading-5">
-                    리퀴드 핸드 솝으로 부드럽게 마사지하며 클렌징 후 깨끗이
-                    행궈주세요.
+                    건강하고 윤기있는 손톱을 위해 네일 &<br class="hidden lg:block xl:hidden"> 큐티클 오일을<br class="hidden xl:block"> 발라 마지막 광채까지<br class="hidden lg:block xl:hidden"> 완성하세요.
                   </p>
                   <div class="flex items-center gap-1">
                     <span

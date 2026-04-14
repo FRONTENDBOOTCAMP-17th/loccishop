@@ -3,14 +3,17 @@ import { createProductCard } from "/src/components/ui/product-card.js";
 let prevCursorHandler = null;
 let prevWidthHandler = null;
 
-export function renderProductCards(products) {
-  const container = document.querySelector("#product-list-container");
+export function renderProductCards(products, containerEl = null) {
+  const container = containerEl ?? document.querySelector("#product-list-container");
   if (!container) {
     return;
   }
 
-  //스크롤바 스타일링
+  //가로 스크롤 + 스크롤바 스타일링
   container.classList.add(
+    "flex",
+    "gap-2",
+    "overflow-x-auto",
     "pb-3",
     "[&::-webkit-scrollbar]:h-2",
     "[&::-webkit-scrollbar-track]:bg-cararra",
