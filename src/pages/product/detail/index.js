@@ -129,42 +129,51 @@ function initDrawers(productInfo) {
 
 async function initProductPage() {
   const id = getProductId();
-  const product = await fetchProduct(id);
 
-  await loadHTML("#detail-main", "components/detail-main.html");
+  try {
+    const product = await fetchProduct(id);
 
-  await Promise.all([
-    loadHTML("#product-info", "components/detail-info.html"),
-    loadHTML("#detail-ritual-steps", "components/detail-ritual-steps.html"),
-    loadHTML("#detail-recommended", "components/detail-recommended.html"),
-    loadHTML("#product-best-review", "components/detail-best-review.html"),
-    loadHTML("#detail-reviews", "components/detail-review.html"),
-  ]);
+    await loadHTML("#detail-main", "components/detail-main.html");
 
-  renderProductMain(product);
-  initBadge();
-  initOptionButtons(product.options);
-  initCartButton(product);
+    await Promise.all([
+      loadHTML("#product-info", "components/detail-info.html"),
+      loadHTML("#detail-ritual-steps", "components/detail-ritual-steps.html"),
+      loadHTML("#detail-recommended", "components/detail-recommended.html"),
+      loadHTML("#product-best-review", "components/detail-best-review.html"),
+      loadHTML("#detail-reviews", "components/detail-review.html"),
+    ]);
 
-  document.querySelector("#description").textContent = product.description;
+    renderProductMain(product);
+    initBadge();
+    initOptionButtons(product.options);
+    initCartButton(product);
 
-  initDrawers(product.productInfo);
-  initRitualSteps(id);
-  await initRecommendedList(id);
-  await initBestReview(id);
-  await initReviews(id);
-  initPagination(id);
-  initSortButtons(id);
-  initProductEvents(id);
-  initFilterButton(id);
+    document.querySelector("#description").textContent = product.description;
 
-  const scrollTo = sessionStorage.getItem("scrollTo");
-  if (scrollTo) {
-    sessionStorage.removeItem("scrollTo");
-    document
-      .querySelector(`#${scrollTo}`)
-      ?.scrollIntoView({ behavior: "smooth" });
+    initDrawers(product.productInfo);
+    initRitualSteps(id);
+    await initRecommendedList(id);
+    await initBestReview(id);
+    await initReviews(id);
+    initPagination(id);
+    initSortButtons(id);
+    initProductEvents(id);
+    initFilterButton(id);
+
+    const scrollTo = sessionStorage.getItem("scrollTo");
+    if (scrollTo) {
+      sessionStorage.removeItem("scrollTo");
+      document
+        .querySelector(`#${scrollTo}`)
+        ?.scrollIntoView({ behavior: "smooth" });
+    }
+  } catch (err) {
+    if (err.message.includes("404")) {
+      alert("존재하지 않는 상품입니다.");
+      history.back();
+    } else {
+      console.error("상품 페이지 로드 실패: ", err);
+    }
   }
 }
-
 document.addEventListener("DOMContentLoaded", initProductPage);
