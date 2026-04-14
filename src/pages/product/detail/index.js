@@ -14,6 +14,7 @@ import { initRecommendedList } from "./handlers/initRecommendedList.js";
 import { initRitualSteps } from "./handlers/initRitualSteps.js";
 import { initProductEvents } from "./handlers/initProductEvents.js";
 import { openCartDrawer } from "/src/components/ui/cartDrawer.js";
+import { createIngredientsContent } from "/src/pages/product/detail/handlers/createIngredientsContent.js";
 
 async function loadHTML(selector, url) {
   const container = document.querySelector(selector);
@@ -93,27 +94,33 @@ function initOptionButtons(options) {
 }
 
 function initDrawers(productInfo) {
+  function createTextContent(text) {
+    const p = document.createElement("p");
+    p.className = "whitespace-pre-wrap text-sm";
+    p.textContent = text;
+    return p;
+  }
   const drawers = [
     {
       title: "사용 방법",
       btnId: "#howToUse",
-      content: `<p>${productInfo.howToUse}</p>`,
+      content: createTextContent(productInfo.howToUse),
     },
     {
       title: "원료",
       btnId: "#ingredients",
-      content: `<p>${productInfo.ingredients.fullIngredients}</p>`,
+      content: createIngredientsContent(productInfo.ingredients),
     },
     {
       title: "상품정보 제공고시",
       btnId: "#productDisclosure",
-      content: `<p>${productInfo.productDisclosure}</p>`,
+      content: createTextContent(productInfo.productDisclosure),
     },
   ];
 
   drawers.forEach(({ title, btnId, content }) => {
     const drawer = createDrawer({ title, position: "right" });
-    drawer.content.innerHTML = content;
+    drawer.content.append(content);
     document
       .querySelector(btnId)
       .addEventListener("click", () => drawer.open());
