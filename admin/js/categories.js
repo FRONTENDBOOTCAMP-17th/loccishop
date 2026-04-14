@@ -87,18 +87,18 @@ export function renderCategoriesSection(container) {
     tbody.innerHTML = flat
       .map(
         (cat) => `
-      <tr>
-        <td>${cat.id}</td>
-        <td>${cat.name}</td>
-        <td><code>${cat.slug}</code></td>
-        <td>${cat.parentName ?? "-"}</td>
-        <td>${cat.children?.length ?? 0}</td>
-        <td class="td-actions">
-          <button class="btn-sm btn-edit" data-id="${cat.id}">수정</button>
-          <button class="btn-sm btn-delete" data-id="${cat.id}">삭제</button>
-        </td>
-      </tr>
-    `,
+  <tr ${!cat.parentName ? 'style="background: #ddd0c0  ;"' : ""}>
+    <td>${cat.id}</td>
+    <td>${cat.name}</td>
+    <td><code>${cat.slug}</code></td>
+    <td>${cat.parentName ?? "-"}</td>
+    <td>${cat.children?.length ?? 0}</td>
+    <td class="td-actions">
+      <button class="btn-sm btn-edit" data-id="${cat.id}">수정</button>
+      <button class="btn-sm btn-delete" data-id="${cat.id}">삭제</button>
+    </td>
+  </tr>
+`,
       )
       .join("");
 
