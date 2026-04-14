@@ -1,10 +1,8 @@
 import { cartItemList } from "/src/js/api/cart/index.js";
 
+let cachedTotal = 0;
+
 // 주문 요약 초기화
-// showCoupon: 장바구니 페이지에서 쿠폰 입력 표시 여부
-// showCartToggle: 배송/결제 페이지에서 장바구니 보기 토글 표시 여부
-// btnText: 버튼 텍스트
-// onBtnClick: 버튼 클릭 콜백
 export async function initOrderSummary({
   showCoupon = false,
   showCartToggle = false,
@@ -12,12 +10,15 @@ export async function initOrderSummary({
   onBtnClick = null,
 } = {}) {
   const section = document.querySelector("#order-summary-section");
-  if (!section) return;
+  if (!section) {
+    return;
+  }
 
   section.innerHTML = "";
 
   const data = await cartItemList();
   const { items, total, shipping } = data;
+  cachedTotal = total;
 
   // 1. 장바구니 보기 토글 (배송/결제 페이지)
   if (showCartToggle) {
@@ -112,7 +113,8 @@ export async function initOrderSummary({
   productLabel.textContent = "제품";
   const productPrice = document.createElement("span");
   productPrice.id = "summary-product-price";
-  productPrice.textContent = `₩${(total - shipping).toLocaleString()}`;
+  const subtotal = items.reduce((sum, item) => sum + item.subtotal, 0);
+  productPrice.textContent = `₩${subtotal.toLocaleString()}`;
   productRow.append(productLabel, productPrice);
 
   const shippingRow = document.createElement("div");
@@ -126,17 +128,30 @@ export async function initOrderSummary({
     shipping === 0 ? "무료" : `₩${shipping.toLocaleString()}`;
   shippingRow.append(shippingLabel, shippingFee);
 
+  const pointRow = document.createElement("div");
+  pointRow.id = "summary-point-row";
+  pointRow.className = "flex justify-between text-sm hidden";
+
+  const pointLabel = document.createElement("span");
+  pointLabel.textContent = "포인트 사용";
+
+  const pointValue = document.createElement("span");
+  pointValue.id = "summary-point-value";
+  pointValue.className = "text-woody-brown font-semibold";
+
+  pointRow.append(pointLabel, pointValue);
+
   const totalRow = document.createElement("div");
   totalRow.className =
     "border-t border-gray-200 pt-3 flex justify-between text-base font-bold";
   const totalLabel = document.createElement("span");
-  totalLabel.textContent = "총 주문금액";
+  totalLabel.textContent = "최종 결제 금액";
   const totalPrice = document.createElement("span");
   totalPrice.id = "summary-total";
   totalPrice.textContent = `₩${total.toLocaleString()}`;
   totalRow.append(totalLabel, totalPrice);
 
-  summaryDiv.append(productRow, shippingRow, totalRow);
+  summaryDiv.append(productRow, shippingRow, pointRow, totalRow);
   section.append(summaryDiv);
 
   // 4. 버튼
@@ -154,19 +169,36 @@ export async function initOrderSummary({
   section.append(btn);
 }
 
-export function updateOrderSummary({ total, shipping }) {
+export function updateOrderSummary({
+  subtotal,
+  total,
+  shipping,
+  usedPoint = 0,
+}) {
   const productPrice = document.querySelector("#summary-product-price");
   const shippingFee = document.querySelector("#summary-shipping");
   const totalPrice = document.querySelector("#summary-total");
+  const pointRow = document.querySelector("#summary-point-row");
+  const pointValue = document.querySelector("#summary-point-value");
 
-  if (productPrice) {
-    productPrice.textContent = `₩${(total - shipping).toLocaleString()}`;
+  if (productPrice && subtotal !== undefined) {
+    productPrice.textContent = `₩${subtotal.toLocaleString()}`;
   }
-  if (shippingFee) {
+  if (shippingFee && shipping !== undefined) {
     shippingFee.textContent =
       shipping === 0 ? "무료" : `₩${shipping.toLocaleString()}`;
   }
+  if (pointRow && pointValue) {
+    if (usedPoint > 0) {
+      pointValue.textContent = `-${usedPoint.toLocaleString()}P`;
+      pointRow.classList.remove("hidden");
+    } else {
+      pointRow.classList.add("hidden");
+    }
+  }
+
   if (totalPrice) {
-    totalPrice.textContent = `₩${total.toLocaleString()}`;
+    const base = total !== undefined ? total : cachedTotal;
+    totalPrice.textContent = `₩${(base - usedPoint).toLocaleString()}`;
   }
 }
