@@ -14,9 +14,9 @@ export function createCarouselSlide({ imageUrl, name, desc }) {
         />
       </figure>
       <div class="rotating-text w-full lg:w-1/2 lg:h-full bg-cararra flex flex-col items-center justify-center text-center px-10 gap-5 py-8 lg:py-0">
-        <h2 class="text-lg font-bold text-woody-brown leading-snug whitespace-pre-line">${name}</h2>
-        <p class="text-sm text-gray-500 leading-relaxed whitespace-pre-line">${desc}</p>
-        <a href="#" class="text-sm text-woody-brown border-b border-woody-brown pb-0.5 hover:opacity-60 transition-opacity">
+        <h2 class="text-[18px] md:text-[28px] font-medium text-woody-brown leading-snug whitespace-pre-line">${name}</h2>
+        <p class="text-[14px] md:text-[16px] font-normal text-empress leading-5 whitespace-pre-line">${desc}</p>
+        <a href="#" class="text-[14px] md:text-[16px] font-normal text-woody-brown tracking-[0.64px] border-b border-woody-brown pb-0.5 hover:opacity-60 transition-opacity">
           지금 쇼핑하기
         </a>
       </div>
