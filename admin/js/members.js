@@ -35,8 +35,18 @@ export function renderMembersSection(container) {
     </div>
     <div class="table-wrap">
       <table class="data-table">
+      <colgroup>
+     <col style="width: 10%" />   <!-- ID -->
+  <col style="width: 25%" />  <!-- 아이디 -->
+  <col style="width: 12%" />  <!-- 이름 -->
+  <col style="width: 8%" />   <!-- 등급 -->
+  <col style="width: 8%" />   <!-- 포인트 -->
+  <col style="width: 8%" />   <!-- 상태 -->
+  <col style="width: 12%" />  <!-- 가입일 -->
+  <col style="width: 17%" />  <!-- 관리 -->              
+  </colgroup>
         <thead>
-          <tr><th>ID</th><th>아이디</th><th>이름</th><th>이메일</th><th>등급</th><th>포인트</th><th>상태</th><th>가입일</th><th>관리</th></tr>
+          <tr><th>ID</th><th>아이디</th><th>이름</th><th>등급</th><th>포인트</th><th>상태</th><th>가입일</th><th>관리</th></tr>
         </thead>
         <tbody id="member-tbody"></tbody>
       </table>
@@ -105,18 +115,17 @@ export function renderMembersSection(container) {
       .map(
         (m) => `
       <tr>
-        <td>${m.id}</td>
+        <td>${m.memberId}</td>
         <td>${m.username}</td>
         <td>${m.name}</td>
-        <td>${m.email}</td>
         <td><span class="grade grade-${m.grade?.toLowerCase()}">${m.grade}</span></td>
         <td>${m.point?.toLocaleString()}</td>
         <td><span class="status status-${m.status?.toLowerCase()}">${m.status}</span></td>
         <td>${m.createdAt?.slice(0, 10)}</td>
         <td class="td-actions">
           <button class="btn-sm" data-id="${m.id}" data-action="detail">상세</button>
-          <button class="btn-sm btn-edit" data-id="${m.id}">수정</button>
-          <button class="btn-sm btn-delete" data-id="${m.id}">삭제</button>
+          <button class="btn-sm btn-edit" data-id="${m.memberId}">수정</button>
+          <button class="btn-sm btn-delete" data-id="${m.memberId}">삭제</button>
         </td>
       </tr>
     `,
@@ -143,7 +152,7 @@ export function renderMembersSection(container) {
 
     tbody.querySelectorAll(".btn-edit").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const member = members.find((m) => m.id == btn.dataset.id);
+        const member = members.find((m) => m.id == btn.dataset.memberId);
         openEditModal(member);
       });
     });
