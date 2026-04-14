@@ -6,3 +6,8 @@ export function toggleIsWished(productId) {
     method: "POST",
   });
 }
+
+//위시리스트 조회
+export function fetchWishList() {
+  return fetchAPI("/members/me/wishlist");
+}
