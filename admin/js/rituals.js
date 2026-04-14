@@ -95,6 +95,7 @@ export function renderRitualsSection(container) {
             (s) => `
       <div class="ritual-card">
         <div class="ritual-info">
+          <p class="ritual-title">${s.id}</p>
           <p class="ritual-title">${s.title}</p>
           <p class="ritual-desc">${s.description ?? ""}</p>
           <p class="ritual-meta">생성일: ${s.createdAt?.slice(0, 10)}</p>
