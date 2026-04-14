@@ -1,9 +1,10 @@
 import { fetchAPI, uploadImage } from "/admin/js/api.js";
 import { createPagination } from "/src/components/ui/pagination.js";
 
-export async function loadProducts(page = 1, keyword = "") {
+export async function loadProducts(page = 1, keyword = "", categoryId = "") {
   const params = new URLSearchParams({ page, limit: 20 });
   if (keyword) params.set("keyword", keyword);
+  if (categoryId) params.set("categoryId", categoryId);
   return fetchAPI(`/admin/products?${params}`);
 }
 
@@ -30,8 +31,22 @@ export function renderProductsSection(container) {
       <button class="btn btn-primary" id="product-add-btn">+ 상품 등록</button>
     </div>
     <div class="search-bar">
-      <input type="text" id="product-search" placeholder="상품명 검색..." class="search-input" />
-    </div>
+  <input type="text" id="product-search" placeholder="상품명 검색..." class="search-input" />
+  <select id="product-category-filter" class="search-input">
+  <option value="">전체 카테고리</option>
+  <optgroup label="핸드 케어">
+    <option value="2">핸드 크림</option>
+    <option value="3">핸드 워시 & 솝</option>
+    <option value="4">핸드 & 네일 케어</option>
+  </optgroup>
+  <optgroup label="바디 케어">
+    <option value="9">바디 크림 & 로션</option>
+    <option value="10">바디 오일 & 세럼</option>
+    <option value="11">바디 워시 & 스크럽</option>
+    <option value="23">고체 솝</option>
+  </optgroup>
+</select>
+</div>
     <div class="table-wrap">
       <table class="data-table">
         <thead>
@@ -287,9 +302,9 @@ export function renderProductsSection(container) {
   let currentPage = 1;
   let editingId = null;
 
-  async function render(page = 1, keyword = "") {
+  async function render(page = 1, keyword = "", categoryId = "") {
     currentPage = page;
-    const data = await loadProducts(page, keyword);
+    const data = await loadProducts(page, keyword, categoryId);
     const products = data.products ?? [];
     const limit = 20;
 
@@ -322,7 +337,11 @@ export function renderProductsSection(container) {
         totalPages,
         currentPage: page,
         onPageChange: (p) =>
-          render(p, document.getElementById("product-search").value),
+          render(
+            p,
+            document.getElementById("product-search").value,
+            document.getElementById("product-category-filter").value,
+          ),
       });
       pg.append(nav);
     }
@@ -338,7 +357,11 @@ export function renderProductsSection(container) {
       btn.addEventListener("click", async () => {
         if (!confirm("삭제하시겠습니까?")) return;
         await deleteProduct(btn.dataset.id);
-        render(currentPage);
+        render(
+          currentPage,
+          document.getElementById("product-search").value,
+          document.getElementById("product-category-filter").value,
+        );
       });
     });
   }
@@ -486,14 +509,33 @@ export function renderProductsSection(container) {
           await createProduct(body);
         }
         closeModal();
-        render(currentPage);
+        render(
+          currentPage,
+          document.getElementById("product-search").value,
+          document.getElementById("product-category-filter").value,
+        );
       } catch (err) {
         alert("저장 실패: " + err.message);
       }
     });
 
+  document
+    .getElementById("product-category-filter")
+    .addEventListener("change", (e) => {
+      render(
+        1,
+        document.getElementById("product-search").value,
+        e.target.value,
+      );
+    });
+
   document.getElementById("product-search").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") render(1, e.target.value);
+    if (e.key === "Enter")
+      render(
+        1,
+        e.target.value,
+        document.getElementById("product-category-filter").value,
+      );
   });
 
   render();
