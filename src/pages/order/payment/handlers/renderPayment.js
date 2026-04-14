@@ -1,6 +1,7 @@
 import { cartItemList } from "/src/js/api/cart/index.js";
 import { createOrder } from "/src/js/api/order/index.js";
 import { fetchMe } from "/src/js/api/auth/index.js";
+import { updateOrderSummary } from "/src/components/ui/orderSummary.js";
 
 let selectedMethod = null;
 let usedPoint = 0;
@@ -63,6 +64,7 @@ export function initPointUsage(availablePoint) {
 
     usedPoint = Math.floor(inputVal / 100) * 100;
     usePointEl.textContent = `${usedPoint.toLocaleString()}P`;
+    updateOrderSummary({ usedPoint });
 
     if (inputVal !== usedPoint) {
       alert(
