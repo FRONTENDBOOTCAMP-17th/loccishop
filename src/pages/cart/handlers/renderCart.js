@@ -1,8 +1,9 @@
 import { editCartItem, deleteCartItem } from "/src/js/api/cart/index.js";
 import { updateOrderSummary } from "/src/components/ui/orderSummary.js";
+import { updateCartBadge } from "/src/components/header/header.js";
 
 //장바구니 렌더링
-export function renderCart({ items, total, shipping }) {
+export async function renderCart({ items, total, shipping }) {
   const cartList = document.getElementById("cart-list");
   const cartCount = document.getElementById("cart-count");
 
@@ -168,6 +169,7 @@ function createCartItem(item) {
     try {
       const result = await deleteCartItem(cartItemId);
       li.remove();
+      await updateCartBadge();
 
       const cartList = document.querySelector("#cart-list");
       const remaining = cartList.querySelectorAll("li").length;
@@ -200,6 +202,7 @@ function createCartItem(item) {
           shipping: result.summary.shipping,
         });
       }
+      await updateCartBadge();
     } catch (e) {
       console.error("삭제 오류:", e);
       alert("삭제에 실패했습니다.");
