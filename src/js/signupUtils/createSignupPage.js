@@ -5,6 +5,7 @@ import {
   isValidPassword,
 } from "./validation.js";
 import { setValid, setError, clearState } from "./ui.js";
+import { ROUTES } from "/src/js/constants/routes.js";
 
 /**
  * 회원가입 페이지(사용자/관리자)에 공통으로 필요한 동작을 하나로 묶는다.
@@ -212,7 +213,7 @@ export function createSignupPage({
     try {
       await signupApi(requestBody);
       alert(successMessage);
-      window.location.href = "/src/pages/login/index.html";
+      window.location.href = ROUTES.LOGIN;
     } catch (error) {
       console.error("회원가입 오류:", error);
       if (!handleApiError(error, els)) {
@@ -229,10 +230,6 @@ export function createSignupPage({
     bindIdValidation(els, state);
     bindPasswordValidation(els);
     bindCommonFieldValidations(els);
-
-    document.getElementById("backBtn").addEventListener("click", () => {
-      window.location.href = "/src/pages/login/index.html";
-    });
 
     els.form.addEventListener("submit", (e) => handleSubmit(e, els, state));
   });
