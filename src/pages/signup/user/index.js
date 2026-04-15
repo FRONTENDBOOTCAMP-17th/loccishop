@@ -10,21 +10,19 @@ createSignupPage({
     userDetailAddress: getField("userDetailAddress"),
   }),
 
-  extraIconsToHide: (els) => [
-    els.userAddress.checkIcon,
-    els.userDetailAddress.checkIcon,
-  ],
-
   bindExtraValidations: (els) => {
     els.userAddress.input.addEventListener("input", () => {
-      els.userAddress.checkIcon.style.display = els.userAddress.input.value.trim()
-        ? "block"
-        : "none";
+      els.userAddress.checkIcon.classList.toggle(
+        "hidden",
+        !els.userAddress.input.value.trim(),
+      );
     });
 
     els.userDetailAddress.input.addEventListener("input", () => {
-      els.userDetailAddress.checkIcon.style.display =
-        els.userDetailAddress.input.value.trim() ? "block" : "none";
+      els.userDetailAddress.checkIcon.classList.toggle(
+        "hidden",
+        !els.userDetailAddress.input.value.trim(),
+      );
     });
   },
 

@@ -10,9 +10,6 @@ createSignupPage({
     adminToken: getField("adminToken"),
   }),
 
-  extraIconsToHide: (els) => [els.adminToken.errorIcon, els.adminToken.checkIcon],
-  extraTextsToHide: (els) => [els.adminToken.errorMessage],
-
   bindExtraValidations: (els) => {
     els.adminToken.input.addEventListener("input", () => {
       if (!els.adminToken.input.value) {

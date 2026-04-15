@@ -1,17 +1,17 @@
 export function setValid(field) {
-  if (field.errorIcon) { field.errorIcon.style.display = "none"; }
-  field.checkIcon.style.display = "block";
-  if (field.errorMessage) { field.errorMessage.style.display = "none"; }
+  field.errorIcon?.classList.add("hidden");
+  field.checkIcon.classList.remove("hidden");
+  field.errorMessage?.classList.add("hidden");
 }
 
 export function setError(field) {
-  if (field.errorIcon) { field.errorIcon.style.display = "block"; }
-  field.checkIcon.style.display = "none";
-  if (field.errorMessage) { field.errorMessage.style.display = "block"; }
+  field.errorIcon?.classList.remove("hidden");
+  field.checkIcon.classList.add("hidden");
+  field.errorMessage?.classList.remove("hidden");
 }
 
 export function clearState(field) {
-  if (field.errorIcon) { field.errorIcon.style.display = "none"; }
-  field.checkIcon.style.display = "none";
-  if (field.errorMessage) { field.errorMessage.style.display = "none"; }
+  field.errorIcon?.classList.add("hidden");
+  field.checkIcon.classList.add("hidden");
+  field.errorMessage?.classList.add("hidden");
 }

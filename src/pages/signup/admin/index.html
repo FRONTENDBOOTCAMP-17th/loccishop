@@ -38,14 +38,14 @@
                   tabindex="-1"
                   src="/src/assets/icon/error.svg"
                   alt="아이디 에러"
-                  class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                  class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
                   data-field-icon="error"
                 />
                 <img
                   tabindex="-1"
                   src="/src/assets/icon/check.svg"
                   alt="아이디 통과"
-                  class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                  class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
                   data-field-icon="check"
                 />
               </div>
@@ -58,18 +58,18 @@
               </button>
             </div>
             <p
-              class="text-error-red text-[12px] font-medium leading-4 mb-1"
+              class="hidden text-error-red text-[12px] font-medium leading-4 mb-1"
               data-field-message="error"
             >
               잘못된 형식입니다.
             </p>
             <p
-              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              class="hidden text-error-red text-[12px] font-medium leading-4 mb-4"
               data-field-message="duplicate"
             >
               이미 사용 중인 아이디입니다.
             </p>
-            <p class="text-[12px] font-medium leading-4" data-field-message="available">
+            <p class="hidden text-[12px] font-medium leading-4" data-field-message="available">
               사용 가능한 아이디입니다.
             </p>
           </div>
@@ -94,14 +94,14 @@
                     src="/src/assets/icon/error.svg"
                     alt="비밀번호 에러"
                     data-field-icon="error"
-                    class="absolute inset-0 w-full h-full"
+                    class="hidden absolute inset-0 w-full h-full"
                   />
                   <img
                     tabindex="-1"
                     src="/src/assets/icon/check.svg"
                     alt="비밀번호 통과"
                     data-field-icon="check"
-                    class="absolute inset-0 w-full h-full"
+                    class="hidden absolute inset-0 w-full h-full"
                   />
                 </div>
                 <button data-field-action="toggle" type="button">
@@ -121,7 +121,7 @@
             </p>
             <p
               data-field-message="error"
-              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              class="hidden text-error-red text-[12px] font-medium leading-4 mb-4"
             >
               비밀번호 형식이 올바르지 않습니다.
             </p>
@@ -147,14 +147,14 @@
                     src="/src/assets/icon/error.svg"
                     alt="비밀번호 확인 에러"
                     data-field-icon="error"
-                    class="absolute inset-0 w-full h-full"
+                    class="hidden absolute inset-0 w-full h-full"
                   />
                   <img
                     tabindex="-1"
                     src="/src/assets/icon/check.svg"
                     alt="비밀번호 확인 통과"
                     data-field-icon="check"
-                    class="absolute inset-0 w-full h-full"
+                    class="hidden absolute inset-0 w-full h-full"
                   />
                 </div>
                 <button data-field-action="toggle" type="button">
@@ -168,7 +168,7 @@
             </div>
             <p
               data-field-message="error"
-              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              class="hidden text-error-red text-[12px] font-medium leading-4 mb-4"
             >
               비밀번호가 일치하지 않습니다.
             </p>
@@ -191,19 +191,19 @@
                 tabindex="-1"
                 src="/src/assets/icon/error.svg"
                 alt="이름 에러"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
                 data-field-icon="error"
               />
               <img
                 tabindex="-1"
                 src="/src/assets/icon/check.svg"
                 alt="이름 통과"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
                 data-field-icon="check"
               />
             </div>
             <p
-              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              class="hidden text-error-red text-[12px] font-medium leading-4 mb-4"
               data-field-message="error"
             >
               이름을 입력해주세요.
@@ -227,19 +227,19 @@
                 tabindex="-1"
                 src="/src/assets/icon/error.svg"
                 alt="이메일 에러"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
                 data-field-icon="error"
               />
               <img
                 tabindex="-1"
                 src="/src/assets/icon/check.svg"
                 alt="이메일 통과"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
                 data-field-icon="check"
               />
             </div>
             <p
-              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              class="hidden text-error-red text-[12px] font-medium leading-4 mb-4"
               data-field-message="error"
             >
               이메일 형식이 올바르지 않습니다.
@@ -263,19 +263,19 @@
                 tabindex="-1"
                 src="/src/assets/icon/error.svg"
                 alt="토큰 에러"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
                 data-field-icon="error"
               />
               <img
                 tabindex="-1"
                 src="/src/assets/icon/check.svg"
                 alt="토큰 인증 성공"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+                class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
                 data-field-icon="check"
               />
             </div>
             <p
-              class="text-error-red text-[12px] font-medium leading-4 mb-4"
+              class="hidden text-error-red text-[12px] font-medium leading-4 mb-4"
               data-field-message="error"
             >
               인증토큰이 올바르지 않습니다.
