@@ -1,9 +1,9 @@
 import { fetchAPI } from "/src/js/api/client.js";
 
 // 상품 목록 조회
-export function fetchProducts({
+export async function fetchProducts({
   page = 1,
-  limit = 20,
+  limit = 10,
   categoryId,
   sort,
   badge,
@@ -12,7 +12,20 @@ export function fetchProducts({
   if (categoryId) params.set("categoryId", categoryId);
   if (sort) params.set("sort", sort);
   if (badge) params.set("badge", badge);
-  return fetchAPI(`/products?${params}`);
+
+  const token = localStorage.getItem("token");
+  const res = await fetch(
+    `https://api.fullstackfamily.com/api/loccishop/v1/products?${params}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    },
+  );
+
+  const json = await res.json();
+  return { ...json.data, meta: json.meta };
 }
 
 // 상품 조회
