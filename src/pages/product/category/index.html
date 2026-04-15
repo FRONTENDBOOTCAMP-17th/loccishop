@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>L'OcciShop</title>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/pages/product/category/index.js"></script>
+  </head>
+  <body>
+    <header id="header"></header>
+    <main class="min-w-[400px] overflow-x-hidden">
+      <div id="category-page">
+        <!-- 카테고리 헤더 -->
+        <section class="py-10 text-center">
+          <h1
+            id="category-title"
+            class="text-3xl font-light tracking-widest mb-3"
+          ></h1>
+          <p id="category-desc" class="text-sm text-gray-500"></p>
+        </section>
+
+        <nav>
+          <ul id="sub-category-tabs" class="flex justify-center gap-3"></ul>
+        </nav>
+
+        <div
+          class="flex justify-between items-center px-6 py-4 max-w-screen-xl mx-auto"
+        >
+          <span id="product-count" class="text-sm text-gray-500"></span>
+          <select
+            id="sort-select"
+            class="text-sm border border-gray-300 px-3 py-1.5"
+          >
+            <option value="newest">신상품순</option>
+            <option value="popular">인기순</option>
+            <option value="price_asc">낮은 가격순</option>
+            <option value="price_desc">높은 가격순</option>
+          </select>
+        </div>
+
+        <main class="max-w-screen-xl mx-auto px-6 pb-16">
+          <ul
+            id="product-grid"
+            class="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-10"
+          ></ul>
+        </main>
+      </div>
+    </main>
+    <footer id="footer"></footer>
+  </body>
+</html>
