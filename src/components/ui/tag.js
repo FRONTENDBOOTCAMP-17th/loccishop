@@ -12,5 +12,11 @@ export function createTag({ text, state = "default" } = {}) {
     stateClass[state],
   ].join(" ");
 
+  tag.setState = (newState) => {
+    tag.classList.remove(...stateClass.active.split(" "));
+    tag.classList.remove(...stateClass.default.split(" "));
+    tag.classList.add(...stateClass[newState].split(" "));
+  };
+
   return tag;
 }
