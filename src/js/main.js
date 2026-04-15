@@ -21,13 +21,6 @@ if (localStorage.getItem("token")) {
   fetchMe().catch(() => {});
 }
 
-// ── 헤더 / 푸터 / 로그인 모달 마운트 ─────────────────────────────
-const headerAnchor = document.getElementById("header");
-const footerAnchor = document.getElementById("footer");
-if (headerAnchor) headerAnchor.replaceWith(renderHeader());
-if (footerAnchor) footerAnchor.replaceWith(renderFooter());
-document.body.append(renderLoginModal());
-
 // ── 상품 렌더링 ───────────────────────────────────────────────────
 function renderProducts(products, containerId) {
   const container = document.getElementById(containerId);
@@ -152,6 +145,14 @@ function giftFilter(products, label) {
 
 // ── 초기 렌더링 ───────────────────────────────────────────────────
 async function init() {
+  
+// ── 헤더 / 푸터 / 로그인 모달 마운트 ─────────────────────────────
+const headerAnchor = document.getElementById("header");
+const footerAnchor = document.getElementById("footer");
+if (headerAnchor) headerAnchor.replaceWith(await renderHeader());
+if (footerAnchor) footerAnchor.replaceWith(await renderFooter());
+  document.body.append(renderLoginModal());
+  
   const carouselPosition = window.innerWidth < 1024 ? "mobile" : "sub1";
   const [almondData, giftData, mobileSlides, desktopSlides] = await Promise.all(
     [

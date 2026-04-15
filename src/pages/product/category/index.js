@@ -19,24 +19,56 @@ async function init() {
   const res = await fetchCategories();
   if (!res) return;
 
-  const category = res.find((cat) => cat.slug === categorySlug);
+  let category = res.find((cat) => cat.slug === categorySlug);
+
+  let isChild = false;
+
+  if (!category) {
+    for (const parent of res) {
+      const child = parent.children?.find((sub) => sub.slug === categorySlug);
+      if (child) {
+        category = child;
+        isChild = true;
+        parentCategoryId = parent.id;
+        break;
+      }
+    }
+  }
+
   if (!category) return;
 
-  parentCategoryId = category.id;
-  currentCategoryId = category.id;
-  subCategoryIds = category.children.map((sub) => sub.id);
+  if (isChild) {
+    // 하위 카테고리로 진입한 경우
+    currentCategoryId = category.id;
+    subCategoryIds = [category.id];
+    categoryTitle.textContent = category.name;
 
-  categoryTitle.textContent = category.name;
-  renderTabs(category.children, category.name);
+    const parentCategory = res.find((cat) => cat.id === parentCategoryId);
+    renderTabs(parentCategory.children, parentCategory.name, category.id);
+  } else {
+    // 부모 카테고리로 진입한 경우
+    parentCategoryId = category.id;
+    currentCategoryId = category.id;
+    subCategoryIds = category.children.map((sub) => sub.id);
+    categoryTitle.textContent = category.name;
+    renderTabs(category.children, category.name, null);
+  }
+
   await fetchProductList();
 }
 
-function renderTabs(subCategories) {
-  const allTab = createTab({ id: null, name: "전체" }, true);
+function renderTabs(subCategories, parentName, activeId = null) {
+  const allTab = createTab(
+    { id: null, name: "전체" },
+    activeId === null,
+    parentName,
+  );
   subCategoryTabs.appendChild(allTab);
 
   subCategories.forEach((sub) => {
-    subCategoryTabs.appendChild(createTab(sub, false));
+    subCategoryTabs.appendChild(
+      createTab(sub, sub.id === activeId, parentName),
+    );
   });
 }
 
