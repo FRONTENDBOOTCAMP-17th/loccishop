@@ -80,6 +80,14 @@ export function renderProductsSection(container) {
                 <input type="text" id="p-name" class="form-input" />
               </div>
               <div class="form-group">
+                <label>그룹 ID</label>
+                <input type="text" id="p-group-id" class="form-input" placeholder="예: shea-hand" />
+              </div>
+              <div class="form-group">
+                <label>옵션 라벨</label>
+                <input type="text" id="p-label" class="form-input" placeholder="예: 30ml" />
+              </div>
+              <div class="form-group">
                 <label>정가 *</label>
                 <input type="number" id="p-price" class="form-input" />
               </div>
@@ -369,6 +377,11 @@ export function renderProductsSection(container) {
   function openModal(product = null) {
     editingId = product?.id ?? null;
 
+    const currentOption = product?.options?.find(
+      (o) => o.current || o.isCurrent,
+    );
+    document.getElementById("p-label").value = currentOption?.label ?? "";
+
     // 탭 초기화
     container
       .querySelectorAll(".tab-btn")
@@ -387,6 +400,7 @@ export function renderProductsSection(container) {
 
     // 기본 정보
     document.getElementById("p-name").value = product?.name ?? "";
+    document.getElementById("p-group-id").value = product?.groupId ?? "";
     document.getElementById("p-price").value = product?.price ?? "";
     document.getElementById("p-discount-price").value =
       product?.discountPrice ?? "";
@@ -458,6 +472,12 @@ export function renderProductsSection(container) {
         stock: Number(document.getElementById("p-stock").value),
         categoryId: Number(document.getElementById("p-category").value),
       };
+
+      const groupId = document.getElementById("p-group-id").value;
+      if (groupId) body.groupId = groupId;
+
+      const label = document.getElementById("p-label").value;
+      if (label) body.label = label;
 
       const discountPrice = Number(
         document.getElementById("p-discount-price").value,
