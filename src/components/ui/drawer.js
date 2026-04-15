@@ -20,7 +20,7 @@ export function createDrawer({
   // 헤더
   const header = document.createElement("div");
   header.className =
-    "flex items-center justify-between px-4 py-3 border-b border-empress/30";
+    "flex items-center justify-between px-4 py-3 border-b border-empress/30 h-16";
 
   const titleEl = document.createElement("h2");
   titleEl.textContent = title;
