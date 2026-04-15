@@ -13,8 +13,6 @@ import { setValid, setError, clearState } from "./ui.js";
  * @param {(body: object) => Promise<any>} options.signupApi - 실제로 호출할 API 함수
  * @param {string} options.successMessage - 성공 시 alert 문구
  * @param {(getField: Function) => object} [options.getExtraElements] - admin/user 마다 다른 추가 field 묶음을 반환하는 함수
- * @param {(els: object) => Element[]} [options.extraIconsToHide] - initUI 에서 숨길 추가 아이콘 목록
- * @param {(els: object) => Element[]} [options.extraTextsToHide] - initUI 에서 숨길 추가 텍스트 목록
  * @param {(els: object) => void} [options.bindExtraValidations] - 추가 필드의 input 이벤트 바인딩
  * @param {(els: object) => boolean} [options.validateExtraFields] - 폼 제출 전 추가 필드 검증
  * @param {(els: object) => object} [options.collectExtraFields] - 추가 필드를 requestBody 에 합칠 객체 반환
@@ -24,8 +22,6 @@ export function createSignupPage({
   signupApi,
   successMessage,
   getExtraElements = () => ({}),
-  extraIconsToHide = () => [],
-  extraTextsToHide = () => [],
   bindExtraValidations = () => {},
   validateExtraFields = () => true,
   collectExtraFields = () => ({}),
@@ -70,37 +66,6 @@ export function createSignupPage({
     };
   }
 
-  function initUI(els) {
-    const coreFields = [
-      els.userId,
-      els.userPw,
-      els.userPwConfirm,
-      els.userName,
-      els.userEmail,
-    ];
-
-    coreFields.forEach((field) => {
-      [
-        field.errorIcon,
-        field.checkIcon,
-        field.errorMessage,
-        field.guideMessage,
-        field.duplicateMessage,
-        field.availableMessage,
-      ]
-        .filter(Boolean)
-        .forEach((el) => {
-          el.style.display = "none";
-        });
-    });
-
-    [...extraIconsToHide(els), ...extraTextsToHide(els)]
-      .filter(Boolean)
-      .forEach((el) => {
-        el.style.display = "none";
-      });
-  }
-
   function bindPasswordToggle(els) {
     els.userPw.toggleBtn.addEventListener("click", () => {
       els.userPw.input.type =
@@ -116,8 +81,8 @@ export function createSignupPage({
     els.userId.input.addEventListener("input", () => {
       state.isIdChecked = false;
       state.isIdAvailable = false;
-      els.userId.duplicateMessage.style.display = "none";
-      els.userId.availableMessage.style.display = "none";
+      els.userId.duplicateMessage.classList.add("hidden");
+      els.userId.availableMessage.classList.add("hidden");
 
       if (!els.userId.input.value) {
         return clearState(els.userId);
@@ -138,16 +103,16 @@ export function createSignupPage({
         state.isIdChecked = true;
         if (result.isAvailable) {
           state.isIdAvailable = true;
-          els.userId.duplicateMessage.style.display = "none";
-          els.userId.availableMessage.style.display = "block";
+          els.userId.duplicateMessage.classList.add("hidden");
+          els.userId.availableMessage.classList.remove("hidden");
           setValid(els.userId);
         } else {
           state.isIdAvailable = false;
-          els.userId.availableMessage.style.display = "none";
-          els.userId.duplicateMessage.style.display = "block";
+          els.userId.availableMessage.classList.add("hidden");
+          els.userId.duplicateMessage.classList.remove("hidden");
           // 에러 아이콘만 표시, errorMessage 는 duplicateMessage 가 대신함
-          els.userId.errorIcon.style.display = "block";
-          els.userId.checkIcon.style.display = "none";
+          els.userId.errorIcon.classList.remove("hidden");
+          els.userId.checkIcon.classList.add("hidden");
         }
       } catch (error) {
         console.error("중복확인 오류:", error);
@@ -160,10 +125,10 @@ export function createSignupPage({
     els.userPw.input.addEventListener("input", () => {
       if (!els.userPw.input.value) {
         clearState(els.userPw);
-        els.userPw.guideMessage.style.display = "block";
+        els.userPw.guideMessage.classList.remove("hidden");
         return;
       }
-      els.userPw.guideMessage.style.display = "none";
+      els.userPw.guideMessage.classList.add("hidden");
       isValidPassword(els.userPw.input.value)
         ? setValid(els.userPw)
         : setError(els.userPw);
@@ -260,7 +225,6 @@ export function createSignupPage({
     const els = getElements();
     const state = { isIdChecked: false, isIdAvailable: false };
 
-    initUI(els);
     bindPasswordToggle(els);
     bindIdValidation(els, state);
     bindPasswordValidation(els);
