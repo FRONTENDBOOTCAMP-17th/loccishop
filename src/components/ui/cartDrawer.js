@@ -4,6 +4,7 @@ import { createButton } from "/src/components/ui/button.js";
 import { createImageSlider } from "/src/components/ui/imageSlider.js";
 import { fetchRelatedProducts } from "/src/js/api/product/index.js";
 import { addToCart } from "/src/js/api/cart/index.js";
+import { updateCartBadge } from "/src/components/header/header.js";
 
 async function createCartDrawerContent(product, drawer, titleEl, onAddRelated) {
   const wrapper = document.createElement("div");
@@ -72,10 +73,12 @@ async function createCartDrawerContent(product, drawer, titleEl, onAddRelated) {
 
       addBtn.addEventListener("click", async () => {
         const result = await addToCart(related.id, 1);
+
         if (!result) {
           return;
         }
 
+        await updateCartBadge();
         onAddRelated();
 
         // 슬라이더에 추가
@@ -134,6 +137,8 @@ async function createCartDrawerContent(product, drawer, titleEl, onAddRelated) {
 export async function openCartDrawer(product) {
   const result = await addToCart(product.id, 1);
   if (!result) return;
+
+  await updateCartBadge();
 
   let drawerCount = 1; // ← 드로어 안에서 담은 수량 직접 관리
 
