@@ -1,9 +1,14 @@
 import { fetchCategories, fetchProducts } from "/src/js/api/product/index.js";
 import { createProductCard } from "/src/components/ui/product-card.js";
 import { createTag } from "/src/components/ui/tag.js";
+import { createButton } from "/src/components/ui/button.js";
 
 const params = new URLSearchParams(location.search);
 const categorySlug = params.get("slug");
+
+let currentPage = 1;
+let hasMore = true;
+const LIMIT = 20;
 
 let currentCategoryId = null;
 let parentCategoryId = null;
@@ -20,7 +25,6 @@ async function init() {
   if (!res) return;
 
   let category = res.find((cat) => cat.slug === categorySlug);
-
   let isChild = false;
 
   if (!category) {
@@ -38,15 +42,14 @@ async function init() {
   if (!category) return;
 
   if (isChild) {
-    // 하위 카테고리로 진입한 경우
     currentCategoryId = category.id;
-    subCategoryIds = [category.id];
+    const parentCategory = res.find((cat) => cat.id === parentCategoryId);
+    subCategoryIds = parentCategory.children.map((sub) => sub.id);
+
     categoryTitle.textContent = category.name;
 
-    const parentCategory = res.find((cat) => cat.id === parentCategoryId);
     renderTabs(parentCategory.children, parentCategory.name, category.id);
   } else {
-    // 부모 카테고리로 진입한 경우
     parentCategoryId = category.id;
     currentCategoryId = category.id;
     subCategoryIds = category.children.map((sub) => sub.id);
@@ -88,34 +91,54 @@ function createTab(sub, isActive, parentName) {
 
     currentCategoryId = sub.id ?? parentCategoryId;
     categoryTitle.textContent = sub.name ?? parentName;
-    fetchProductList();
+    currentPage = 1;
+    fetchProductList(1);
   });
 
   return li;
 }
 
-async function fetchProductList() {
-  productGrid.innerHTML = "";
+async function fetchProductList(page = 1) {
+  if (page === 1) productGrid.innerHTML = "";
 
   let products = [];
+  let total = 0;
 
   if (currentCategoryId === parentCategoryId) {
     const results = await Promise.all(
       subCategoryIds.map((id) =>
-        fetchProducts({ categoryId: id, sort: sortSelect.value }),
+        fetchProducts({
+          categoryId: id,
+          sort: sortSelect.value,
+          page,
+          limit: LIMIT,
+        }),
       ),
     );
     products = results.flatMap((res) => res.products);
+    total = results.reduce(
+      (acc, res) => acc + (res.meta?.pagination?.total ?? 0),
+      0,
+    );
+    hasMore = results.some(
+      (res) =>
+        res.meta?.pagination?.currentPage < res.meta?.pagination?.totalPages,
+    );
   } else {
     const res = await fetchProducts({
       categoryId: currentCategoryId,
       sort: sortSelect.value,
+      page,
+      limit: LIMIT,
     });
     if (!res) return;
     products = res.products;
+    total = res.meta?.pagination?.total ?? products.length;
+    hasMore =
+      res.meta?.pagination?.currentPage < res.meta?.pagination?.totalPages;
   }
 
-  productCount.textContent = `총 ${products.length} 개`;
+  productCount.textContent = `총 ${total} 개`;
 
   products.forEach((product) => {
     const card = createProductCard({
@@ -133,7 +156,31 @@ async function fetchProductList() {
     card.classList.add("cursor-pointer");
     productGrid.appendChild(card);
   });
+
+  renderMoreBtn();
 }
 
-sortSelect.addEventListener("change", fetchProductList);
+function renderMoreBtn() {
+  document.getElementById("more-btn-wrap")?.remove();
+  if (!hasMore) return;
+
+  const wrap = document.createElement("div");
+  wrap.id = "more-btn-wrap";
+  wrap.className = "flex justify-center mt-8";
+
+  const btn = createButton({ text: "더보기", variant: "outline", size: "sm" });
+  btn.addEventListener("click", () => {
+    currentPage++;
+    fetchProductList(currentPage);
+  });
+
+  wrap.append(btn);
+  productGrid.parentElement.append(wrap);
+}
+
+sortSelect.addEventListener("change", () => {
+  currentPage = 1;
+  fetchProductList(1);
+});
+
 init();
