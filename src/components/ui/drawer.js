@@ -1,4 +1,8 @@
-export function createDrawer({ title, position = "right" } = {}) {
+export function createDrawer({
+  title,
+  position = "right",
+  width = "w-80",
+} = {}) {
   // 오버레이
   const overlay = document.createElement("div");
   overlay.className =
@@ -7,7 +11,7 @@ export function createDrawer({ title, position = "right" } = {}) {
   // 드로어
   const drawer = document.createElement("div");
   drawer.className = [
-    "fixed top-0 z-50 flex flex-col w-80 h-full bg-spring-wood transition-transform duration-300",
+    `fixed top-0 z-50 flex flex-col ${width} h-full bg-spring-wood transition-transform duration-300`,
     position === "left"
       ? "left-0 -translate-x-full"
       : "right-0 translate-x-full",

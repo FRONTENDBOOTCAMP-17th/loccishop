@@ -1,3 +1,4 @@
+import { createNavDrawer } from "/src/components/header/createNavDrawer.js";
 import {
   openLoginModal,
   renderLoginModal,
@@ -18,6 +19,14 @@ export async function renderHeader() {
       openLoginModal();
     }
   });
+
+  // createDrawer 대신 createNavDrawer로 교체
+  const { open } = createNavDrawer();
+  nav.querySelector(".hamburger-btn").addEventListener("click", open);
+
+  if (!document.getElementById("loginModal")) {
+    document.body.append(renderLoginModal());
+  }
 
   return nav;
 }
