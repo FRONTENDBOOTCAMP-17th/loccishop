@@ -8,7 +8,7 @@ export function createTag({ text, state = "default" } = {}) {
   tag.textContent = text;
 
   tag.className = [
-    "min-w-16 rounded px-2.5 py-1.5 text-sm text-center font-normal leading-5 cursor-pointer transition-colors duration-200",
+    "min-w-16 rounded px-2.5 py-1.5 text-sm text-center font-normal leading-5 cursor-pointer transition-colors duration-200 whitespace-nowrap",
     stateClass[state],
   ].join(" ");
 
