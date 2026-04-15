@@ -1,7 +1,13 @@
 import { fetchAPI } from "/src/js/api/client.js";
 
 // 상품 목록 조회
-export function fetchProducts({ page = 1, limit = 20, categoryId, sort, badge } = {}) {
+export function fetchProducts({
+  page = 1,
+  limit = 20,
+  categoryId,
+  sort,
+  badge,
+} = {}) {
   const params = new URLSearchParams({ page, limit });
   if (categoryId) params.set("categoryId", categoryId);
   if (sort) params.set("sort", sort);
@@ -34,4 +40,9 @@ export function fetchProductReviews(
 // 리추얼 단계 조회
 export function fetchRitualSteps(id) {
   return fetchAPI(`/products/${id}/ritual-steps`);
+}
+
+//카테고리 조회
+export function fetchCategories() {
+  return fetchAPI(`/categories`);
 }
