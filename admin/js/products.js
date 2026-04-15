@@ -1,8 +1,10 @@
-import { fetchAPI, uploadImage } from "./api.js";
+import { fetchAPI, uploadImage } from "/admin/js/api.js";
+import { createPagination } from "/src/components/ui/pagination.js";
 
-export async function loadProducts(page = 1, keyword = "") {
+export async function loadProducts(page = 1, keyword = "", categoryId = "") {
   const params = new URLSearchParams({ page, limit: 20 });
   if (keyword) params.set("keyword", keyword);
+  if (categoryId) params.set("categoryId", categoryId);
   return fetchAPI(`/admin/products?${params}`);
 }
 
@@ -29,8 +31,22 @@ export function renderProductsSection(container) {
       <button class="btn btn-primary" id="product-add-btn">+ 상품 등록</button>
     </div>
     <div class="search-bar">
-      <input type="text" id="product-search" placeholder="상품명 검색..." class="search-input" />
-    </div>
+  <input type="text" id="product-search" placeholder="상품명 검색..." class="search-input" />
+  <select id="product-category-filter" class="search-input">
+  <option value="">전체 카테고리</option>
+  <optgroup label="핸드 케어">
+    <option value="2">핸드 크림</option>
+    <option value="3">핸드 워시 & 솝</option>
+    <option value="4">핸드 & 네일 케어</option>
+  </optgroup>
+  <optgroup label="바디 케어">
+    <option value="9">바디 크림 & 로션</option>
+    <option value="10">바디 오일 & 세럼</option>
+    <option value="11">바디 워시 & 스크럽</option>
+    <option value="23">고체 솝</option>
+  </optgroup>
+</select>
+</div>
     <div class="table-wrap">
       <table class="data-table">
         <thead>
@@ -286,41 +302,48 @@ export function renderProductsSection(container) {
   let currentPage = 1;
   let editingId = null;
 
-  async function render(page = 1, keyword = "") {
+  async function render(page = 1, keyword = "", categoryId = "") {
     currentPage = page;
-    const data = await loadProducts(page, keyword);
+    const data = await loadProducts(page, keyword, categoryId);
     const products = data.products ?? [];
-    const pagination = data.meta?.pagination ?? {};
+    const limit = 20;
 
     const tbody = document.getElementById("product-tbody");
     tbody.innerHTML = products
       .map(
         (p) => `
-      <tr>
-        <td>${p.id}</td>
-        <td class="td-name">${p.name}</td>
-        <td>${p.price?.toLocaleString()}원</td>
-        <td>${p.discountPrice ? p.discountPrice.toLocaleString() + "원" : "-"}</td>
-        <td>${p.stock}</td>
-        <td class="td-actions">
-          <button class="btn-sm btn-edit" data-id="${p.id}">수정</button>
-          <button class="btn-sm btn-delete" data-id="${p.id}">삭제</button>
-        </td>
-      </tr>
-    `,
+    <tr>
+      <td>${p.id}</td>
+      <td class="td-name">${p.name}</td>
+      <td>${p.price?.toLocaleString()}원</td>
+      <td>${p.discountPrice ? p.discountPrice.toLocaleString() + "원" : "-"}</td>
+      <td>${p.stock}</td>
+      <td class="td-actions">
+        <button class="btn-sm btn-edit" data-id="${p.id}">수정</button>
+        <button class="btn-sm btn-delete" data-id="${p.id}">삭제</button>
+      </td>
+    </tr>
+  `,
       )
       .join("");
 
+    // 페이지네이션 — 이 블록만 있어야 함
     const pg = document.getElementById("product-pagination");
     pg.innerHTML = "";
-    for (let i = 1; i <= (pagination.totalPages ?? 1); i++) {
-      const btn = document.createElement("button");
-      btn.className = `page-btn ${i === page ? "active" : ""}`;
-      btn.textContent = i;
-      btn.addEventListener("click", () =>
-        render(i, document.getElementById("product-search").value),
-      );
-      pg.append(btn);
+    const hasNext = products.length === limit;
+    const totalPages = hasNext ? page + 1 : page;
+    if (page > 1 || hasNext) {
+      const nav = createPagination({
+        totalPages,
+        currentPage: page,
+        onPageChange: (p) =>
+          render(
+            p,
+            document.getElementById("product-search").value,
+            document.getElementById("product-category-filter").value,
+          ),
+      });
+      pg.append(nav);
     }
 
     tbody.querySelectorAll(".btn-edit").forEach((btn) => {
@@ -334,8 +357,11 @@ export function renderProductsSection(container) {
       btn.addEventListener("click", async () => {
         if (!confirm("삭제하시겠습니까?")) return;
         await deleteProduct(btn.dataset.id);
-
-        render(currentPage);
+        render(
+          currentPage,
+          document.getElementById("product-search").value,
+          document.getElementById("product-category-filter").value,
+        );
       });
     });
   }
@@ -461,10 +487,6 @@ export function renderProductsSection(container) {
         document.getElementById("p-full-ingredients").value;
       const disclosure = document.getElementById("p-disclosure").value;
       const validIngredients = keyIngredients.filter((i) => i.name);
-      console.log("keyIngredients:", keyIngredients);
-      console.log("validIngredients:", validIngredients);
-      console.log("body.productInfo:", body.productInfo);
-      console.log("body 전체:", body);
 
       if (
         howToUse ||
@@ -487,14 +509,33 @@ export function renderProductsSection(container) {
           await createProduct(body);
         }
         closeModal();
-        render(currentPage);
+        render(
+          currentPage,
+          document.getElementById("product-search").value,
+          document.getElementById("product-category-filter").value,
+        );
       } catch (err) {
         alert("저장 실패: " + err.message);
       }
     });
 
+  document
+    .getElementById("product-category-filter")
+    .addEventListener("change", (e) => {
+      render(
+        1,
+        document.getElementById("product-search").value,
+        e.target.value,
+      );
+    });
+
   document.getElementById("product-search").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") render(1, e.target.value);
+    if (e.key === "Enter")
+      render(
+        1,
+        e.target.value,
+        document.getElementById("product-category-filter").value,
+      );
   });
 
   render();

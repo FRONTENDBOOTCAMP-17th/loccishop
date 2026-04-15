@@ -9,6 +9,12 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
+    proxy: {
+      "/api": {
+        target: "https://api.fullstackfamily.com",
+        changeOrigin: true,
+      },
+    },
   },
   build: {
     rollupOptions: {
