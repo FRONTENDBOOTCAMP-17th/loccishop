@@ -1,6 +1,6 @@
 import { renderProductCards } from "/src/components/ui/product-card-list.js";
 import { createTag } from "/src/components/ui/tag.js";
-import { fetchProducts } from "/src/js/api/product/index.js";
+import { fetchProducts, fetchCategories } from "/src/js/api/product/index.js";
 import {
   setupProductTabs,
   toCardProps,
@@ -16,21 +16,52 @@ const categories = [
   "핸드 케어 기프트 세트",
 ];
 
-const categoryTagList = document.querySelector("#category-tag-list");
+// 카테고리 slug 맵을 한 번만 fetch해서 두 섹션이 공유
+async function buildHandCareSlugMap() {
+  try {
+    const res = await fetchCategories();
+    const handCare = res?.find((cat) => cat.id === 1);
+    if (!handCare) { return {}; }
+    const map = { "핸드 케어 전체 보기": handCare.slug };
+    (handCare.children ?? []).forEach((child) => {
+      map[child.name] = child.slug;
+    });
+    return map;
+  } catch (_) {
+    return {};
+  }
+}
 
-categories.forEach((category) => {
-  const li = document.createElement("li");
-  const tag = createTag({ text: category });
-  tag.className =
-    "min-w-16 rounded px-2.5 py-1.5 text-sm text-center font-normal leading-5 cursor-pointer border border-empress text-woody-brown bg-spring-wood hover:bg-grey-96 transition-colors duration-200 whitespace-nowrap";
-  li.appendChild(tag);
-  categoryTagList.appendChild(li);
-});
+const slugMapPromise = buildHandCareSlugMap();
+
+async function initCategoryTags() {
+  const slugMap = await slugMapPromise;
+  const categoryTagList = document.querySelector("#category-tag-list");
+
+  categories.forEach((category) => {
+    const li = document.createElement("li");
+    const tag = createTag({ text: category });
+    tag.className =
+      "min-w-16 rounded px-2.5 py-1.5 text-sm text-center font-normal leading-5 cursor-pointer border border-empress text-woody-brown bg-spring-wood hover:bg-grey-96 transition-colors duration-200 whitespace-nowrap";
+
+    const slug = slugMap[category];
+    if (slug) {
+      li.addEventListener("click", () => {
+        location.href = `/src/pages/product/category/index.html?slug=${slug}`;
+      });
+    }
+
+    li.appendChild(tag);
+    categoryTagList.appendChild(li);
+  });
+}
+
+initCategoryTags();
 
 const TAB_KEYWORDS = {
   "시어 버터": ["시어"],
   아몬드: ["아몬드"],
-  프래그런스: ["퍼퓸"],
+  로즈: ["로즈"],
 };
 
 function tabFilter(products, label) {
@@ -45,12 +76,12 @@ function tabFilter(products, label) {
 }
 
 async function init() {
-  const data = await fetchProducts({ limit: 30 });
+  const data = await fetchProducts({ limit: 30, categoryId: 2 });
   const allProducts = (data.products ?? []).map(toCardProps);
 
   setupProductTabs({
     navEl: document.querySelector("#category-tabs"),
-    tabs: ["시어 버터", "아몬드", "프래그런스"],
+    tabs: ["시어 버터", "아몬드", "로즈"],
     allProducts,
     filterFn: tabFilter,
     onTabChange: renderProductCards,
@@ -93,9 +124,18 @@ const LIST_CATEGORIES = [
   },
 ];
 
-const listCategoryList = document.getElementById("list-category-list");
-if (listCategoryList) {
+async function initListCategories() {
+  const slugMap = await slugMapPromise;
+  const listCategoryList = document.getElementById("list-category-list");
+  if (!listCategoryList) { return; }
+
   LIST_CATEGORIES.forEach((item) => {
-    listCategoryList.append(createCategoryCard(item));
+    const slug = slugMap[item.label];
+    const href = slug
+      ? `/src/pages/product/category/index.html?slug=${slug}`
+      : "/";
+    listCategoryList.append(createCategoryCard({ ...item, href }));
   });
 }
+
+initListCategories();
