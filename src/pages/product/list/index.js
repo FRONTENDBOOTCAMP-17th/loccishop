@@ -44,32 +44,10 @@ function tabFilter(products, label) {
   return filtered.length ? filtered : products;
 }
 
-function toCardProps(product) {
-  return {
-    id: product.id,
-    image: product.images?.[0] ?? "",
-    imageAlt: product.name,
-    badgeType: product.badge ?? null,
-    name: product.name,
-    size: product.size,
-    originalPrice: product.price,
-    discountRate: product.discountRate ?? null,
-    discountPrice: product.discountPrice ?? null,
-    isWished: product.isWished ?? false,
-  };
-}
-
 async function init() {
   const data = await fetchProducts({ limit: 30 });
   const allProducts = (data.products ?? []).map(toCardProps);
 
-  setupProductTabs({
-    navEl: document.querySelector("#category-tabs"),
-    tabs: ["시어 버터", "아몬드", "프래그런스"],
-    allProducts,
-    filterFn: tabFilter,
-    onTabChange: renderProductCards,
-  });
   setupProductTabs({
     navEl: document.querySelector("#category-tabs"),
     tabs: ["시어 버터", "아몬드", "프래그런스"],

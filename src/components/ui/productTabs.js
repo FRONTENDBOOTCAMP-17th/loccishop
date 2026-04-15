@@ -32,7 +32,14 @@ export function renderCardList(products, containerEl) {
 // allProducts: 전체 상품 배열 (이미 toCardProps 변환된 상태)
 // filterFn(products, label): 탭 라벨 기반 필터 함수
 // onTabChange(filteredProducts): 탭 변경 시 호출될 콜백
-export function setupProductTabs({ navEl, tabs, allProducts, filterFn, onTabChange }) {
+export function setupProductTabs({
+  navEl,
+  tabs,
+  allProducts,
+  filterFn,
+  onTabChange,
+}) {
+  if (!navEl) return;
   navEl.innerHTML = "";
 
   function setActiveTab(activeLi) {
@@ -53,9 +60,7 @@ export function setupProductTabs({ navEl, tabs, allProducts, filterFn, onTabChan
     li.addEventListener("click", () => {
       setActiveTab(li);
       const filtered =
-        label === "모두보기"
-          ? [...allProducts]
-          : filterFn(allProducts, label);
+        label === "모두보기" ? [...allProducts] : filterFn(allProducts, label);
       onTabChange(filtered);
     });
 
@@ -68,8 +73,6 @@ export function setupProductTabs({ navEl, tabs, allProducts, filterFn, onTabChan
 
   // 첫 번째 탭 기준 초기 렌더링
   const initial =
-    tabs[0] === "모두보기"
-      ? [...allProducts]
-      : filterFn(allProducts, tabs[0]);
+    tabs[0] === "모두보기" ? [...allProducts] : filterFn(allProducts, tabs[0]);
   onTabChange(initial);
 }

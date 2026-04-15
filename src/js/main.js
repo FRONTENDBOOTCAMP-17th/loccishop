@@ -167,7 +167,6 @@ async function init() {
     sub1: desktopSlides,
   };
 
-  // 두 세트 이미지 미리 로드 (resize 시 즉시 표시)
   [...slideSets.mobile, ...slideSets.sub1].forEach(({ imageUrl }) => {
     const img = new Image();
     img.src = imageUrl;
@@ -176,7 +175,6 @@ async function init() {
   const almondProducts = (almondData.products ?? []).map(toCardProps);
   const giftProducts = giftData.products ?? [];
 
-  // 아몬드 컬렉션 탭 + 가로 스크롤
   const almondContainer = document.getElementById("almond-grid");
 
   setupProductTabs({
