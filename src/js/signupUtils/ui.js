@@ -1,17 +1,17 @@
-export function setValid(errorIcon, checkIcon, errorText) {
-  if (errorIcon) errorIcon.style.display = "none";
-  checkIcon.style.display = "block";
-  if (errorText) errorText.style.display = "none";
+export function setValid(field) {
+  if (field.errorIcon) { field.errorIcon.style.display = "none"; }
+  field.checkIcon.style.display = "block";
+  if (field.errorMessage) { field.errorMessage.style.display = "none"; }
 }
 
-export function setError(errorIcon, checkIcon, errorText) {
-  if (errorIcon) errorIcon.style.display = "block";
-  checkIcon.style.display = "none";
-  if (errorText) errorText.style.display = "block";
+export function setError(field) {
+  if (field.errorIcon) { field.errorIcon.style.display = "block"; }
+  field.checkIcon.style.display = "none";
+  if (field.errorMessage) { field.errorMessage.style.display = "block"; }
 }
 
-export function clearState(errorIcon, checkIcon, errorText) {
-  if (errorIcon) errorIcon.style.display = "none";
-  checkIcon.style.display = "none";
-  if (errorText) errorText.style.display = "none";
+export function clearState(field) {
+  if (field.errorIcon) { field.errorIcon.style.display = "none"; }
+  field.checkIcon.style.display = "none";
+  if (field.errorMessage) { field.errorMessage.style.display = "none"; }
 }

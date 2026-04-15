@@ -5,30 +5,31 @@ createSignupPage({
   signupApi: signupUser,
   successMessage: "회원가입이 완료되었습니다.",
 
-  getExtraElements: () => ({
-    userAddress: document.getElementById("userAddress"),
-    userDetailAddress: document.getElementById("userDetailAddress"),
-    addressCheckIcon: document.getElementById("addressCheckIcon"),
-    detailAddressCheckIcon: document.getElementById("detailAddressCheckIcon"),
+  getExtraElements: (getField) => ({
+    userAddress: getField("userAddress"),
+    userDetailAddress: getField("userDetailAddress"),
   }),
 
-  extraIconsToHide: (els) => [els.addressCheckIcon, els.detailAddressCheckIcon],
+  extraIconsToHide: (els) => [
+    els.userAddress.checkIcon,
+    els.userDetailAddress.checkIcon,
+  ],
 
   bindExtraValidations: (els) => {
-    els.userAddress.addEventListener("input", () => {
-      els.addressCheckIcon.style.display = els.userAddress.value.trim()
+    els.userAddress.input.addEventListener("input", () => {
+      els.userAddress.checkIcon.style.display = els.userAddress.input.value.trim()
         ? "block"
         : "none";
     });
 
-    els.userDetailAddress.addEventListener("input", () => {
-      els.detailAddressCheckIcon.style.display =
-        els.userDetailAddress.value.trim() ? "block" : "none";
+    els.userDetailAddress.input.addEventListener("input", () => {
+      els.userDetailAddress.checkIcon.style.display =
+        els.userDetailAddress.input.value.trim() ? "block" : "none";
     });
   },
 
   collectExtraFields: (els) => ({
-    baseAddress: els.userAddress.value.trim(),
-    detailAddress: els.userDetailAddress.value.trim(),
+    baseAddress: els.userAddress.input.value.trim(),
+    detailAddress: els.userDetailAddress.input.value.trim(),
   }),
 });
