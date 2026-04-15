@@ -1,0 +1,431 @@
+import { renderHeader } from "/src/components/header/header.js";
+import { renderFooter } from "/src/components/footer/footer.js";
+import { renderLoginModal } from "/src/components/login-modal/loginModal.js";
+import { createTag } from "/src/components/ui/tag.js";
+import { fetchProducts } from "/src/js/api/product/index.js";
+import {
+  setupProductTabs,
+  toCardProps,
+} from "/src/components/ui/productTabs.js";
+import { renderProductCards } from "/src/components/ui/product-card-list.js";
+import { createCategoryCard } from "/src/components/ui/categoryCard.js";
+import { createCarouselSlide } from "/src/components/ui/carouselSlide.js";
+import { fetchCarousels } from "/src/js/api/carousel/index.js";
+
+// ── 상품 렌더링 ───────────────────────────────────────────────────
+function renderProducts(products, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) {
+    return;
+  }
+  renderProductCards(products, container);
+}
+
+// ── 탭 활성 스타일 토글 ───────────────────────────────────────────
+const ACTIVE_CLASSES = ["bg-ferra", "text-spring-wood", "border-ferra"];
+const DEFAULT_CLASSES = [
+  "bg-spring-wood",
+  "text-woody-brown",
+  "border-empress",
+];
+
+function setActive(btn) {
+  btn.classList.remove(...DEFAULT_CLASSES);
+  btn.classList.add(...ACTIVE_CLASSES);
+}
+function setDefault(btn) {
+  btn.classList.remove(...ACTIVE_CLASSES);
+  btn.classList.add(...DEFAULT_CLASSES);
+}
+
+// ── 섹션 통합 설정 (탭 + 캐러셀) ─────────────────────────────────
+function setupSection({
+  navId,
+  prevId,
+  nextId,
+  containerId,
+  tabs,
+  allProducts,
+  visibleCount,
+  filterFn,
+}) {
+  let currentProducts = [...allProducts];
+  let offset = 0;
+
+  function show() {
+    renderProducts(
+      currentProducts.slice(offset, offset + visibleCount),
+      containerId,
+    );
+  }
+
+  const nav = document.getElementById(navId);
+  if (nav) {
+    tabs.forEach((label, idx) => {
+      const btn = createTag({
+        text: label,
+        state: idx === 0 ? "active" : "default",
+      });
+
+      btn.addEventListener("click", () => {
+        nav.querySelectorAll("button").forEach(setDefault);
+        setActive(btn);
+
+        currentProducts =
+          label === "모두보기"
+            ? [...allProducts]
+            : filterFn(allProducts, label);
+        offset = 0;
+        show();
+      });
+
+      nav.append(btn);
+    });
+  }
+
+  document.getElementById(prevId)?.addEventListener("click", () => {
+    if (offset <= 0) {
+      return;
+    }
+    offset = Math.max(0, offset - visibleCount);
+    show();
+  });
+
+  document.getElementById(nextId)?.addEventListener("click", () => {
+    if (offset + visibleCount >= currentProducts.length) {
+      return;
+    }
+    offset += visibleCount;
+    show();
+  });
+
+  show();
+}
+
+// 아몬드 컬렉션: 상품명 키워드로 필터
+function almondFilter(products, label) {
+  if (label === "핸드 케어") {
+    return products.filter((p) => p.name.includes("핸드"));
+  }
+  if (label === "리필") {
+    return products.filter((p) => p.name.includes("리필"));
+  }
+  if (label === "바디 케어") {
+    return products.filter(
+      (p) => !p.name.includes("핸드") && !p.name.includes("리필"),
+    );
+  }
+  return products;
+}
+
+// 기프트: 가격대로 필터
+const PRICE_RANGES = {
+  "2만원대": [20000, 29999],
+  "3만원대": [30000, 39999],
+  "5만원대": [50000, 59999],
+  "10만원대": [100000, 109999],
+};
+
+function giftFilter(products, label) {
+  const range = PRICE_RANGES[label];
+  if (!range) {
+    return products;
+  }
+  const [min, max] = range;
+  return products.filter((p) => {
+    const price = p.discountPrice ?? p.price;
+    return price >= min && price <= max;
+  });
+}
+
+// ── 메인 카테고리 그리드 ──────────────────────────────────────────
+const MAIN_CATEGORIES = [
+  { image: "/src/assets/images/main_page_1.webp", label: "공식몰 혜택" },
+  { image: "/src/assets/images/main_page_2.webp", label: "선물 추천" },
+  { image: "/src/assets/images/main_page_3.webp", label: "핸드 & 네일케어" },
+  { image: "/src/assets/images/main_page_4.webp", label: "핸드케어 기프트" },
+  { image: "/src/assets/images/main_page_5.webp", label: "핸드케어 리필" },
+  { image: "/src/assets/images/main_page_6.webp", label: "STEP 1" },
+  { image: "/src/assets/images/main_page_7.webp", label: "STEP 2" },
+  { image: "/src/assets/images/main_page_8.webp", label: "STEP 3" },
+];
+
+// ── 추천 제품 캐러셀 (rotating) ───────────────────────────────────
+function initRotatingCarousel(initialSlides, slideSets) {
+  const track = document.getElementById("rotating-track");
+  const prevBtn = document.getElementById("rotating-prev");
+  const nextBtn = document.getElementById("rotating-next");
+  const counter = document.getElementById("rotating-counter");
+  const prevLabel = document.getElementById("rotating-prev-label");
+  const nextLabel = document.getElementById("rotating-next-label");
+
+  if (!track) {
+    return;
+  }
+
+  const section = track.closest("section");
+
+  let slides = initialSlides;
+  let currentVIdx = 1;
+
+  function buildTrack(newSlides) {
+    slides = newSlides;
+    track.innerHTML = "";
+    track.append(createCarouselSlide(slides[slides.length - 1])); // 마지막 클론
+    slides.forEach((s) => track.append(createCarouselSlide(s)));
+    track.append(createCarouselSlide(slides[0])); // 첫번째 클론
+  }
+
+  function renderSlides(newSlides) {
+    buildTrack(newSlides);
+    currentVIdx = 1;
+    applyTranslate(getTranslateForIdx(currentVIdx), false);
+    updateSlideStyles();
+    updateNav();
+  }
+
+  buildTrack(slides);
+
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartTranslate = 0;
+  let currentTranslate = 0;
+
+  function getSlideWidth() {
+    const w = window.innerWidth;
+    if (w >= 1280) {
+      return 942;
+    }
+    if (w >= 1024) {
+      return 914;
+    }
+    if (w >= 768) {
+      return 450;
+    }
+    return Math.min(450, w * 0.9);
+  }
+
+  function getTranslateForIdx(vIdx) {
+    const slideW = getSlideWidth();
+    const clientW = document.documentElement.clientWidth;
+    const peek = (clientW - slideW) / 2;
+    return peek - vIdx * slideW;
+  }
+
+  function applyTranslate(px, animate = true) {
+    track.style.transition = animate
+      ? "transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+      : "none";
+    track.style.transform = `translateX(${px}px)`;
+    currentTranslate = px;
+  }
+
+  function getRealIdx() {
+    if (currentVIdx === 0) {
+      return slides.length - 1;
+    }
+    if (currentVIdx === slides.length + 1) {
+      return 0;
+    }
+    return currentVIdx - 1;
+  }
+
+  function updateSlideStyles() {
+    const isMobile = window.innerWidth < 1024;
+    track.querySelectorAll(".rotating-slide").forEach((slide, i) => {
+      const isActive = i === currentVIdx;
+      slide.style.transform = isActive ? "scale(1)" : "scale(0.78)";
+      slide.style.opacity = isActive ? "1" : "0.5";
+
+      const textDiv = slide.querySelector(".rotating-text");
+      if (textDiv) {
+        textDiv.style.display = isMobile && !isActive ? "none" : "";
+      }
+    });
+  }
+
+  function updateNav() {
+    const total = slides.length;
+    const realIdx = getRealIdx();
+    counter.textContent = `${realIdx + 1} / ${total}`;
+    prevLabel.textContent = slides[(realIdx - 1 + total) % total].name;
+    nextLabel.textContent = slides[(realIdx + 1) % total].name;
+  }
+
+  function goTo(vIdx) {
+    currentVIdx = vIdx;
+    applyTranslate(getTranslateForIdx(currentVIdx), true);
+    updateSlideStyles();
+    updateNav();
+
+    track.addEventListener(
+      "transitionend",
+      () => {
+        if (currentVIdx === 0) {
+          currentVIdx = slides.length;
+          applyTranslate(getTranslateForIdx(currentVIdx), false);
+          updateSlideStyles();
+        } else if (currentVIdx === slides.length + 1) {
+          currentVIdx = 1;
+          applyTranslate(getTranslateForIdx(currentVIdx), false);
+          updateSlideStyles();
+        }
+      },
+      { once: true },
+    );
+  }
+
+  applyTranslate(getTranslateForIdx(currentVIdx), false);
+  updateSlideStyles();
+  updateNav();
+
+  prevBtn.addEventListener("click", () => goTo(currentVIdx - 1));
+  nextBtn.addEventListener("click", () => goTo(currentVIdx + 1));
+
+  track.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartTranslate = currentTranslate;
+    section.classList.add("is-dragging");
+    e.preventDefault();
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) {
+      return;
+    }
+    const delta = e.clientX - dragStartX;
+    applyTranslate(dragStartTranslate + delta, false);
+  });
+
+  document.addEventListener("mouseup", (e) => {
+    if (!isDragging) {
+      return;
+    }
+    isDragging = false;
+    section.classList.remove("is-dragging");
+    const delta = e.clientX - dragStartX;
+    if (delta < -60) {
+      goTo(currentVIdx + 1);
+    } else if (delta > 60) {
+      goTo(currentVIdx - 1);
+    } else {
+      goTo(currentVIdx);
+    }
+  });
+
+  track.addEventListener(
+    "touchstart",
+    (e) => {
+      dragStartX = e.touches[0].clientX;
+      dragStartTranslate = currentTranslate;
+    },
+    { passive: true },
+  );
+
+  track.addEventListener(
+    "touchmove",
+    (e) => {
+      const delta = e.touches[0].clientX - dragStartX;
+      applyTranslate(dragStartTranslate + delta, false);
+    },
+    { passive: true },
+  );
+
+  track.addEventListener("touchend", (e) => {
+    const delta = e.changedTouches[0].clientX - dragStartX;
+    if (delta < -60) {
+      goTo(currentVIdx + 1);
+    } else if (delta > 60) {
+      goTo(currentVIdx - 1);
+    } else {
+      goTo(currentVIdx);
+    }
+  });
+
+  let lastPosition = window.innerWidth < 1024 ? "mobile" : "sub1";
+
+  window.addEventListener("resize", () => {
+    applyTranslate(getTranslateForIdx(currentVIdx), false);
+    updateSlideStyles();
+
+    const newPosition = window.innerWidth < 1024 ? "mobile" : "sub1";
+    if (newPosition !== lastPosition) {
+      lastPosition = newPosition;
+      renderSlides(slideSets[newPosition]);
+    }
+  });
+}
+
+// ── 초기화 ────────────────────────────────────────────────────────
+export async function initMainPage() {
+  const headerAnchor = document.getElementById("header");
+  const footerAnchor = document.getElementById("footer");
+  if (headerAnchor) {
+    headerAnchor.replaceWith(await renderHeader());
+  }
+  if (footerAnchor) {
+    footerAnchor.replaceWith(await renderFooter());
+  }
+  document.body.append(renderLoginModal());
+
+  const carouselPosition = window.innerWidth < 1024 ? "mobile" : "sub1";
+
+  const [almondData, giftData, mobileSlides, desktopSlides] = await Promise.all(
+    [
+      fetchProducts({ limit: 100 }),
+      fetchProducts({ limit: 15 }),
+      fetchCarousels("mobile").catch(() => []),
+      fetchCarousels("sub1").catch(() => []),
+    ],
+  );
+
+  const slideSets = { mobile: mobileSlides, sub1: desktopSlides };
+
+  [...slideSets.mobile, ...slideSets.sub1].forEach(({ imageUrl }) => {
+    const img = new Image();
+    img.src = imageUrl;
+  });
+
+  const almondProducts = (almondData.products ?? [])
+    .filter((p) => p.name.includes("아몬드"))
+    .map(toCardProps);
+  const giftProducts = giftData.products ?? [];
+
+  const almondContainer = document.getElementById("almond-grid");
+
+  setupProductTabs({
+    navEl: document.getElementById("almond-tabs"),
+    tabs: ["모두보기", "바디 케어", "핸드 케어", "리필"],
+    allProducts: almondProducts,
+    filterFn: almondFilter,
+    onTabChange: (filtered) => renderProductCards(filtered, almondContainer),
+  });
+
+  setupSection({
+    navId: "gift-tabs",
+    prevId: "gift-prev",
+    nextId: "gift-next",
+    containerId: "gift-grid",
+    tabs: ["모두보기", "2만원대", "3만원대", "5만원대", "10만원대"],
+    allProducts: giftProducts,
+    visibleCount: 5,
+    filterFn: giftFilter,
+  });
+
+  const mainCategoryList = document.getElementById("main-category-list");
+  if (mainCategoryList) {
+    MAIN_CATEGORIES.forEach((item) => {
+      mainCategoryList.append(
+        createCategoryCard({
+          image: item.image,
+          alt: item.label,
+          label: item.label,
+          liClass: "odd:pt-9 md:odd:pt-0",
+        }),
+      );
+    });
+  }
+
+  initRotatingCarousel(slideSets[carouselPosition], slideSets);
+}
