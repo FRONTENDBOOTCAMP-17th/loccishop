@@ -8,7 +8,7 @@ const categorySlug = params.get("slug");
 
 let currentPage = 1;
 let hasMore = true;
-const LIMIT = 20;
+const limit = 10;
 
 let currentCategoryId = null;
 let parentCategoryId = null;
@@ -98,38 +98,61 @@ function createTab(sub, isActive, parentName) {
   return li;
 }
 
+let allProductsCache = [];
+
 async function fetchProductList(page = 1) {
-  if (page === 1) productGrid.innerHTML = "";
+  if (page === 1) {
+    productGrid.innerHTML = "";
+
+    if (currentCategoryId === parentCategoryId) {
+      // 첫 페이지 먼저 가져와서 totalPages 확인
+      const firstResults = await Promise.all(
+        subCategoryIds.map((id) =>
+          fetchProducts({
+            categoryId: id,
+            sort: sortSelect.value,
+            page: 1,
+            limit,
+          }),
+        ),
+      );
+
+      // 각 카테고리의 남은 페이지 다 가져오기
+      const remainingResults = await Promise.all(
+        subCategoryIds.flatMap((id, i) => {
+          const totalPages = firstResults[i].meta?.pagination?.totalPages ?? 1;
+          return Array.from({ length: totalPages - 1 }, (_, j) =>
+            fetchProducts({
+              categoryId: id,
+              sort: sortSelect.value,
+              page: j + 2,
+              limit,
+            }),
+          );
+        }),
+      );
+
+      allProductsCache = [
+        ...firstResults.flatMap((r) => r.products),
+        ...remainingResults.flatMap((r) => r.products),
+      ];
+    }
+  }
 
   let products = [];
   let total = 0;
 
   if (currentCategoryId === parentCategoryId) {
-    const results = await Promise.all(
-      subCategoryIds.map((id) =>
-        fetchProducts({
-          categoryId: id,
-          sort: sortSelect.value,
-          page,
-          limit: LIMIT,
-        }),
-      ),
-    );
-    products = results.flatMap((res) => res.products);
-    total = results.reduce(
-      (acc, res) => acc + (res.meta?.pagination?.total ?? 0),
-      0,
-    );
-    hasMore = results.some(
-      (res) =>
-        res.meta?.pagination?.currentPage < res.meta?.pagination?.totalPages,
-    );
+    const start = (page - 1) * limit;
+    products = allProductsCache.slice(start, start + limit);
+    total = allProductsCache.length;
+    hasMore = start + limit < total;
   } else {
     const res = await fetchProducts({
       categoryId: currentCategoryId,
       sort: sortSelect.value,
       page,
-      limit: LIMIT,
+      limit,
     });
     if (!res) return;
     products = res.products;
