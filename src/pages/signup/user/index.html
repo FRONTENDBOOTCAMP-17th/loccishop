@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>L’OcciShop 클론 프로젝트</title>
+    <title>L'OcciShop 클론 프로젝트</title>
     <script type="module" src="/src/js/main.js"></script>
     <script type="module" src="/src/pages/signup/user/index.js"></script>
   </head>
@@ -20,7 +20,7 @@
         </p>
 
         <form id="signupForm" class="flex flex-col">
-          <div class="flex flex-col mb-4">
+          <div class="flex flex-col mb-4" data-field="userId">
             <label for="userId" class="text-[14px] font-medium leading-5"
               >아이디*</label
             >
@@ -30,6 +30,7 @@
                   type="text"
                   id="userId"
                   name="userId"
+                  data-field-input
                   class="bg-grey-99 border border-grey-45 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                   required
                 />
@@ -37,18 +38,18 @@
                   src="/src/assets/icon/error.svg"
                   alt="아이디 에러"
                   class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                  id="idErrorIcon"
+                  data-field-icon="error"
                 />
                 <img tabindex="-1"
                   src="/src/assets/icon/check.svg"
                   alt="아이디 통과"
                   class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                  id="idCheckIcon"
+                  data-field-icon="check"
                 />
               </div>
               <button
                 type="button"
-                id="checkIdBtn"
+                data-field-action="check"
                 class="h-10 px-4 bg-orange-90 text-[13px] font-medium whitespace-nowrap"
               >
                 중복확인
@@ -56,22 +57,22 @@
             </div>
             <p
               class="text-error-red text-[12px] font-medium leading-4 mb-1"
-              id="idErrorText"
+              data-field-message="error"
             >
               잘못된 형식입니다.
             </p>
             <p
               class="text-error-red text-[12px] font-medium leading-4 mb-4"
-              id="idDuplicateText"
+              data-field-message="duplicate"
             >
               이미 사용 중인 아이디입니다.
             </p>
-            <p class="text-[12px] font-medium leading-4" id="idAvailableText">
+            <p class="text-[12px] font-medium leading-4" data-field-message="available">
               사용 가능한 아이디입니다.
             </p>
           </div>
 
-          <div class="flex flex-col">
+          <div class="flex flex-col" data-field="userPw">
             <label for="userPw" class="text-[14px] font-medium leading-5"
               >비밀번호*</label
             >
@@ -80,6 +81,7 @@
                 type="password"
                 id="userPw"
                 name="userPw"
+                data-field-input
                 class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                 required
               />
@@ -88,17 +90,17 @@
                   <img tabindex="-1"
                     src="/src/assets/icon/error.svg"
                     alt="비밀번호 에러"
-                    id="pwErrorIcon"
+                    data-field-icon="error"
                     class="absolute inset-0 w-full h-full"
                   />
                   <img tabindex="-1"
                     src="/src/assets/icon/check.svg"
                     alt="비밀번호 통과"
-                    id="pwCheckIcon"
+                    data-field-icon="check"
                     class="absolute inset-0 w-full h-full"
                   />
                 </div>
-                <button id="togglePassword" type="button">
+                <button data-field-action="toggle" type="button">
                   <img tabindex="-1"
                     src="/src/assets/icon/passwordEye.svg"
                     alt="비밀번호 보기"
@@ -107,20 +109,20 @@
               </div>
             </div>
             <p
-              id="pwGuideText"
+              data-field-message="guide"
               class="text-abbey text-[12px] font-medium leading-4 mb-4"
             >
               영문/숫자/특수문자 포함 8자 이상
             </p>
             <p
-              id="pwErrorText"
+              data-field-message="error"
               class="text-error-red text-[12px] font-medium leading-4 mb-4"
             >
               비밀번호 형식이 올바르지 않습니다.
             </p>
           </div>
 
-          <div class="flex flex-col">
+          <div class="flex flex-col" data-field="userPwConfirm">
             <label for="userPwConfirm" class="text-[14px] font-medium leading-5"
               >비밀번호 확인*</label
             >
@@ -129,6 +131,7 @@
                 type="password"
                 id="userPwConfirm"
                 name="userPwConfirm"
+                data-field-input
                 class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                 required
               />
@@ -137,17 +140,17 @@
                   <img tabindex="-1"
                     src="/src/assets/icon/error.svg"
                     alt="비밀번호 확인 에러"
-                    id="pwConfirmErrorIcon"
+                    data-field-icon="error"
                     class="absolute inset-0 w-full h-full"
                   />
                   <img tabindex="-1"
                     src="/src/assets/icon/check.svg"
                     alt="비밀번호 확인 통과"
-                    id="pwConfirmCheckIcon"
+                    data-field-icon="check"
                     class="absolute inset-0 w-full h-full"
                   />
                 </div>
-                <button id="togglePasswordConfirm" type="button">
+                <button data-field-action="toggle" type="button">
                   <img tabindex="-1"
                     src="/src/assets/icon/passwordEye.svg"
                     alt="비밀번호 확인 보기"
@@ -156,14 +159,14 @@
               </div>
             </div>
             <p
-              id="pwConfirmErrorText"
+              data-field-message="error"
               class="text-error-red text-[12px] font-medium leading-4 mb-4"
             >
               비밀번호가 일치하지 않습니다.
             </p>
           </div>
 
-          <div class="flex flex-col">
+          <div class="flex flex-col" data-field="userName">
             <label for="userName" class="text-[14px] font-medium leading-5"
               >이름*</label
             >
@@ -172,6 +175,7 @@
                 type="text"
                 id="userName"
                 name="userName"
+                data-field-input
                 class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                 required
               />
@@ -179,24 +183,24 @@
                 src="/src/assets/icon/error.svg"
                 alt="이름 에러"
                 class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="nameErrorIcon"
+                data-field-icon="error"
               />
               <img tabindex="-1"
                 src="/src/assets/icon/check.svg"
                 alt="이름 통과"
                 class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="nameCheckIcon"
+                data-field-icon="check"
               />
             </div>
             <p
               class="text-error-red text-[12px] font-medium leading-4 mb-4"
-              id="nameErrorText"
+              data-field-message="error"
             >
               이름을 입력해주세요.
             </p>
           </div>
 
-          <div class="flex flex-col">
+          <div class="flex flex-col" data-field="userEmail">
             <label for="userEmail" class="text-[14px] font-medium leading-5"
               >이메일*</label
             >
@@ -205,6 +209,7 @@
                 type="email"
                 id="userEmail"
                 name="userEmail"
+                data-field-input
                 class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                 required
               />
@@ -212,24 +217,24 @@
                 src="/src/assets/icon/error.svg"
                 alt="이메일 에러"
                 class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="emailErrorIcon"
+                data-field-icon="error"
               />
               <img tabindex="-1"
                 src="/src/assets/icon/check.svg"
                 alt="이메일 통과"
                 class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="emailCheckIcon"
+                data-field-icon="check"
               />
             </div>
             <p
               class="text-error-red text-[12px] font-medium leading-4 mb-4"
-              id="emailErrorText"
+              data-field-message="error"
             >
               이메일 형식이 올바르지 않습니다.
             </p>
           </div>
 
-          <div class="flex flex-col">
+          <div class="flex flex-col" data-field="userAddress">
             <label for="userAddress" class="text-[14px] font-medium leading-5"
               >주소*</label
             >
@@ -238,6 +243,7 @@
                 type="text"
                 id="userAddress"
                 name="userAddress"
+                data-field-input
                 class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                 required
               />
@@ -245,12 +251,12 @@
                 src="/src/assets/icon/check.svg"
                 alt="주소 통과"
                 class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="addressCheckIcon"
+                data-field-icon="check"
               />
             </div>
           </div>
 
-          <div class="flex flex-col">
+          <div class="flex flex-col" data-field="userDetailAddress">
             <label
               for="userDetailAddress"
               class="text-[14px] font-medium leading-5"
@@ -261,6 +267,7 @@
                 type="text"
                 id="userDetailAddress"
                 name="userDetailAddress"
+                data-field-input
                 class="bg-grey-99 border border-grey-45 my-2 h-10 py-2.25 pl-[7.67px] pr-[31.7px] w-full"
                 required
               />
@@ -268,7 +275,7 @@
                 src="/src/assets/icon/check.svg"
                 alt="상세주소 통과"
                 class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                id="detailAddressCheckIcon"
+                data-field-icon="check"
               />
             </div>
           </div>

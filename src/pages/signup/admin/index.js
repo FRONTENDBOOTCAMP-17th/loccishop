@@ -6,46 +6,39 @@ createSignupPage({
   signupApi: signupAdmin,
   successMessage: "관리자 회원가입이 완료되었습니다.",
 
-  getExtraElements: () => ({
-    adminToken: document.getElementById("adminToken"),
-    tokenErrorIcon: document.getElementById("tokenErrorIcon"),
-    tokenCheckIcon: document.getElementById("tokenCheckIcon"),
-    tokenErrorText: document.getElementById("tokenErrorText"),
+  getExtraElements: (getField) => ({
+    adminToken: getField("adminToken"),
   }),
 
-  extraIconsToHide: (els) => [els.tokenErrorIcon, els.tokenCheckIcon],
-  extraTextsToHide: (els) => [els.tokenErrorText],
+  extraIconsToHide: (els) => [els.adminToken.errorIcon, els.adminToken.checkIcon],
+  extraTextsToHide: (els) => [els.adminToken.errorMessage],
 
   bindExtraValidations: (els) => {
-    els.adminToken.addEventListener("input", () => {
-      if (!els.adminToken.value) {
-        return clearState(
-          els.tokenErrorIcon,
-          els.tokenCheckIcon,
-          els.tokenErrorText,
-        );
+    els.adminToken.input.addEventListener("input", () => {
+      if (!els.adminToken.input.value) {
+        return clearState(els.adminToken);
       }
-      setValid(els.tokenErrorIcon, els.tokenCheckIcon, els.tokenErrorText);
+      setValid(els.adminToken);
     });
   },
 
   validateExtraFields: (els) => {
-    if (!els.adminToken.value) {
-      setError(els.tokenErrorIcon, els.tokenCheckIcon, els.tokenErrorText);
-      els.adminToken.focus();
+    if (!els.adminToken.input.value) {
+      setError(els.adminToken);
+      els.adminToken.input.focus();
       return false;
     }
     return true;
   },
 
   collectExtraFields: (els) => ({
-    adminToken: els.adminToken.value,
+    adminToken: els.adminToken.input.value,
   }),
 
   handleApiError: (error, els) => {
     if (error.message.includes("401") || error.message.includes("403")) {
-      setError(els.tokenErrorIcon, els.tokenCheckIcon, els.tokenErrorText);
-      els.adminToken.focus();
+      setError(els.adminToken);
+      els.adminToken.input.focus();
       return true;
     }
     return false;

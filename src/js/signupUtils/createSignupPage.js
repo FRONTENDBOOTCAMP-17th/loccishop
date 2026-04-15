@@ -12,7 +12,7 @@ import { setValid, setError, clearState } from "./ui.js";
  * @param {object} options
  * @param {(body: object) => Promise<any>} options.signupApi - 실제로 호출할 API 함수
  * @param {string} options.successMessage - 성공 시 alert 문구
- * @param {() => object} [options.getExtraElements] - admin/user 마다 다른 추가 DOM 요소를 반환하는 함수
+ * @param {(getField: Function) => object} [options.getExtraElements] - admin/user 마다 다른 추가 field 묶음을 반환하는 함수
  * @param {(els: object) => Element[]} [options.extraIconsToHide] - initUI 에서 숨길 추가 아이콘 목록
  * @param {(els: object) => Element[]} [options.extraTextsToHide] - initUI 에서 숨길 추가 텍스트 목록
  * @param {(els: object) => void} [options.bindExtraValidations] - 추가 필드의 input 이벤트 바인딩
@@ -34,201 +34,174 @@ export function createSignupPage({
   window.addEventListener("pageshow", (e) => {
     if (e.persisted) {
       const form = document.getElementById("signupForm");
-      if (form) form.reset();
+      if (form) { form.reset(); }
     }
   });
+
+  /**
+   * data-field="name" 래퍼에서 필드 묶음을 한 번에 가져온다.
+   * @param {string} name - data-field 속성값
+   */
+  function getField(name) {
+    const root = document.querySelector(`[data-field="${name}"]`);
+    return {
+      root,
+      input: root.querySelector("[data-field-input]"),
+      errorIcon: root.querySelector('[data-field-icon="error"]'),
+      checkIcon: root.querySelector('[data-field-icon="check"]'),
+      errorMessage: root.querySelector('[data-field-message="error"]'),
+      guideMessage: root.querySelector('[data-field-message="guide"]'),
+      duplicateMessage: root.querySelector('[data-field-message="duplicate"]'),
+      availableMessage: root.querySelector('[data-field-message="available"]'),
+      toggleBtn: root.querySelector('[data-field-action="toggle"]'),
+      checkBtn: root.querySelector('[data-field-action="check"]'),
+    };
+  }
 
   function getElements() {
     return {
       form: document.getElementById("signupForm"),
-      userId: document.getElementById("userId"),
-      userPw: document.getElementById("userPw"),
-      userPwConfirm: document.getElementById("userPwConfirm"),
-      userName: document.getElementById("userName"),
-      userEmail: document.getElementById("userEmail"),
-      idErrorIcon: document.getElementById("idErrorIcon"),
-      idCheckIcon: document.getElementById("idCheckIcon"),
-      idErrorText: document.getElementById("idErrorText"),
-      idDuplicateText: document.getElementById("idDuplicateText"),
-      idAvailableText: document.getElementById("idAvailableText"),
-      pwErrorIcon: document.getElementById("pwErrorIcon"),
-      pwCheckIcon: document.getElementById("pwCheckIcon"),
-      pwGuideText: document.getElementById("pwGuideText"),
-      pwErrorText: document.getElementById("pwErrorText"),
-      pwConfirmErrorIcon: document.getElementById("pwConfirmErrorIcon"),
-      pwConfirmCheckIcon: document.getElementById("pwConfirmCheckIcon"),
-      pwConfirmErrorText: document.getElementById("pwConfirmErrorText"),
-      nameErrorIcon: document.getElementById("nameErrorIcon"),
-      nameCheckIcon: document.getElementById("nameCheckIcon"),
-      nameErrorText: document.getElementById("nameErrorText"),
-      emailErrorIcon: document.getElementById("emailErrorIcon"),
-      emailCheckIcon: document.getElementById("emailCheckIcon"),
-      emailErrorText: document.getElementById("emailErrorText"),
-      ...getExtraElements(),
+      userId: getField("userId"),
+      userPw: getField("userPw"),
+      userPwConfirm: getField("userPwConfirm"),
+      userName: getField("userName"),
+      userEmail: getField("userEmail"),
+      ...getExtraElements(getField),
     };
   }
 
   function initUI(els) {
-    [
-      els.idErrorIcon,
-      els.idCheckIcon,
-      els.pwErrorIcon,
-      els.pwCheckIcon,
-      els.pwConfirmErrorIcon,
-      els.pwConfirmCheckIcon,
-      els.nameErrorIcon,
-      els.nameCheckIcon,
-      els.emailErrorIcon,
-      els.emailCheckIcon,
-      ...extraIconsToHide(els),
-    ].forEach((el) => {
-      if (el) el.style.display = "none";
+    const coreFields = [
+      els.userId,
+      els.userPw,
+      els.userPwConfirm,
+      els.userName,
+      els.userEmail,
+    ];
+
+    coreFields.forEach((field) => {
+      [
+        field.errorIcon,
+        field.checkIcon,
+        field.errorMessage,
+        field.guideMessage,
+        field.duplicateMessage,
+        field.availableMessage,
+      ]
+        .filter(Boolean)
+        .forEach((el) => {
+          el.style.display = "none";
+        });
     });
 
-    [
-      els.idErrorText,
-      els.idDuplicateText,
-      els.idAvailableText,
-      els.pwErrorText,
-      els.pwConfirmErrorText,
-      els.nameErrorText,
-      els.emailErrorText,
-      ...extraTextsToHide(els),
-    ].forEach((el) => {
-      if (el) el.style.display = "none";
-    });
+    [...extraIconsToHide(els), ...extraTextsToHide(els)]
+      .filter(Boolean)
+      .forEach((el) => {
+        el.style.display = "none";
+      });
   }
 
   function bindPasswordToggle(els) {
-    document.getElementById("togglePassword").addEventListener("click", () => {
-      els.userPw.type = els.userPw.type === "password" ? "text" : "password";
+    els.userPw.toggleBtn.addEventListener("click", () => {
+      els.userPw.input.type =
+        els.userPw.input.type === "password" ? "text" : "password";
     });
-    document
-      .getElementById("togglePasswordConfirm")
-      .addEventListener("click", () => {
-        els.userPwConfirm.type =
-          els.userPwConfirm.type === "password" ? "text" : "password";
-      });
+    els.userPwConfirm.toggleBtn.addEventListener("click", () => {
+      els.userPwConfirm.input.type =
+        els.userPwConfirm.input.type === "password" ? "text" : "password";
+    });
   }
 
   function bindIdValidation(els, state) {
-    els.userId.addEventListener("input", () => {
+    els.userId.input.addEventListener("input", () => {
       state.isIdChecked = false;
       state.isIdAvailable = false;
-      els.idDuplicateText.style.display = "none";
-      els.idAvailableText.style.display = "none";
+      els.userId.duplicateMessage.style.display = "none";
+      els.userId.availableMessage.style.display = "none";
 
-      if (!els.userId.value) {
-        return clearState(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
+      if (!els.userId.input.value) {
+        return clearState(els.userId);
       }
-      isValidUsername(els.userId.value)
-        ? setValid(els.idErrorIcon, els.idCheckIcon, els.idErrorText)
-        : setError(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
+      isValidUsername(els.userId.input.value)
+        ? setValid(els.userId)
+        : setError(els.userId);
     });
 
-    document
-      .getElementById("checkIdBtn")
-      .addEventListener("click", async () => {
-        if (!isValidUsername(els.userId.value)) {
-          setError(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
-          return els.userId.focus();
-        }
+    els.userId.checkBtn.addEventListener("click", async () => {
+      if (!isValidUsername(els.userId.input.value)) {
+        setError(els.userId);
+        return els.userId.input.focus();
+      }
 
-        try {
-          const result = await checkId(els.userId.value);
-          state.isIdChecked = true;
-          if (result.isAvailable) {
-            state.isIdAvailable = true;
-            els.idDuplicateText.style.display = "none";
-            els.idAvailableText.style.display = "block";
-            setValid(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
-          } else {
-            state.isIdAvailable = false;
-            els.idAvailableText.style.display = "none";
-            els.idDuplicateText.style.display = "block";
-            setError(els.idErrorIcon, els.idCheckIcon, null);
-          }
-        } catch (error) {
-          console.error("중복확인 오류:", error);
-          alert("중복확인 중 오류가 발생했습니다.");
+      try {
+        const result = await checkId(els.userId.input.value);
+        state.isIdChecked = true;
+        if (result.isAvailable) {
+          state.isIdAvailable = true;
+          els.userId.duplicateMessage.style.display = "none";
+          els.userId.availableMessage.style.display = "block";
+          setValid(els.userId);
+        } else {
+          state.isIdAvailable = false;
+          els.userId.availableMessage.style.display = "none";
+          els.userId.duplicateMessage.style.display = "block";
+          // 에러 아이콘만 표시, errorMessage 는 duplicateMessage 가 대신함
+          els.userId.errorIcon.style.display = "block";
+          els.userId.checkIcon.style.display = "none";
         }
-      });
+      } catch (error) {
+        console.error("중복확인 오류:", error);
+        alert("중복확인 중 오류가 발생했습니다.");
+      }
+    });
   }
 
   function bindPasswordValidation(els) {
-    els.userPw.addEventListener("input", () => {
-      if (!els.userPw.value) {
-        clearState(els.pwErrorIcon, els.pwCheckIcon, els.pwErrorText);
-        els.pwGuideText.style.display = "block";
+    els.userPw.input.addEventListener("input", () => {
+      if (!els.userPw.input.value) {
+        clearState(els.userPw);
+        els.userPw.guideMessage.style.display = "block";
         return;
       }
-      els.pwGuideText.style.display = "none";
-      isValidPassword(els.userPw.value)
-        ? setValid(els.pwErrorIcon, els.pwCheckIcon, els.pwErrorText)
-        : setError(els.pwErrorIcon, els.pwCheckIcon, els.pwErrorText);
+      els.userPw.guideMessage.style.display = "none";
+      isValidPassword(els.userPw.input.value)
+        ? setValid(els.userPw)
+        : setError(els.userPw);
 
-      if (els.userPwConfirm.value) {
-        els.userPw.value === els.userPwConfirm.value
-          ? setValid(
-              els.pwConfirmErrorIcon,
-              els.pwConfirmCheckIcon,
-              els.pwConfirmErrorText,
-            )
-          : setError(
-              els.pwConfirmErrorIcon,
-              els.pwConfirmCheckIcon,
-              els.pwConfirmErrorText,
-            );
+      if (els.userPwConfirm.input.value) {
+        els.userPw.input.value === els.userPwConfirm.input.value
+          ? setValid(els.userPwConfirm)
+          : setError(els.userPwConfirm);
       }
     });
 
-    els.userPwConfirm.addEventListener("input", () => {
-      if (!els.userPwConfirm.value) {
-        return clearState(
-          els.pwConfirmErrorIcon,
-          els.pwConfirmCheckIcon,
-          els.pwConfirmErrorText,
-        );
+    els.userPwConfirm.input.addEventListener("input", () => {
+      if (!els.userPwConfirm.input.value) {
+        return clearState(els.userPwConfirm);
       }
-      els.userPw.value === els.userPwConfirm.value
-        ? setValid(
-            els.pwConfirmErrorIcon,
-            els.pwConfirmCheckIcon,
-            els.pwConfirmErrorText,
-          )
-        : setError(
-            els.pwConfirmErrorIcon,
-            els.pwConfirmCheckIcon,
-            els.pwConfirmErrorText,
-          );
+      els.userPw.input.value === els.userPwConfirm.input.value
+        ? setValid(els.userPwConfirm)
+        : setError(els.userPwConfirm);
     });
   }
 
   function bindCommonFieldValidations(els) {
-    els.userName.addEventListener("input", () => {
-      if (!els.userName.value) {
-        return clearState(
-          els.nameErrorIcon,
-          els.nameCheckIcon,
-          els.nameErrorText,
-        );
+    els.userName.input.addEventListener("input", () => {
+      if (!els.userName.input.value) {
+        return clearState(els.userName);
       }
-      els.userName.value.trim()
-        ? setValid(els.nameErrorIcon, els.nameCheckIcon, els.nameErrorText)
-        : setError(els.nameErrorIcon, els.nameCheckIcon, els.nameErrorText);
+      els.userName.input.value.trim()
+        ? setValid(els.userName)
+        : setError(els.userName);
     });
 
-    els.userEmail.addEventListener("input", () => {
-      if (!els.userEmail.value) {
-        return clearState(
-          els.emailErrorIcon,
-          els.emailCheckIcon,
-          els.emailErrorText,
-        );
+    els.userEmail.input.addEventListener("input", () => {
+      if (!els.userEmail.input.value) {
+        return clearState(els.userEmail);
       }
-      isValidEmail(els.userEmail.value)
-        ? setValid(els.emailErrorIcon, els.emailCheckIcon, els.emailErrorText)
-        : setError(els.emailErrorIcon, els.emailCheckIcon, els.emailErrorText);
+      isValidEmail(els.userEmail.input.value)
+        ? setValid(els.userEmail)
+        : setError(els.userEmail);
     });
 
     bindExtraValidations(els);
@@ -237,41 +210,37 @@ export function createSignupPage({
   async function handleSubmit(e, els, state) {
     e.preventDefault();
 
-    if (!isValidUsername(els.userId.value)) {
-      setError(els.idErrorIcon, els.idCheckIcon, els.idErrorText);
-      return els.userId.focus();
+    if (!isValidUsername(els.userId.input.value)) {
+      setError(els.userId);
+      return els.userId.input.focus();
     }
     if (!state.isIdChecked || !state.isIdAvailable) {
       alert("아이디 중복확인을 해주세요.");
-      return els.userId.focus();
+      return els.userId.input.focus();
     }
-    if (!isValidPassword(els.userPw.value)) {
-      setError(els.pwErrorIcon, els.pwCheckIcon, els.pwErrorText);
-      return els.userPw.focus();
+    if (!isValidPassword(els.userPw.input.value)) {
+      setError(els.userPw);
+      return els.userPw.input.focus();
     }
-    if (els.userPw.value !== els.userPwConfirm.value) {
-      setError(
-        els.pwConfirmErrorIcon,
-        els.pwConfirmCheckIcon,
-        els.pwConfirmErrorText,
-      );
-      return els.userPwConfirm.focus();
+    if (els.userPw.input.value !== els.userPwConfirm.input.value) {
+      setError(els.userPwConfirm);
+      return els.userPwConfirm.input.focus();
     }
-    if (!els.userName.value.trim()) {
-      setError(els.nameErrorIcon, els.nameCheckIcon, els.nameErrorText);
-      return els.userName.focus();
+    if (!els.userName.input.value.trim()) {
+      setError(els.userName);
+      return els.userName.input.focus();
     }
-    if (!isValidEmail(els.userEmail.value)) {
-      setError(els.emailErrorIcon, els.emailCheckIcon, els.emailErrorText);
-      return els.userEmail.focus();
+    if (!isValidEmail(els.userEmail.input.value)) {
+      setError(els.userEmail);
+      return els.userEmail.input.focus();
     }
-    if (!validateExtraFields(els)) return;
+    if (!validateExtraFields(els)) { return; }
 
     const requestBody = {
-      username: els.userId.value,
-      password: els.userPw.value,
-      name: els.userName.value.trim(),
-      email: els.userEmail.value.trim(),
+      username: els.userId.input.value,
+      password: els.userPw.input.value,
+      name: els.userName.input.value.trim(),
+      email: els.userEmail.input.value.trim(),
       ...collectExtraFields(els),
     };
 
