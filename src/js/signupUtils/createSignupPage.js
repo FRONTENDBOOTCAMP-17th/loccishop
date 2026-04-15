@@ -4,7 +4,7 @@ import {
   isValidEmail,
   isValidPassword,
 } from "./validation.js";
-import { setValid, setError, clearState } from "./ui.js";
+import { setValid, setError, clearState, showOnlyErrorIcon } from "./ui.js";
 import { ROUTES } from "/src/js/constants/routes.js";
 
 /**
@@ -111,9 +111,7 @@ export function createSignupPage({
           state.isIdAvailable = false;
           els.userId.availableMessage.classList.add("hidden");
           els.userId.duplicateMessage.classList.remove("hidden");
-          // 에러 아이콘만 표시, errorMessage 는 duplicateMessage 가 대신함
-          els.userId.errorIcon.classList.remove("hidden");
-          els.userId.checkIcon.classList.add("hidden");
+          showOnlyErrorIcon(els.userId);
         }
       } catch (error) {
         console.error("중복확인 오류:", error);

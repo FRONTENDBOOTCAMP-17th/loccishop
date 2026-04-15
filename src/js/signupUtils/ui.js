@@ -15,3 +15,8 @@ export function clearState(field) {
   field.checkIcon.classList.add("hidden");
   field.errorMessage?.classList.add("hidden");
 }
+
+export function showOnlyErrorIcon(field) {
+  field.errorIcon?.classList.remove("hidden");
+  field.checkIcon.classList.add("hidden");
+}
