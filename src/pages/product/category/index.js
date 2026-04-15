@@ -118,17 +118,20 @@ async function fetchProductList() {
   productCount.textContent = `총 ${products.length} 개`;
 
   products.forEach((product) => {
-    productGrid.appendChild(
-      createProductCard({
-        id: product.id,
-        image: product.images[0],
-        name: product.name,
-        originalPrice: product.price,
-        discountRate: product.discountRate || null,
-        badgeType: product.badge || null,
-        isWished: product.isWished,
-      }),
-    );
+    const card = createProductCard({
+      id: product.id,
+      image: product.images[0],
+      name: product.name,
+      originalPrice: product.price,
+      discountRate: product.discountRate || null,
+      badgeType: product.badge || null,
+      isWished: product.isWished,
+    });
+    card.addEventListener("click", () => {
+      window.location.href = `/src/pages/product/detail/?id=${product.id}`;
+    });
+    card.classList.add("cursor-pointer");
+    productGrid.appendChild(card);
   });
 }
 
