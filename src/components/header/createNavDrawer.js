@@ -38,7 +38,7 @@ export function createNavDrawer() {
       li.className =
         "flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-empress/10 transition-colors duration-200";
       li.innerHTML = `
-        <span class="text-sm font-medium text-woody-brown">${cat.name}</span>
+        <span class="text-base tracking-wide font-medium text-woody-brown">${cat.name}</span>
         ${cat.children?.length ? '<span class="text-empress">›</span>' : ""}
       `;
 
@@ -54,7 +54,16 @@ export function createNavDrawer() {
       ul.append(li);
     });
 
-    panel1.append(ul);
+    const logoWrap = document.createElement("div");
+    logoWrap.className = "p-6 border-t border-empress/20 flex justify-center";
+
+    const logo = document.createElement("img");
+    logo.src = "/src/assets/logo/Loccitane.svg";
+    logo.alt = "L'Occitane";
+    logo.className = "w-32 opacity-50";
+
+    logoWrap.append(logo);
+    panel1.append(ul, logoWrap);
   }
 
   function renderPanel2(cat) {
@@ -102,7 +111,8 @@ export function createNavDrawer() {
     const viewAllLink = document.createElement("a");
     viewAllLink.href = `/src/pages/product/category/index.html?slug=${cat.slug}`;
     viewAllLink.textContent = `${cat.name} 전체 보기`;
-    viewAllLink.className = "text-sm text-woody-brown hover:text-ferra";
+    viewAllLink.className =
+      "text-base tracking-wide text-woody-brown hover:text-ferra";
     viewAllWrap.append(viewAllLink);
 
     // 제품 타입 섹션
@@ -114,15 +124,16 @@ export function createNavDrawer() {
     typeLabel.className = "text-xs text-empress mb-3";
 
     const ul = document.createElement("ul");
-    ul.className = "grid grid-cols-2 gap-x-4 gap-y-2";
+    ul.className = "grid grid-cols-1 gap-x-4 gap-y-2";
 
     cat.children.forEach((sub) => {
       const li = document.createElement("li");
+      li.className = "border-b border-empress/10 py-2";
       const a = document.createElement("a");
       a.href = `/src/pages/product/category/index.html?slug=${sub.slug}`;
       a.textContent = sub.name;
       a.className =
-        "text-sm text-woody-brown hover:text-ferra transition-colors duration-200";
+        "text-sm text-woody-brown hover:text-ferra transition-colors duration-200 ";
       li.append(a);
       ul.append(li);
     });
