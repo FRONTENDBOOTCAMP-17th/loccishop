@@ -1,7 +1,7 @@
 import { renderInfo } from "/src/pages/mypage/handlers/renderInfo.js";
-import { renderOrderList } from "/src/pages/mypage/handlers/renderOrderList.js";
-import { renderWishList } from "/src/pages/mypage/handlers/renderWishList.js";
-import { renderReviewList } from "/src/pages/mypage/handlers/renderReviewList.js";
+import { renderOrder } from "/src/pages/mypage/handlers/renderOrder.js";
+import { renderWish } from "/src/pages/mypage/handlers/renderWish.js";
+import { renderReview } from "/src/pages/mypage/handlers/renderReview.js";
 
 export function initMypageEvents() {
   const nav = document.querySelector("#mypage-nav");
@@ -22,13 +22,13 @@ export function initMypageEvents() {
         await renderInfo();
         break;
       case "order":
-        await renderOrderList();
+        await renderOrder();
         break;
       case "wish":
-        await renderWishList();
+        await renderWish();
         break;
       case "review":
-        await renderReviewList();
+        await renderReview();
         break;
     }
   });
