@@ -1,11 +1,14 @@
-import { initMypageEvents } from "/src/pages/mypage/handlers/initMypageEvents.js";
-import { renderInfo } from "/src/pages/mypage/handlers/renderInfo.js";
+import {
+  initMypageEvents,
+  updateSidebarUI,
+  renderSection,
+} from "/src/pages/mypage/handlers/initMypageEvents.js";
 
 async function init() {
   try {
     initMypageEvents();
-
-    await renderInfo();
+    updateSidebarUI("info");
+    await renderSection("info");
   } catch (error) {
     console.error("마이페이지 로딩 중 오류 발생:", error);
   }
