@@ -1,4 +1,7 @@
+import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import { fetchWishList, toggleIsWished } from "/src/js/api/wishlist/index.js";
+
+checkTokenValidity();
 
 async function init() {
   const main = document.querySelector("main");

@@ -1,4 +1,7 @@
+import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import { fetchCategories, fetchProducts } from "/src/js/api/product/index.js";
+
+checkTokenValidity();
 import { createProductCard } from "/src/components/ui/product-card.js";
 import { createTag } from "/src/components/ui/tag.js";
 import { createButton } from "/src/components/ui/button.js";

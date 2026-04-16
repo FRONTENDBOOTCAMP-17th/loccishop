@@ -1,8 +1,11 @@
+import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import {
   initMypageEvents,
   updateSidebarUI,
   renderSection,
 } from "/src/pages/mypage/handlers/initMypageEvents.js";
+
+checkTokenValidity();
 
 async function init() {
   try {

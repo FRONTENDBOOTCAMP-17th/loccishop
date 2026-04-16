@@ -1,4 +1,7 @@
+import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import { initStepIndicator } from "/src/components/ui/stepIndicator.js";
+
+checkTokenValidity();
 import { initOrderSummary } from "/src/components/ui/orderSummary.js";
 import { fetchAddresses } from "/src/js/api/address/index.js";
 import {
