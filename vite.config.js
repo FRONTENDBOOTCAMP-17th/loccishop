@@ -33,6 +33,10 @@ export default defineConfig({
         shipping: resolve(__dirname, "/src/pages/order/shipping/index.html"),
         payment: resolve(__dirname, "/src/pages/order/payment/index.html"),
         complete: resolve(__dirname, "/src/pages/order/complete/index.html"),
+        orderDetail: resolve(
+          __dirname,
+          "/src/pages/mypage/order-detail/index.html",
+        ),
         adminLogin: resolve(__dirname, "/admin/index.html"),
         dashboard: resolve(__dirname, "/admin/dashboard.html"),
       },
