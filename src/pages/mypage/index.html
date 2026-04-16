@@ -14,32 +14,34 @@
       class="max-w-[1280px] min-w-[400px] mx-auto w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-20 flex flex-col lg:flex-row gap-8 lg:gap-20"
     >
       <!-- 모바일 탭: lg 미만에서만 표시 -->
-      <nav id="mypage-tab" class="flex border-b border-cararra lg:hidden">
-        <button
-          data-menu="info"
-          class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
-        >
-          내 정보
-        </button>
-        <button
-          data-menu="order"
-          class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
-        >
-          주문 내역
-        </button>
-        <button
-          data-menu="wish"
-          class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
-        >
-          위시리스트
-        </button>
-        <button
-          data-menu="review"
-          class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
-        >
-          내 리뷰
-        </button>
-      </nav>
+      <div class="flex flex-col gap-4 lg:hidden">
+        <nav id="mypage-tab" class="flex border-b border-cararra">
+          <button
+            data-menu="info"
+            class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
+          >
+            내 정보
+          </button>
+          <button
+            data-menu="order"
+            class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
+          >
+            주문 내역
+          </button>
+          <button
+            data-menu="wish"
+            class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
+          >
+            위시리스트
+          </button>
+          <button
+            data-menu="review"
+            class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
+          >
+            내 리뷰
+          </button>
+        </nav>
+      </div>
 
       <!-- 사이드바: lg 이상에서만 표시 -->
       <aside class="w-full lg:w-56 lg:flex-shrink-0 hidden lg:block">
@@ -107,24 +109,6 @@
             </svg>
           </button>
         </nav>
-
-        <div class="mt-16 md:mt-20">
-          <button
-            class="text-[11px] text-empress/60 hover:text-ferra tracking-[0.2em] uppercase transition-colors flex items-center gap-2"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              ></path>
-            </svg>
-            Logout
-          </button>
-        </div>
       </aside>
 
       <section id="mypage-content" class="flex-1 min-h-[600px]"></section>
