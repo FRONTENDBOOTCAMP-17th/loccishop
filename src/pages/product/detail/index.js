@@ -15,32 +15,14 @@ import { initRitualSteps } from "./handlers/initRitualSteps.js";
 import { initProductEvents } from "./handlers/initProductEvents.js";
 import { openCartDrawer } from "/src/components/ui/cartDrawer.js";
 import { createIngredientsContent } from "/src/pages/product/detail/handlers/createIngredientsContent.js";
+import { getBestReviewTemplate } from "./components/getBestReviewTemplate.js";
+import { getReviewTemplate } from "./components/getReviewTemplate.js";
+import { getInfoTemplate } from "./components/getInfoTemplate.js";
+import { getMainTemplate } from "./components/getMainTemplate.js";
+import { getRecommendedTemplate } from "./components/getRecommendedTemplate.js";
+import { getRitualStepsTemplate } from "./components/getRitualStepsTemplate.js";
 
-async function loadHTML(selector, url) {
-  const container = document.querySelector(selector);
-  if (!container) {
-    return;
-  }
 
-  try {
-    const res = await fetch(url);
-
-    // 서버가 에러를 응답한 경우
-    if (!res.ok) {
-      throw new Error(`${url} 로드 실패 (${res.status})`);
-    }
-
-    container.innerHTML = await res.text();
-  } catch (error) {
-    // 네트워크 에러 또는 서버 에러
-    console.error("HTML 로드 실패:", error);
-    container.innerHTML = `
-      <p class="text-sm text-zambezi text-center py-10">
-        콘텐츠를 불러올 수 없습니다.
-      </p>
-    `;
-  }
-}
 
 function getProductId() {
   const params = new URLSearchParams(window.location.search);
@@ -133,15 +115,12 @@ async function initProductPage() {
   try {
     const product = await fetchProduct(id);
 
-    await loadHTML("#detail-main", "components/detail-main.html");
-
-    await Promise.all([
-      loadHTML("#product-info", "components/detail-info.html"),
-      loadHTML("#detail-ritual-steps", "components/detail-ritual-steps.html"),
-      loadHTML("#detail-recommended", "components/detail-recommended.html"),
-      loadHTML("#product-best-review", "components/detail-best-review.html"),
-      loadHTML("#detail-reviews", "components/detail-review.html"),
-    ]);
+    document.querySelector("#detail-main").innerHTML = getMainTemplate();
+    document.querySelector("#product-info").innerHTML = getInfoTemplate();
+    document.querySelector("#detail-ritual-steps").innerHTML = getRitualStepsTemplate();
+    document.querySelector("#detail-recommended").innerHTML = getRecommendedTemplate();
+    document.querySelector("#product-best-review").innerHTML = getBestReviewTemplate();
+    document.querySelector("#detail-reviews").innerHTML = getReviewTemplate();
 
     renderProductMain(product);
     initBadge();
