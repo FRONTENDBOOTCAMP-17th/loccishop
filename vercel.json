@@ -1,17 +1,57 @@
 {
   "rewrites": [
-    { "source": "/src/pages/login/:path*", "destination": "/src/pages/login/index.html" },
-    { "source": "/src/pages/signup/user/:path*", "destination": "/src/pages/signup/user/index.html" },
-    { "source": "/src/pages/signup/admin/:path*", "destination": "/src/pages/signup/admin/index.html" },
-    { "source": "/src/pages/mypage/:path*", "destination": "/src/pages/mypage/index.html" },
-    { "source": "/src/pages/product/list/:path*", "destination": "/src/pages/product/list/index.html" },
-    { "source": "/src/pages/product/detail/:path*", "destination": "/src/pages/product/detail/index.html" },
-    { "source": "/src/pages/product/category/:path*", "destination": "/src/pages/product/category/index.html" },
-    { "source": "/src/pages/cart/:path*", "destination": "/src/pages/cart/index.html" },
-    { "source": "/src/pages/order/shipping/:path*", "destination": "/src/pages/order/shipping/index.html" },
-    { "source": "/src/pages/order/payment/:path*", "destination": "/src/pages/order/payment/index.html" },
-    { "source": "/src/pages/order/complete/:path*", "destination": "/src/pages/order/complete/index.html" },
-    { "source": "/src/pages/mypage/order-detail/:path*", "destination": "/src/pages/mypage/order-detail/index.html" },
+    {
+      "source": "/src/pages/login/:path*",
+      "destination": "/src/pages/login/index.html"
+    },
+    {
+      "source": "/src/pages/signup/user/:path*",
+      "destination": "/src/pages/signup/user/index.html"
+    },
+    {
+      "source": "/src/pages/signup/admin/:path*",
+      "destination": "/src/pages/signup/admin/index.html"
+    },
+    {
+      "source": "/src/pages/mypage/:path*",
+      "destination": "/src/pages/mypage/index.html"
+    },
+    {
+      "source": "/src/pages/product/list/:path*",
+      "destination": "/src/pages/product/list/index.html"
+    },
+    {
+      "source": "/src/pages/product/detail/:path*",
+      "destination": "/src/pages/product/detail/index.html"
+    },
+    {
+      "source": "/src/pages/product/category/:path*",
+      "destination": "/src/pages/product/category/index.html"
+    },
+    {
+      "source": "/src/pages/cart/:path*",
+      "destination": "/src/pages/cart/index.html"
+    },
+    {
+      "source": "/src/pages/wishlist/:path*",
+      "destination": "/src/pages/wishlist/index.html"
+    },
+    {
+      "source": "/src/pages/order/shipping/:path*",
+      "destination": "/src/pages/order/shipping/index.html"
+    },
+    {
+      "source": "/src/pages/order/payment/:path*",
+      "destination": "/src/pages/order/payment/index.html"
+    },
+    {
+      "source": "/src/pages/order/complete/:path*",
+      "destination": "/src/pages/order/complete/index.html"
+    },
+    {
+      "source": "/src/pages/mypage/order-detail/:path*",
+      "destination": "/src/pages/mypage/order-detail/index.html"
+    },
     { "source": "/admin/:path*", "destination": "/admin/dashboard.html" }
   ]
 }

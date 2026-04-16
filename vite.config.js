@@ -29,6 +29,10 @@ export default defineConfig({
           __dirname,
           "src/pages/product/detail/index.html",
         ),
+        productCategory: resolve(
+          __dirname,
+          "src/pages/product/category/index.html",
+        ),
         cart: resolve(__dirname, "src/pages/cart/index.html"),
         shipping: resolve(__dirname, "src/pages/order/shipping/index.html"),
         payment: resolve(__dirname, "src/pages/order/payment/index.html"),
@@ -37,6 +41,7 @@ export default defineConfig({
           __dirname,
           "src/pages/mypage/order-detail/index.html",
         ),
+        wishlist: resolve(__dirname, "src/pages/wishlist/index.html"),
         adminLogin: resolve(__dirname, "admin/index.html"),
         dashboard: resolve(__dirname, "admin/dashboard.html"),
       },
