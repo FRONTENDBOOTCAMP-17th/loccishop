@@ -21,7 +21,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         login: resolve(__dirname, "/src/pages/login/index.html"),
-        signup: resolve(__dirname, "/src/pages/signup/index.html"),
+        signup: resolve(__dirname, "/src/pages/signup/user/index.html"),
+        mypage: resolve(__dirname, "/src/pages/mypage/index.html"),
         adminSignup: resolve(__dirname, "/src/pages/signup/admin/index.html"),
         productList: resolve(__dirname, "/src/pages/product/list/index.html"),
         productDetail: resolve(
