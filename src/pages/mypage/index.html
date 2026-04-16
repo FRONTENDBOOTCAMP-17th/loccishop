@@ -10,9 +10,44 @@
   <body class="bg-white-solid text-dark-woody">
     <header id="header"></header>
 
-    <main class="max-w-[1280px] mx-auto w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-20 flex flex-col lg:flex-row gap-8 lg:gap-20">
-      <aside class="w-full lg:w-56 lg:flex-shrink-0">
-        <h2 class="text-2xl md:text-3xl font-light tracking-tighter mb-8 md:mb-12">마이 페이지</h2>
+    <main
+      class="max-w-[1280px] min-w-[400px] mx-auto w-full px-4 py-10 sm:px-6 lg:px-10 lg:py-20 flex flex-col lg:flex-row gap-8 lg:gap-20"
+    >
+      <!-- 모바일 탭: lg 미만에서만 표시 -->
+      <nav id="mypage-tab" class="flex border-b border-cararra lg:hidden">
+        <button
+          data-menu="info"
+          class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
+        >
+          내 정보
+        </button>
+        <button
+          data-menu="order"
+          class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
+        >
+          주문 내역
+        </button>
+        <button
+          data-menu="wish"
+          class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
+        >
+          위시리스트
+        </button>
+        <button
+          data-menu="review"
+          class="mypage-tab-btn flex-1 py-3 text-xs text-empress border-b-2 border-transparent transition-colors hover:text-dark-woody"
+        >
+          내 리뷰
+        </button>
+      </nav>
+
+      <!-- 사이드바: lg 이상에서만 표시 -->
+      <aside class="w-full lg:w-56 lg:flex-shrink-0 hidden lg:block">
+        <h2
+          class="text-2xl md:text-3xl font-light tracking-tighter mb-8 md:mb-12"
+        >
+          마이 페이지
+        </h2>
 
         <nav id="mypage-nav" class="flex flex-col gap-2">
           <button
@@ -29,7 +64,6 @@
               <path d="M9 5l7 7-7 7"></path>
             </svg>
           </button>
-
           <button
             data-menu="order"
             class="group w-full flex items-center justify-between py-3 text-sm border-b transition-colors text-empress border-cararra/30 hover:text-dark-woody"
@@ -44,7 +78,6 @@
               <path d="M9 5l7 7-7 7"></path>
             </svg>
           </button>
-
           <button
             data-menu="wish"
             class="group w-full flex items-center justify-between py-3 text-sm border-b transition-colors text-empress border-cararra/30 hover:text-dark-woody"
@@ -59,7 +92,6 @@
               <path d="M9 5l7 7-7 7"></path>
             </svg>
           </button>
-
           <button
             data-menu="review"
             class="group w-full flex items-center justify-between py-3 text-sm border-b transition-colors text-empress border-cararra/30 hover:text-dark-woody"
