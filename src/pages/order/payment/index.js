@@ -1,5 +1,8 @@
 // src/pages/order/payment/index.js
+import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import { initStepIndicator } from "/src/components/ui/stepIndicator.js";
+
+checkTokenValidity();
 import { initOrderSummary } from "/src/components/ui/orderSummary.js";
 import { fetchMe } from "/src/js/api/auth/index.js";
 import {

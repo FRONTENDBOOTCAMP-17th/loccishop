@@ -1,4 +1,7 @@
+import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import { cartItemList } from "/src/js/api/cart/index.js";
+
+checkTokenValidity();
 import { renderCart } from "/src/pages/cart/handlers/renderCart.js";
 import { initStepIndicator } from "/src/components/ui/stepIndicator.js";
 import { initOrderSummary } from "/src/components/ui/orderSummary.js";

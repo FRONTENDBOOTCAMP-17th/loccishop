@@ -1,3 +1,4 @@
+import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import { renderHeader } from "/src/components/header/header.js";
 import { renderFooter } from "/src/components/footer/footer.js";
 import { renderLoginModal } from "/src/components/login-modal/loginModal.js";
@@ -344,3 +345,6 @@ export async function initMainPage() {
 
   initRotatingCarousel(slideSets[carouselPosition], slideSets);
 }
+
+checkTokenValidity();
+initMainPage().catch((err) => console.error("초기화 실패:", err));
