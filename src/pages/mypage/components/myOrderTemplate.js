@@ -17,7 +17,7 @@ export function getOrderTemplate() {
         <dd class="text-3xl font-light text-dark-woody" id="status-completed">0</dd>
       </div>
       <div class="flex-1 border-l border-cararra/50 pl-10">
-        <dt class="text-[10px] text-empress uppercase tracking-[0.2em] mb-4">Returns</dt>
+        <dt class="text-[10px] text-empress uppercase tracking-[0.2em] mb-4">Canceled</dt>
         <dd class="text-3xl font-light text-dark-woody" id="status-cancelled">0</dd>
       </div>
     </dl>
