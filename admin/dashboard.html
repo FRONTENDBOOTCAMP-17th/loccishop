@@ -637,6 +637,17 @@
         >
           <span class="w-[18px] text-center">👤</span> 회원 관리
         </div>
+        <p
+          class="text-[10px] tracking-[0.2em] uppercase text-white/25 px-6 pt-4 pb-2"
+        >
+          주문
+        </p>
+        <div
+          class="nav-item flex items-center gap-2.5 px-6 py-2.5 text-white/55 cursor-pointer transition-all text-[13px] hover:text-white hover:bg-white/[0.05] border-l-[3px] border-transparent"
+          data-section="orders"
+        >
+          <span class="w-[18px] text-center">🛒</span> 주문 관리
+        </div>
       </nav>
 
       <div class="px-6 py-5 border-t border-white/[0.08]">
@@ -666,12 +677,13 @@
     </div>
 
     <script type="module">
-      import { removeToken, getToken } from "./js/api.js";
-      import { renderProductsSection } from "./js/products.js";
-      import { renderCategoriesSection } from "./js/categories.js";
-      import { renderBannersSection } from "./js/banners.js";
-      import { renderRitualsSection } from "./js/rituals.js";
-      import { renderMembersSection } from "./js/members.js";
+      import { removeToken, getToken } from "/admin/js/api.js";
+      import { renderProductsSection } from "/admin/js/products.js";
+      import { renderCategoriesSection } from "/admin/js/categories.js";
+      import { renderBannersSection } from "/admin/js/banners.js";
+      import { renderRitualsSection } from "/admin/js/rituals.js";
+      import { renderMembersSection } from "/admin/js/members.js";
+      import { renderOrdersSection } from "/admin/js/orders.js";
 
       if (!getToken()) {
         window.location.href = "/admin/index.html";
@@ -687,6 +699,7 @@
         banners: { title: "배너 관리", render: renderBannersSection },
         rituals: { title: "리추얼 세트 관리", render: renderRitualsSection },
         members: { title: "회원 관리", render: renderMembersSection },
+        orders: { title: "주문 관리", render: renderOrdersSection },
       };
 
       const content = document.getElementById("content");
@@ -702,6 +715,8 @@
         const { title, render } = sectionMap[section];
         topbarTitle.textContent = title;
         render(content);
+
+        history.replaceState(null, "", `#${section}`);
       }
 
       document.querySelectorAll(".nav-item").forEach((item) => {
@@ -714,7 +729,11 @@
         window.location.href = "/admin/index.html";
       });
 
-      navigate("products");
+      const initialSection = location.hash.replace("#", "") || "products";
+      const validSection = sectionMap[initialSection]
+        ? initialSection
+        : "products";
+      navigate(validSection);
     </script>
   </body>
 </html>

@@ -52,3 +52,28 @@ export async function uploadImage(file) {
   if (!json.success) throw new Error("이미지 업로드 실패");
   return json.data.imageUrl;
 }
+
+export async function fetchAPIWithMeta(path, options = {}) {
+  const token = getToken();
+
+  const res = await fetch(`${BASE_URL}${path}`, {
+    method: options.method ?? "GET",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...options.headers,
+    },
+    ...(options.body && { body: JSON.stringify(options.body) }),
+  });
+
+  if (res.status === 401 || res.status === 403) {
+    removeToken();
+    window.location.href = "/admin/index.html";
+    return;
+  }
+
+  const json = await res.json();
+  if (!json.success) throw new Error(json.message ?? "서버 오류");
+  return { data: json.data, meta: json.meta };
+}
