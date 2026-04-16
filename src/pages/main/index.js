@@ -1,7 +1,4 @@
 import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
-import { renderHeader } from "/src/components/header/header.js";
-import { renderFooter } from "/src/components/footer/footer.js";
-import { renderLoginModal } from "/src/components/login-modal/loginModal.js";
 import { fetchProducts } from "/src/js/api/product/index.js";
 import {
   setupProductTabs,
@@ -28,7 +25,7 @@ function almondFilter(products, label) {
   return products;
 }
 
-// ── 메인 카테고리 그리드 ──────────────────────────────────────────
+// 메인 카테고리 그리드
 const MAIN_CATEGORIES = [
   { image: "/src/assets/images/main_page_1.webp", label: "공식몰 혜택" },
   { image: "/src/assets/images/main_page_2.webp", label: "선물 추천" },
@@ -40,7 +37,7 @@ const MAIN_CATEGORIES = [
   { image: "/src/assets/images/main_page_8.webp", label: "STEP 3" },
 ];
 
-// ── 추천 제품 캐러셀 (rotating) ───────────────────────────────────
+// 추천 제품 캐러셀
 function initRotatingCarousel(initialSlides, slideSets) {
   const track = document.getElementById("rotating-track");
   const prevBtn = document.getElementById("rotating-prev");
@@ -280,18 +277,8 @@ function initRotatingCarousel(initialSlides, slideSets) {
   });
 }
 
-// ── 초기화 ────────────────────────────────────────────────────────
+// 초기화
 export async function initMainPage() {
-  const headerAnchor = document.getElementById("header");
-  const footerAnchor = document.getElementById("footer");
-  if (headerAnchor) {
-    headerAnchor.replaceWith(await renderHeader());
-  }
-  if (footerAnchor) {
-    footerAnchor.replaceWith(await renderFooter());
-  }
-  document.body.append(renderLoginModal());
-
   const carouselPosition = window.innerWidth < 1024 ? "mobile" : "sub1";
 
   const [page1Data, page2Data, mobileSlides, desktopSlides] = await Promise.all(
