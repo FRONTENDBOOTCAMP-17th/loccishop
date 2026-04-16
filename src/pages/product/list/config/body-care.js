@@ -1,9 +1,9 @@
 export default {
-  parentCategoryId: 2,
+  parentCategoryId: 8,
   parentSlug: "body-care",
-  productCategoryId: 3,
+  productCategoryIds: [9, 10, 11, 23],
   hero: {
-    image: "/src/assets/images/handcareHero.webp",
+    image: "/src/assets/images/bodycareHero.webp",
     title: "바디 케어",
   },
   description:
