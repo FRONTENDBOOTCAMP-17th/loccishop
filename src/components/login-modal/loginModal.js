@@ -135,6 +135,7 @@ function setupModalEvents(modal) {
       localStorage.setItem("member", JSON.stringify(data.member));
 
       closeLoginModal();
+      window.location.reload();
 
       if (data.member?.role?.toLowerCase() === "admin") {
         window.location.href = "/src/pages/admin/dashboard/index.html";
