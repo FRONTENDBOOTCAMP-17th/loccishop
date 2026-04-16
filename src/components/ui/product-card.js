@@ -1,5 +1,5 @@
 import { createBadge } from "/src/components/ui/badge.js";
-import { toggleIsWished } from "/src/js/api/wishList/index.js";
+import { toggleIsWished } from "/src/js/api/wishlist/index.js";
 
 export function createProductCard({
   id,
