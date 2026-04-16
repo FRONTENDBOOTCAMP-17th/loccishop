@@ -22,7 +22,7 @@ export function getInfoTemplate() {
 <div class="bg-white-solid rounded-sm border border-cararra shadow-sm overflow-hidden">
   <div class="px-8 py-6 border-b border-cararra flex justify-between items-center bg-spring-wood/30">
     <h4 class="text-base font-medium text-dark-woody tracking-tight">개인정보 설정</h4>
-    <button class="px-5 py-2 bg-white text-dark-woody border border-cararra text-xs hover:bg-dark-woody hover:text-white transition-all duration-300 shadow-sm">
+    <button id="btn-open-edit" class="px-5 py-2 bg-white text-dark-woody border border-cararra text-xs hover:bg-dark-woody hover:text-white transition-all duration-300 shadow-sm">
       정보 수정하기
     </button>
   </div>
@@ -48,10 +48,95 @@ export function getInfoTemplate() {
       <p class="text-sm text-dark-woody font-medium leading-relaxed pb-5 border-b border-cararra/60" id="info-detail-address"></p>
     </div>
     <div class="md:col-span-2 pt-4 flex justify-end" id="withdrawal-container">
-      <button class="text-[11px] text-empress/40 hover:text-ferra transition-colors tracking-tighter underline underline-offset-4">
+      <button id="btn-open-withdraw" class="text-[11px] text-empress/40 hover:text-ferra transition-colors tracking-tighter underline underline-offset-4">
         서비스 탈퇴를 원하시나요?
       </button>
     </div>
+  </div>
+</div>
+
+<!-- 정보 수정 모달 -->
+<div id="modal-edit" class="fixed inset-0 z-50 hidden items-center justify-center">
+  <div class="absolute inset-0 bg-black/40" id="modal-edit-backdrop"></div>
+  <div class="relative bg-white w-full max-w-lg mx-4 shadow-xl rounded-sm">
+    <div class="px-8 py-6 border-b border-cararra flex justify-between items-center">
+      <h4 class="text-base font-medium text-dark-woody tracking-tight">정보 수정</h4>
+      <button id="btn-close-edit" class="text-empress/60 hover:text-dark-woody transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <form id="form-edit" class="p-8 space-y-5">
+      <div>
+        <label class="block text-[11px] text-empress/60 mb-2 tracking-widest font-bold">이름</label>
+        <input id="edit-name" type="text" name="name"
+          class="w-full border border-cararra px-4 py-2.5 text-sm text-dark-woody focus:outline-none focus:border-ferra transition-colors" />
+      </div>
+      <div>
+        <label class="block text-[11px] text-empress/60 mb-2 tracking-widest font-bold">이메일 주소</label>
+        <input id="edit-email" type="email" name="email"
+          class="w-full border border-cararra px-4 py-2.5 text-sm text-dark-woody focus:outline-none focus:border-ferra transition-colors" />
+      </div>
+      <div>
+        <label class="block text-[11px] text-empress/60 mb-2 tracking-widest font-bold">기본 주소</label>
+        <input id="edit-base-address" type="text" name="baseAddress"
+          class="w-full border border-cararra px-4 py-2.5 text-sm text-dark-woody focus:outline-none focus:border-ferra transition-colors" />
+      </div>
+      <div>
+        <label class="block text-[11px] text-empress/60 mb-2 tracking-widest font-bold">상세 주소</label>
+        <input id="edit-detail-address" type="text" name="detailAddress"
+          class="w-full border border-cararra px-4 py-2.5 text-sm text-dark-woody focus:outline-none focus:border-ferra transition-colors" />
+      </div>
+      <p id="edit-error" class="text-xs text-red-500 hidden"></p>
+      <div class="flex gap-3 pt-2">
+        <button type="button" id="btn-cancel-edit"
+          class="flex-1 py-3 border border-cararra text-sm text-empress hover:bg-cararra/30 transition-colors">
+          취소
+        </button>
+        <button type="submit"
+          class="flex-1 py-3 bg-dark-woody text-white text-sm hover:bg-ferra transition-colors">
+          수정 완료
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 탈퇴 확인 모달 -->
+<div id="modal-withdraw" class="fixed inset-0 z-50 hidden items-center justify-center">
+  <div class="absolute inset-0 bg-black/40" id="modal-withdraw-backdrop"></div>
+  <div class="relative bg-white w-full max-w-md mx-4 shadow-xl rounded-sm">
+    <div class="px-8 py-6 border-b border-cararra flex justify-between items-center">
+      <h4 class="text-base font-medium text-dark-woody tracking-tight">서비스 탈퇴</h4>
+      <button id="btn-close-withdraw" class="text-empress/60 hover:text-dark-woody transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <form id="form-withdraw" class="p-8 space-y-5">
+      <p class="text-sm text-empress/80 leading-relaxed">
+        탈퇴 시 모든 개인정보 및 주문 내역이 삭제되며 복구할 수 없습니다.<br />
+        계속하시려면 비밀번호를 입력해 주세요.
+      </p>
+      <div>
+        <label class="block text-[11px] text-empress/60 mb-2 tracking-widest font-bold">비밀번호</label>
+        <input id="withdraw-password" type="password" name="password" placeholder="현재 비밀번호 입력"
+          class="w-full border border-cararra px-4 py-2.5 text-sm text-dark-woody focus:outline-none focus:border-ferra transition-colors" />
+      </div>
+      <p id="withdraw-error" class="text-xs text-red-500 hidden"></p>
+      <div class="flex gap-3 pt-2">
+        <button type="button" id="btn-cancel-withdraw"
+          class="flex-1 py-3 border border-cararra text-sm text-empress hover:bg-cararra/30 transition-colors">
+          취소
+        </button>
+        <button type="submit"
+          class="flex-1 py-3 bg-ferra text-white text-sm hover:bg-ferra/80 transition-colors">
+          탈퇴하기
+        </button>
+      </div>
+    </form>
   </div>
 </div>
   `;
