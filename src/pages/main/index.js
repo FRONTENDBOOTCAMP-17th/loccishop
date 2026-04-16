@@ -1,7 +1,6 @@
 import { renderHeader } from "/src/components/header/header.js";
 import { renderFooter } from "/src/components/footer/footer.js";
 import { renderLoginModal } from "/src/components/login-modal/loginModal.js";
-import { createTag } from "/src/components/ui/tag.js";
 import { fetchProducts } from "/src/js/api/product/index.js";
 import {
   setupProductTabs,
@@ -11,96 +10,6 @@ import { renderProductCards } from "/src/components/ui/product-card-list.js";
 import { createCategoryCard } from "/src/components/ui/categoryCard.js";
 import { createCarouselSlide } from "/src/components/ui/carouselSlide.js";
 import { fetchCarousels } from "/src/js/api/carousel/index.js";
-
-// ── 상품 렌더링 ───────────────────────────────────────────────────
-function renderProducts(products, containerId) {
-  const container = document.getElementById(containerId);
-  if (!container) {
-    return;
-  }
-  renderProductCards(products, container);
-}
-
-// ── 탭 활성 스타일 토글 ───────────────────────────────────────────
-const ACTIVE_CLASSES = ["bg-ferra", "text-spring-wood", "border-ferra"];
-const DEFAULT_CLASSES = [
-  "bg-spring-wood",
-  "text-woody-brown",
-  "border-empress",
-];
-
-function setActive(btn) {
-  btn.classList.remove(...DEFAULT_CLASSES);
-  btn.classList.add(...ACTIVE_CLASSES);
-}
-function setDefault(btn) {
-  btn.classList.remove(...ACTIVE_CLASSES);
-  btn.classList.add(...DEFAULT_CLASSES);
-}
-
-// ── 섹션 통합 설정 (탭 + 캐러셀) ─────────────────────────────────
-function setupSection({
-  navId,
-  prevId,
-  nextId,
-  containerId,
-  tabs,
-  allProducts,
-  visibleCount,
-  filterFn,
-}) {
-  let currentProducts = [...allProducts];
-  let offset = 0;
-
-  function show() {
-    renderProducts(
-      currentProducts.slice(offset, offset + visibleCount),
-      containerId,
-    );
-  }
-
-  const nav = document.getElementById(navId);
-  if (nav) {
-    tabs.forEach((label, idx) => {
-      const btn = createTag({
-        text: label,
-        state: idx === 0 ? "active" : "default",
-      });
-
-      btn.addEventListener("click", () => {
-        nav.querySelectorAll("button").forEach(setDefault);
-        setActive(btn);
-
-        currentProducts =
-          label === "모두보기"
-            ? [...allProducts]
-            : filterFn(allProducts, label);
-        offset = 0;
-        show();
-      });
-
-      nav.append(btn);
-    });
-  }
-
-  document.getElementById(prevId)?.addEventListener("click", () => {
-    if (offset <= 0) {
-      return;
-    }
-    offset = Math.max(0, offset - visibleCount);
-    show();
-  });
-
-  document.getElementById(nextId)?.addEventListener("click", () => {
-    if (offset + visibleCount >= currentProducts.length) {
-      return;
-    }
-    offset += visibleCount;
-    show();
-  });
-
-  show();
-}
 
 // 아몬드 컬렉션: 상품명 키워드로 필터
 function almondFilter(products, label) {
@@ -116,26 +25,6 @@ function almondFilter(products, label) {
     );
   }
   return products;
-}
-
-// 기프트: 가격대로 필터
-const PRICE_RANGES = {
-  "2만원대": [20000, 29999],
-  "3만원대": [30000, 39999],
-  "5만원대": [50000, 59999],
-  "10만원대": [100000, 109999],
-};
-
-function giftFilter(products, label) {
-  const range = PRICE_RANGES[label];
-  if (!range) {
-    return products;
-  }
-  const [min, max] = range;
-  return products.filter((p) => {
-    const price = p.discountPrice ?? p.price;
-    return price >= min && price <= max;
-  });
 }
 
 // ── 메인 카테고리 그리드 ──────────────────────────────────────────
@@ -404,10 +293,10 @@ export async function initMainPage() {
 
   const carouselPosition = window.innerWidth < 1024 ? "mobile" : "sub1";
 
-  const [almondData, giftData, mobileSlides, desktopSlides] = await Promise.all(
+  const [page1Data, page2Data, mobileSlides, desktopSlides] = await Promise.all(
     [
-      fetchProducts({ limit: 100 }),
-      fetchProducts({ limit: 15 }),
+      fetchProducts({ page: 1, limit: 50 }),
+      fetchProducts({ page: 2, limit: 50 }),
       fetchCarousels("mobile").catch(() => []),
       fetchCarousels("sub1").catch(() => []),
     ],
@@ -420,10 +309,14 @@ export async function initMainPage() {
     img.src = imageUrl;
   });
 
-  const almondProducts = (almondData.products ?? [])
+  const allProducts = [
+    ...(page1Data.products ?? []),
+    ...(page2Data.products ?? []),
+  ];
+
+  const almondProducts = allProducts
     .filter((p) => p.name.includes("아몬드"))
     .map(toCardProps);
-  const giftProducts = giftData.products ?? [];
 
   const almondContainer = document.getElementById("almond-grid");
 
@@ -433,17 +326,6 @@ export async function initMainPage() {
     allProducts: almondProducts,
     filterFn: almondFilter,
     onTabChange: (filtered) => renderProductCards(filtered, almondContainer),
-  });
-
-  setupSection({
-    navId: "gift-tabs",
-    prevId: "gift-prev",
-    nextId: "gift-next",
-    containerId: "gift-grid",
-    tabs: ["모두보기", "2만원대", "3만원대", "5만원대", "10만원대"],
-    allProducts: giftProducts,
-    visibleCount: 5,
-    filterFn: giftFilter,
   });
 
   const mainCategoryList = document.getElementById("main-category-list");
