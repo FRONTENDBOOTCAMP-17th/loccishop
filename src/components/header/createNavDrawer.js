@@ -87,8 +87,12 @@ export function createNavDrawer() {
       setTimeout(() => panel2.remove(), 300);
     });
 
+    const LIST_PAGE_SLUGS = ['hand-care', 'body-care'];
+
     const viewAll = document.createElement("a");
-    viewAll.href = `/src/pages/product/category/index.html?slug=${cat.slug}`;
+    viewAll.href = LIST_PAGE_SLUGS.includes(cat.slug)
+      ? `/src/pages/product/list/index.html?slug=${cat.slug}`
+      : `/src/pages/product/category/index.html?slug=${cat.slug}`;
     viewAll.textContent = `${cat.name} 보기 ›`;
     viewAll.className = "text-sm text-empress hover:text-woody-brown";
 
