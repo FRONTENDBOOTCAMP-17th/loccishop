@@ -1,4 +1,4 @@
-import { fetchAPI } from "/src/js/api/client.js";
+import { fetchAPI, fetchAPIWithMeta } from "/src/js/api/client.js";
 
 // 리뷰 작성 가능 여부 확인
 export async function fetchReviewable({ productId, orderId }) {
@@ -24,8 +24,10 @@ export async function createOrder(orderData) {
 }
 
 //주문 조회
-export async function fetchOrder() {
-  return await fetchAPI("/members/me/orders");
+export async function fetchOrder(page = 1, limit = 10) {
+  return await fetchAPIWithMeta(
+    `/members/me/orders?page=${page}&limit=${limit}`,
+  );
 }
 
 //주문 상세 조회
@@ -34,11 +36,17 @@ export async function fetchOrderDetail(orderId) {
 }
 
 //주문 취소
-export async function cancelOrder(orderId, cancelReson) {
-  const result = await fetchAPI(`/members/me/orders/${orderId}`, {
+export async function cancelOrder(orderId, cancelReason) {
+  return await fetchAPI(`/members/me/orders/${orderId}/cancel`, {
     method: "POST",
-    body: cancelReson,
+    body: cancelReason,
   });
+}
 
-  return result;
+// 배송지 수정
+export async function updateOrderShipping(orderId, data) {
+  return await fetchAPI(`/members/me/orders/${orderId}`, {
+    method: "PATCH",
+    body: data,
+  });
 }
