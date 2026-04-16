@@ -1,17 +1,11 @@
 export function getReviewTemplate() {
   return `
-<div class="max-w-3xl">
-  <div class="flex justify-between items-end mb-16 border-b-2 border-dark-woody pb-8">
-    <h4 class="text-xl font-light tracking-tight text-dark-woody">Reviews</h4>
-    <div class="text-right">
-      <div class="flex items-center gap-3 justify-end mb-1">
-        <span class="text-3xl font-light text-dark-woody tracking-tighter">-</span>
-        <div class="flex text-ferra text-[8px]" id="total-stars-container"></div>
-      </div>
-      <p class="text-[10px] text-empress uppercase tracking-[0.2em]">-</p>
-    </div>
-  </div>
-  <div id="review-list-container" class="space-y-20"></div>
-</div>
+<section aria-labelledby="review-heading">
+  <header class="flex justify-between items-baseline mb-12 border-b-2 border-dark-woody pb-6">
+    <h4 id="review-heading" class="text-xl font-light tracking-tight text-dark-woody">Reviews</h4>
+    <p class="text-[10px] text-empress uppercase tracking-[0.2em]" id="review-count">-</p>
+  </header>
+  <ol id="review-list-container" class="space-y-20" aria-label="내 리뷰 목록"></ol>
+</section>
   `;
 }
