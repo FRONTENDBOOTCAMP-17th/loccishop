@@ -71,6 +71,7 @@ export function createOrderItems(items) {
 
 export function createShippingInfo(shippingAddress) {
   const section = document.createElement("div");
+  section.id = "shipping-info-section";
   section.className = "flex flex-col gap-3 py-6 border-b border-gray-200";
 
   const h2 = document.createElement("h2");
@@ -85,9 +86,6 @@ export function createShippingInfo(shippingAddress) {
     { label: "연락처", value: shippingAddress.receiverPhone },
     { label: "주소", value: shippingAddress.baseAddress },
     { label: "상세주소", value: shippingAddress.detailAddress },
-    ...(shippingAddress.shippingRequest
-      ? [{ label: "배송 요청사항", value: shippingAddress.shippingRequest }]
-      : []),
   ];
 
   rows.forEach(({ label, value }) => {
