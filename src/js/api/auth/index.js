@@ -35,6 +35,22 @@ export function fetchMe() {
   return fetchAPI("/members/me");
 }
 
+//회원정보 수정
+export function updateMemberInfo(data) {
+  return fetchAPI("/members/me", {
+    method: "PUT",
+    body: data,
+  });
+}
+
+//회원 탈퇴
+export function withdrawMember(password) {
+  return fetchAPI("/members/me/withdraw", {
+    method: "POST",
+    body: { password },
+  });
+}
+
 //로그아웃
 export function logoutUser() {
   localStorage.removeItem("token");
