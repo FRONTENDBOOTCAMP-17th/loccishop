@@ -169,22 +169,53 @@ function initRotatingCarousel(initialSlides, slideSets) {
   let currentVIdx = 1;
 
   function buildTrack(newSlides) {
-    slides = newSlides;
+    slides = Array.isArray(newSlides) ? newSlides : [];
     track.innerHTML = "";
+
+    if (slides.length === 0) {
+      track.innerHTML = `
+        <div class="w-full py-16 text-center text-empress">
+          등록된 배너가 없습니다.
+        </div>
+      `;
+      counter.textContent = "0 / 0";
+      prevLabel.textContent = "";
+      nextLabel.textContent = "";
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+      return false;
+    }
+
+    if (slides.length === 1) {
+      track.append(createCarouselSlide(slides[0]));
+      counter.textContent = "1 / 1";
+      prevLabel.textContent = "";
+      nextLabel.textContent = "";
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+      return false;
+    }
+
+    prevBtn.disabled = false;
+    nextBtn.disabled = false;
+
     track.append(createCarouselSlide(slides[slides.length - 1])); // 마지막 클론
     slides.forEach((s) => track.append(createCarouselSlide(s)));
     track.append(createCarouselSlide(slides[0])); // 첫번째 클론
+    return true;
   }
 
   function renderSlides(newSlides) {
-    buildTrack(newSlides);
+    const built = buildTrack(newSlides);
+    if (!built) return;
+
     currentVIdx = 1;
     applyTranslate(getTranslateForIdx(currentVIdx), false);
     updateSlideStyles();
     updateNav();
   }
 
-  buildTrack(slides);
+  const built = buildTrack(slides);
 
   let isDragging = false;
   let dragStartX = 0;
@@ -275,9 +306,11 @@ function initRotatingCarousel(initialSlides, slideSets) {
     );
   }
 
-  applyTranslate(getTranslateForIdx(currentVIdx), false);
-  updateSlideStyles();
-  updateNav();
+  if (built) {
+    applyTranslate(getTranslateForIdx(currentVIdx), false);
+    updateSlideStyles();
+    updateNav();
+  }
 
   prevBtn.addEventListener("click", () => goTo(currentVIdx - 1));
   nextBtn.addEventListener("click", () => goTo(currentVIdx + 1));
