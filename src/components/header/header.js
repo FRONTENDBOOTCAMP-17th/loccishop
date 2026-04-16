@@ -82,7 +82,7 @@ function createDropdown(isLoggedIn) {
     inner.append(loginMenuBtn);
 
     const signupA = document.createElement("a");
-    signupA.href = "/src/pages/signup/index.html";
+    signupA.href = "/src/pages/signup/user/index.html";
     signupA.className =
       "block px-4 py-3 text-xs text-gray-800 bg-white hover:bg-cararra transition-colors tracking-wide";
     signupA.textContent = "회원가입";
