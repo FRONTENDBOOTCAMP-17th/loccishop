@@ -5,7 +5,7 @@ export function getWishTemplate() {
   <span class="text-[10px] text-empress uppercase tracking-[0.2em]" id="wish-count">-</span>
 </div>
 
-<div id="wish-list-container" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-20"></div>
+<div id="wish-list-container" class="list-none grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-12 gap-y-20"></div>
 
 <div id="wish-empty" class="hidden py-40 text-center">
   <p class="text-[10px] text-empress uppercase tracking-[0.3em] mb-10 italic">Your list is currently empty</p>

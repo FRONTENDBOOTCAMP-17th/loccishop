@@ -8,6 +8,6 @@ export function toggleIsWished(productId) {
 }
 
 //위시리스트 조회
-export function fetchWishList() {
-  return fetchAPI("/members/me/wishlist");
+export function fetchWishList(page = 1, limit = 10) {
+  return fetchAPI(`/members/me/wishlist?page=${page}&limit=${limit}`);
 }
