@@ -1,11 +1,9 @@
-import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import {
   fetchOrderDetail,
   cancelOrder,
   updateOrderShipping,
 } from "/src/js/api/order/index.js";
 
-checkTokenValidity();
 import { renderOrderDetail } from "/src/components/ui/orderDetail.js";
 import { createModal } from "/src/components/ui/modal.js";
 
@@ -352,4 +350,4 @@ async function initOrderDetailPage() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", initOrderDetailPage);
+initOrderDetailPage();
