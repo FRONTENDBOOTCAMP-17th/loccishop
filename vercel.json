@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://api.fullstackfamily.com/api/:path*"
+    },
+    {
       "source": "/src/pages/login/:path*",
       "destination": "/src/pages/login/index.html"
     },
