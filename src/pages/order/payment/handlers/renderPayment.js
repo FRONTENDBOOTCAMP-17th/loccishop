@@ -126,7 +126,6 @@ export async function submitOrder() {
   };
 
   try {
-    console.log(orderData);
     const result = await createOrder(orderData);
 
     const me = await fetchMe();
