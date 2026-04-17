@@ -1,7 +1,4 @@
-import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import { fetchProduct } from "/src/js/api/product/index.js";
-
-checkTokenValidity();
 import { createButton } from "/src/components/ui/button.js";
 import { createBadge } from "/src/components/ui/badge.js";
 import { createDrawer } from "/src/components/ui/drawer.js";
@@ -68,7 +65,7 @@ function initOptionButtons(options) {
     }
 
     button.addEventListener("click", () => {
-      const baseURL = `/product/detail/?id=`;
+      const baseURL = `/product/detail?id=`;
       window.location.href = baseURL + option.id;
     });
 
@@ -159,4 +156,4 @@ async function initProductPage() {
     }
   }
 }
-document.addEventListener("DOMContentLoaded", initProductPage);
+initProductPage();
