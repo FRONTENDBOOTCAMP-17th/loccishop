@@ -52,6 +52,7 @@
       "source": "/product/detail",
       "destination": "/src/pages/product/detail/index.html"
     },
+
     {
       "source": "/product/category/:path*",
       "destination": "/src/pages/product/category/index.html"

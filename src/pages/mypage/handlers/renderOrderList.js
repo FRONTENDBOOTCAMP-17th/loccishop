@@ -89,7 +89,7 @@ function renderOrders(orders, listContainer) {
     li.className =
       "px-4 py-6 cursor-pointer hover:bg-cararra/10 transition-colors";
     li.addEventListener("click", () => {
-      window.location.href = `/mypage/order-detail/?id=${order.orderId}&from=order`;
+      window.location.href = `/mypage?menu=order-detail&id=${order.orderId}`;
     });
 
     li.innerHTML = `
