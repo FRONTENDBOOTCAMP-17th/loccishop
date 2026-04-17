@@ -72,7 +72,7 @@ function createCartItem(item) {
   nameEl.className =
     "text-sm font-bold leading-5 cursor-pointer hover:underline pr-8";
   nameEl.addEventListener("click", () => {
-    window.location.href = `/product/detail/?id=${productId}`;
+    window.location.href = `/product/detail?id=${productId}`;
   });
 
   //용량(옵션)

@@ -4,7 +4,8 @@ let prevCursorHandler = null;
 let prevWidthHandler = null;
 
 export function renderProductCards(products, containerEl = null) {
-  const container = containerEl ?? document.querySelector("#product-list-container");
+  const container =
+    containerEl ?? document.querySelector("#product-list-container");
   if (!container) {
     return;
   }
@@ -108,7 +109,7 @@ export function renderProductCards(products, containerEl = null) {
       if (hasDragged) {
         return;
       }
-      window.location.href = `/product/detail/?id=${product.id}`;
+      window.location.href = `/product/detail?id=${product.id}`;
     });
   });
 
