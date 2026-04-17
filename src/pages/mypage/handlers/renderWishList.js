@@ -60,7 +60,7 @@ export async function renderWishList() {
       article.className = "flex flex-col gap-3 group cursor-pointer";
       article.addEventListener("click", (e) => {
         if (e.target.closest(".wish-remove-btn")) return;
-        window.location.href = `/product/detail/?id=${item.productId}`;
+        window.location.href = `/product/detail?id=${item.productId}`;
       });
 
       const figure = document.createElement("figure");

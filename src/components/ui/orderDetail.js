@@ -47,7 +47,7 @@ export function createOrderItems(items) {
     nameEl.className = "text-sm font-medium cursor-pointer hover:underline";
     nameEl.textContent = name;
     nameEl.addEventListener("click", () => {
-      window.location.href = `/product/detail/?id=${productId}`;
+      window.location.href = `/product/detail?id=${productId}`;
     });
 
     const qtyEl = document.createElement("span");
