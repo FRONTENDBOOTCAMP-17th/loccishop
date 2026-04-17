@@ -6,11 +6,12 @@ export function createImageSlider(items) {
   wrapper.className = "relative overflow-hidden w-full";
 
   const track = document.createElement("div");
-  track.className = "flex transition-transform duration-300 ease-in-out";
+  track.className = "flex w-full transition-transform duration-300 ease-in-out";
 
   items.forEach((item) => {
     const slide = document.createElement("div");
-    slide.className = "min-w-full flex flex-col items-center gap-3 px-4 py-4";
+    slide.className =
+      "w-full flex-shrink-0 flex flex-col items-center gap-3 px-4 py-4";
 
     const img = document.createElement("img");
     img.src = item.src;

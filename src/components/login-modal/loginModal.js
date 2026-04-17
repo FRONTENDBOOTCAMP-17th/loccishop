@@ -63,14 +63,14 @@ export function renderLoginModal() {
               </button>
             </div>
           </div>
-          <div class="flex justify-between items-center mt-2">
+          <div class="flex flex-col gap-3 mt-2">
             <button
               type="submit"
-              class="w-1/2 md:w-60 h-10 bg-woody-brown text-white-solid text-[14px] font-medium leading-6"
+              class="w-full h-10 bg-woody-brown text-white-solid text-[14px] font-medium leading-6"
             >
               로그인
             </button>
-            <div>
+            <div class="text-center">
               <a href="/src/pages/signup/admin/index.html" class="text-[14px] font-medium hover:underline">관리자 회원가입</a>
               <span>/</span>
               <a href="/src/pages/signup/user/index.html" class="text-[14px] font-medium hover:underline">회원가입</a>

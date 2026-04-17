@@ -98,7 +98,7 @@ export async function renderHeader() {
   const temp = document.createElement("div");
   temp.innerHTML = `<nav class="bg-spring-wood shadow p-4 w-full h-16 sticky top-0 z-50">
   <div
-    class="relative header-inner h-full flex items-center justify-between max-inline-360 mx-auto min-w-[400px]"
+    class="relative header-inner h-full flex items-center justify-between max-inline-360 mx-auto"
   >
     <button
       type="button"
