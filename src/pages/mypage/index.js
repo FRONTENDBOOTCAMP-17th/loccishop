@@ -7,12 +7,11 @@ import {
 async function init() {
   try {
     initMypageEvents();
-
     const params = new URLSearchParams(window.location.search);
     const menu = params.get("menu") || "info";
-
+    const id = params.get("id") || null;
     updateSidebarUI(menu);
-    await renderSection(menu);
+    await renderSection(menu, id);
   } catch (error) {
     console.error("마이페이지 로딩 중 오류 발생:", error);
   }

@@ -52,10 +52,6 @@
       "source": "/src/pages/order/complete/:path*",
       "destination": "/src/pages/order/complete/index.html"
     },
-    {
-      "source": "/src/pages/mypage/order-detail/:path*",
-      "destination": "/src/pages/mypage/order-detail/index.html"
-    },
     { "source": "/admin/:path*", "destination": "/admin/dashboard.html" }
   ]
 }

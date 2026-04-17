@@ -2,6 +2,7 @@ import { renderInfo } from "/src/pages/mypage/handlers/renderInfo.js";
 import { renderOrderList } from "/src/pages/mypage/handlers/renderOrderList.js";
 import { renderWishList } from "/src/pages/mypage/handlers/renderWishList.js";
 import { renderReviewList } from "/src/pages/mypage/handlers/renderReviewList.js";
+import { renderOrderDetail } from "/src/pages/mypage/handlers/renderOrderDetail.js";
 
 const BASE_MENU_CLASS =
   "group w-full flex items-center justify-between py-3 text-sm border-b transition-colors";
@@ -14,6 +15,7 @@ const RENDER_MAP = {
   order: renderOrderList,
   wish: renderWishList,
   review: renderReviewList,
+  "order-detail": renderOrderDetail,
 };
 
 export function updateSidebarUI(activeMenu) {
@@ -38,12 +40,12 @@ export function updateSidebarUI(activeMenu) {
   });
 }
 
-export async function renderSection(menu) {
+export async function renderSection(menu, id) {
   const container = document.querySelector("#mypage-content");
   const handler = RENDER_MAP[menu];
   if (!container || !handler) return;
   try {
-    await handler();
+    await handler(id);
   } catch (error) {
     container.innerHTML = `<p class="p-10 text-center text-error-red">화면을 불러오는 중 오류가 발생했습니다.</p>`;
     console.error(error);
