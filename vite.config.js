@@ -6,6 +6,12 @@ export default defineConfig({
   base: "/",
   plugins: [tailwindcss()],
   root: ".",
+  resolve: {
+    alias: {
+      "/src": resolve(__dirname, "src"),
+      "/admin": resolve(__dirname, "admin"), // 추가
+    },
+  },
   server: {
     port: 5173,
     open: true,
