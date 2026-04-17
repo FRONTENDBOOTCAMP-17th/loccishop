@@ -14,7 +14,6 @@ async function initCartPage() {
 initCartPage();
 initStepIndicator("cart");
 await initOrderSummary({
-  showCoupon: true,
   showCartToggle: false,
   btnText: "결제 계속하기",
   onBtnClick: () => {

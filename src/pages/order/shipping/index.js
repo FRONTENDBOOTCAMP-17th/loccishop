@@ -17,7 +17,6 @@ async function initShippingPage() {
   initStepIndicator("shipping");
 
   await initOrderSummary({
-    showCoupon: false,
     showCartToggle: true,
     btnText: "결제하기",
     onBtnClick: async () => {

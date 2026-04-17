@@ -32,7 +32,6 @@ async function initPaymentPage() {
   initStepIndicator("payment");
 
   await initOrderSummary({
-    showCoupon: false,
     showCartToggle: true,
     btnText: "결제하기",
     onBtnClick: () => submitOrder(),
