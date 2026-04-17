@@ -138,27 +138,28 @@ function renderShippingForm(shippingAddress, section, onSave) {
   // 2. 기본 주소 (다음 검색)
   const addressWrapper = document.createElement("div");
   addressWrapper.className =
-    "flex gap-4 items-center py-2 border-b border-gray-100";
+    "flex flex-col gap-2 py-2 border-b border-gray-100";
 
   const addressLabel = document.createElement("span");
-  addressLabel.className = "w-24 flex-shrink-0 text-xs text-gray-400";
+  addressLabel.className = "text-xs text-gray-400";
   addressLabel.textContent = "기본 주소";
 
   const addressRow = document.createElement("div");
-  addressRow.className = "flex-1 flex gap-2";
+  addressRow.className = "flex gap-2";
 
   const addressInput = document.createElement("input");
   addressInput.type = "text";
   addressInput.value = shippingAddress.baseAddress ?? "";
   addressInput.readOnly = true;
   addressInput.className =
-    "flex-1 border border-gray-300 px-3 py-1.5 text-sm outline-none bg-gray-50";
+    "flex-1 border border-gray-300 px-3 py-1.5 text-sm outline-none bg-gray-50 min-w-0";
 
   const searchBtn = document.createElement("button");
   searchBtn.type = "button";
   searchBtn.className =
-    "px-3 py-1.5 border border-gray-300 text-sm hover:bg-cararra transition-colors flex-shrink-0";
+    "px-3 py-1.5 border border-gray-300 text-sm hover:bg-cararra transition-colors whitespace-nowrap flex-shrink-0"; // whitespace-nowrap 추가
   searchBtn.textContent = "주소 검색";
+
   searchBtn.addEventListener("click", () => {
     new daum.Postcode({
       oncomplete: (data) => {
@@ -179,26 +180,20 @@ function renderShippingForm(shippingAddress, section, onSave) {
       key: "detailAddress",
       type: "text",
       value: shippingAddress.detailAddress,
+      placeholder: "상세주소",
     },
   ];
 
-  bottomFields.forEach(({ label, key, type, value }) => {
-    const wrapper = document.createElement("div");
-    wrapper.className = "flex gap-4 items-center py-2 border-b border-gray-100";
-
-    const labelEl = document.createElement("label");
-    labelEl.className = "w-24 flex-shrink-0 text-xs text-gray-400";
-    labelEl.textContent = label;
-
+  bottomFields.forEach(({ key, type, value, placeholder }) => {
     const input = document.createElement("input");
     input.type = type;
     input.value = value ?? "";
+    input.placeholder = placeholder ?? "";
     input.className =
-      "flex-1 border border-gray-300 px-3 py-1.5 text-sm outline-none focus:border-dark-woody";
+      "w-full border border-gray-300 px-3 py-1 text-sm outline-none focus:border-dark-woody";
 
     inputs[key] = input;
-    wrapper.append(labelEl, input);
-    form.append(wrapper);
+    form.append(input);
   });
 
   // 4. 버튼 그룹

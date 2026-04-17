@@ -28,24 +28,18 @@ export function getOrderTemplate() {
   <header class="flex justify-between items-center mb-8">
     <h4 id="order-history-heading" class="text-xs tracking-[0.3em] text-empress uppercase font-black">Order History</h4>
   </header>
-  <div class="overflow-x-auto">
-    <table class="w-full min-w-[640px]">
-      <thead>
-        <tr class="grid grid-cols-[1fr_3fr_0.5fr_0.5fr] px-4 py-3 border-y border-dark-woody text-[10px] text-empress uppercase tracking-widest font-bold ">
-          <th scope="col" class="text-left font-bold">Date / No.</th>
-          <th scope="col" class="text-center font-bold">Product info</th>
-          <th scope="col" class="text-center font-bold">Amount</th>
-          <th scope="col" class="text-right font-bold">Status</th>
-        </tr>
-      </thead>
-      <tbody id="order-list-container" class="divide-y divide-cararra/50">
-        <tr>
-          <td colspan="4" class="py-10 text-center text-sm text-empress">
-            주문 내역을 불러오는 중입니다...
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="border-t border-dark-woody">
+    <div class="hidden sm:grid grid-cols-[1fr_3fr_0.5fr_0.5fr] px-4 py-3 border-b border-cararra text-[10px] text-empress uppercase tracking-widest font-bold">
+      <span>Date / No.</span>
+      <span class="text-center">Product Info</span>
+      <span class="text-center">Amount</span>
+      <span class="text-right">Status</span>
+    </div>
+    <ul id="order-list-container" class="divide-y divide-cararra/50">
+      <li class="py-10 text-center text-sm text-empress">
+        주문 내역을 불러오는 중입니다...
+      </li>
+    </ul>
   </div>
 </section>
 `;

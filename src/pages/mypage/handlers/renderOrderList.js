@@ -14,7 +14,7 @@ export async function renderOrderList(page = 1) {
   if (!container) return;
 
   container.innerHTML = getOrderTemplate();
-  const tbody = document.querySelector("#order-list-container");
+  const listContainer = document.querySelector("#order-list-container");
 
   try {
     // 현황용 전체 조회 + 페이지용 조회 동시에
@@ -24,18 +24,16 @@ export async function renderOrderList(page = 1) {
     ]);
 
     if (!pageRes || !pageRes.data?.orders || pageRes.data.orders.length === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="4" class="py-10 text-center text-sm text-empress">
-            주문 내역이 존재하지 않습니다.
-          </td>
-        </tr>
+      listContainer.innerHTML = `
+         <li class="py-10 text-center text-sm text-empress">
+    주문 내역이 존재하지 않습니다.
+  </li>
       `;
       return;
     }
 
     updateOrderSummary(allRes.data.orders); // 전체 기준으로 현황 계산
-    renderOrders(pageRes.data.orders, tbody);
+    renderOrders(pageRes.data.orders, listContainer);
 
     const { totalPages, page: currentPage } = pageRes.meta.pagination;
     const pagination = createPagination({
@@ -45,16 +43,13 @@ export async function renderOrderList(page = 1) {
     });
     pagination.className += " justify-center mt-6";
 
-    const tableWrapper = tbody.closest(".overflow-x-auto");
-    tableWrapper.after(pagination);
+    listContainer.after(pagination);
   } catch (error) {
     console.error("Order Load Error:", error);
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="4" class="py-10 text-center text-sm text-empress">
-          데이터를 불러오는 중 오류가 발생했습니다.
-        </td>
-      </tr>
+    listContainer.innerHTML = `
+      <li class="py-10 text-center text-sm text-empress">
+    데이터를 불러오는 중 오류가 발생했습니다.
+  </li>
     `;
   }
 }
@@ -78,8 +73,8 @@ function updateOrderSummary(orders) {
   set("status-cancelled", counts.CANCELLED);
 }
 
-function renderOrders(orders, tbody) {
-  tbody.textContent = "";
+function renderOrders(orders, listContainer) {
+  listContainer.textContent = "";
   const fragment = document.createDocumentFragment();
 
   orders.forEach((order) => {
@@ -90,45 +85,54 @@ function renderOrders(orders, tbody) {
       class: "text-dark-woody",
     };
 
-    const tr = document.createElement("tr");
-    tr.className =
-      "grid grid-cols-[1fr_3fr_0.5fr_0.5fr] px-4 py-6 items-center text-sm transition-colors hover:bg-cararra/10 cursor-pointer";
-
-    tr.addEventListener("click", () => {
+    const li = document.createElement("li");
+    li.className =
+      "px-4 py-6 cursor-pointer hover:bg-cararra/10 transition-colors";
+    li.addEventListener("click", () => {
       window.location.href = `/src/pages/mypage/order-detail/?id=${order.orderId}&from=order`;
     });
 
-    tr.innerHTML = `
-      <td class="flex flex-col gap-1">
-        <span class="order-date text-dark-woody font-medium"></span>
-        <span class="order-no text-[10px] text-empress"></span>
-      </td>
-      <td class="flex items-center gap-4">
-        <img src="" alt="" class="order-thumb w-16 h-20 object-cover bg-cararra">
-        <span class="product-name font-bold text-dark-woody truncate max-w-[350px]"></span>
-      </td>
-      <td class="price-text text-center font-light text-dark-woody"></td>
-      <td class="text-right">
-        <span class="status-text text-[11px] font-bold tracking-tighter"></span>
-      </td>
+    li.innerHTML = `
+      <!-- 모바일: 카드형 / sm 이상: 테이블형 -->
+      <div class="flex flex-col gap-4 sm:grid sm:grid-cols-[1fr_3fr_0.5fr_0.5fr] sm:items-center">
+        
+        <!-- 날짜 / 주문번호 -->
+        <div class="flex sm:flex-col gap-2 sm:gap-1 items-center sm:items-start">
+          <span class="order-date text-dark-woody font-medium text-sm"></span>
+          <span class="order-no text-[10px] text-empress"></span>
+        </div>
+
+        <!-- 상품 이미지 + 이름 -->
+        <div class="flex items-center gap-4">
+          <img src="" alt="" class="order-thumb w-16 h-20 object-cover bg-cararra flex-shrink-0">
+          <span class="product-name font-bold text-dark-woody text-sm line-clamp-2"></span>
+        </div>
+
+        <!-- 금액 + 상태 (모바일에서 한 줄로) -->
+        <div class="flex justify-between items-center sm:contents">
+          <span class="price-text font-light text-dark-woody text-sm sm:text-center"></span>
+          <span class="status-text text-[11px] font-bold tracking-tighter sm:text-right"></span>
+        </div>
+
+      </div>
     `;
 
-    tr.querySelector(".order-date").textContent = date;
-    tr.querySelector(".order-no").textContent = order.orderNumber || "";
-    tr.querySelector(".order-thumb").src = order.representativeThumbnail || "";
-    tr.querySelector(".order-thumb").alt =
+    li.querySelector(".order-date").textContent = date;
+    li.querySelector(".order-no").textContent = order.orderNumber || "";
+    li.querySelector(".order-thumb").src = order.representativeThumbnail || "";
+    li.querySelector(".order-thumb").alt =
       order.representativeProductName || "";
-    tr.querySelector(".product-name").textContent =
+    li.querySelector(".product-name").textContent =
       order.representativeProductName || "상품 정보 없음";
-    tr.querySelector(".price-text").textContent =
+    li.querySelector(".price-text").textContent =
       `${(order.totalPrice || 0).toLocaleString()}원`;
 
-    const statusEl = tr.querySelector(".status-text");
+    const statusEl = li.querySelector(".status-text");
     statusEl.textContent = statusInfo.text;
     statusEl.classList.add(statusInfo.class);
 
-    fragment.appendChild(tr);
+    fragment.appendChild(li);
   });
 
-  tbody.appendChild(fragment);
+  listContainer.appendChild(fragment);
 }
