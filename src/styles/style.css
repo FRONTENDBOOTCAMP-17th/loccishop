@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
+@import "tailwindcss";
 
 @theme {
   /* 폰트 */
@@ -50,7 +50,10 @@
     @apply bg-spring-wood text-woody-brown font-nanum;
     @apply font-normal;
 
+    overflow-x: hidden;
     min-height: 100dvh;
+    min-width: 360px;
+    min-width: 360px;
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -73,5 +76,15 @@
   }
   .rotating.is-dragging {
     cursor: grabbing;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }

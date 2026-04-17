@@ -54,7 +54,7 @@ export function setupProductTabs({
   tabs.forEach((label, idx) => {
     const li = document.createElement("li");
     li.className =
-      "list-none px-3 py-2 cursor-pointer text-empress hover:text-woody-brown hover:underline";
+      "list-none px-3 py-2 cursor-pointer text-empress hover:text-woody-brown hover:underline whitespace-nowrap shrink-0";
     li.textContent = label;
 
     li.addEventListener("click", () => {

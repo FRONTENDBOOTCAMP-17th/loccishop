@@ -70,7 +70,7 @@ function createCartItem(item) {
   const nameEl = document.createElement("p");
   nameEl.textContent = productName;
   nameEl.className =
-    "text-sm font-bold leading-5 cursor-pointer hover:underline";
+    "text-sm font-bold leading-5 cursor-pointer hover:underline pr-8";
   nameEl.addEventListener("click", () => {
     window.location.href = `/src/pages/product/detail/?id=${productId}`;
   });

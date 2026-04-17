@@ -56,7 +56,8 @@ export function renderProductMain(product) {
 
   allImages.forEach((src, i) => {
     const slide = document.createElement("div");
-    slide.className = "min-w-full aspect-3/4 overflow-hidden flex-shrink-0";
+    slide.className =
+      "min-w-full overflow-hidden flex-shrink-0 h-[420px] sm:h-[520px]";
 
     const img = document.createElement("img");
     img.className = "bg-merino w-full h-full object-cover";

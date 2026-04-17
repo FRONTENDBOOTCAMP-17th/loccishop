@@ -12,7 +12,7 @@ async function createCartDrawerContent(product, drawer, titleEl, onAddRelated) {
 
   const sliderItems = [
     {
-      src: product.images?.[0] ?? product.images?.representative ?? "",
+      src: product.images?.representative ?? product.images?.[0] ?? "",
       alt: product.name,
       name: product.name,
       option: product.size ?? product.options?.[0]?.size ?? "",
@@ -124,7 +124,7 @@ async function createCartDrawerContent(product, drawer, titleEl, onAddRelated) {
   const continueBtn = document.createElement("button");
   continueBtn.type = "button";
   continueBtn.className =
-    "text-sm text-center underline hover:text-woody-brown";
+    "text-sm text-center underline hover:text-woody-brown py-4";
   continueBtn.textContent = "쇼핑 계속하기";
   continueBtn.addEventListener("click", () => drawer.close());
 
@@ -140,7 +140,7 @@ export async function openCartDrawer(product) {
 
   await updateCartBadge();
 
-  let drawerCount = 1; // ← 드로어 안에서 담은 수량 직접 관리
+  let drawerCount = 1; 
 
   const drawer = createDrawer({
     title: `장바구니에 추가 ${drawerCount}`,

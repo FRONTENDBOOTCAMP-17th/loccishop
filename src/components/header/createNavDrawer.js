@@ -8,16 +8,23 @@ export function createNavDrawer() {
     content,
   } = createDrawer({ width: "w-fit", position: "left" });
 
-  content.className = "flex flex-1 overflow-hidden";
+  const isMobile = window.innerWidth < 768;
+
+  content.className = isMobile
+    ? "flex flex-col flex-1 overflow-y-auto h-full"
+    : "flex flex-1 overflow-hidden h-full";
 
   // 1패널
   const panel1 = document.createElement("div");
-  panel1.className = "w-80 h-full flex flex-col flex-shrink-0";
+  panel1.className = isMobile
+    ? "w-full h-full flex flex-col flex-shrink-0"
+    : "w-80 h-full flex flex-col flex-shrink-0";
 
   // 2패널
   const panel2 = document.createElement("div");
-  panel2.className =
-    "w-80 h-full bg-white border-l border-empress/20 flex flex-col flex-shrink-0 translate-x-full transition-transform duration-300";
+  panel2.className = isMobile
+    ? "w-full flex flex-col flex-shrink-0"
+    : "w-80 h-full bg-white border-l border-empress/20 flex flex-col flex-shrink-0 translate-x-full transition-transform duration-300";
 
   content.append(panel1);
 
@@ -69,11 +76,14 @@ export function createNavDrawer() {
   function renderPanel2(cat) {
     panel2.innerHTML = "";
 
-    if (!content.contains(panel2)) {
-      content.append(panel2);
+    if (isMobile) {
+      // 모바일: 패널1 숨기고 패널2 보이기
+      panel1.classList.add("hidden");
+      if (!content.contains(panel2)) content.append(panel2);
+    } else {
+      if (!content.contains(panel2)) content.append(panel2);
     }
 
-    // 헤더
     const header = document.createElement("div");
     header.className =
       "flex items-center justify-between px-4 py-3 border-b border-empress/30";
@@ -83,11 +93,17 @@ export function createNavDrawer() {
       "flex items-center gap-1 text-sm text-empress cursor-pointer hover:text-woody-brown transition-colors duration-200";
     backBtn.textContent = `← ${cat.name}`;
     backBtn.addEventListener("click", () => {
-      panel2.classList.replace("translate-x-0", "translate-x-full");
-      setTimeout(() => panel2.remove(), 300);
+      if (isMobile) {
+        // 모바일: 패널2 숨기고 패널1 다시 보이기
+        panel2.remove();
+        panel1.classList.remove("hidden");
+      } else {
+        panel2.classList.replace("translate-x-0", "translate-x-full");
+        setTimeout(() => panel2.remove(), 300);
+      }
     });
 
-    const LIST_PAGE_SLUGS = ['hand-care', 'body-care'];
+    const LIST_PAGE_SLUGS = ["hand-care", "body-care"];
 
     const viewAll = document.createElement("a");
     viewAll.href = LIST_PAGE_SLUGS.includes(cat.slug)
@@ -98,17 +114,14 @@ export function createNavDrawer() {
 
     header.append(backBtn, viewAll);
 
-    // 스크롤 영역
     const scrollArea = document.createElement("div");
     scrollArea.className = "flex-1 overflow-y-auto";
 
-    // 이미지
     const img = document.createElement("img");
     img.src = cat.imageUrl;
     img.alt = cat.name;
     img.className = "w-full h-40 object-cover p-5";
 
-    // 전체보기 링크
     const viewAllWrap = document.createElement("div");
     viewAllWrap.className = "px-4 py-3 border-b border-empress/20";
 
@@ -119,7 +132,6 @@ export function createNavDrawer() {
       "text-base tracking-wide text-woody-brown hover:text-ferra";
     viewAllWrap.append(viewAllLink);
 
-    // 제품 타입 섹션
     const typeSection = document.createElement("div");
     typeSection.className = "px-4 py-4";
 
@@ -137,7 +149,7 @@ export function createNavDrawer() {
       a.href = `/src/pages/product/category/index.html?slug=${sub.slug}`;
       a.textContent = sub.name;
       a.className =
-        "text-sm text-woody-brown hover:text-ferra transition-colors duration-200 ";
+        "text-sm text-woody-brown hover:text-ferra transition-colors duration-200";
       li.append(a);
       ul.append(li);
     });
@@ -146,9 +158,11 @@ export function createNavDrawer() {
     scrollArea.append(img, viewAllWrap, typeSection);
     panel2.append(header, scrollArea);
 
-    requestAnimationFrame(() => {
-      panel2.classList.replace("translate-x-full", "translate-x-0");
-    });
+    if (!isMobile) {
+      requestAnimationFrame(() => {
+        panel2.classList.replace("translate-x-full", "translate-x-0");
+      });
+    }
   }
 
   return { open };
