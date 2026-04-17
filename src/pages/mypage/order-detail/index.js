@@ -219,7 +219,6 @@ function renderShippingForm(shippingAddress, section, onSave) {
       baseAddress: inputs.baseAddress.value.trim(),
       detailAddress: inputs.detailAddress.value.trim(),
     };
-    console.log(formData);
     if (
       !formData.receiverName ||
       !formData.receiverPhone ||
@@ -267,7 +266,6 @@ async function initOrderDetailPage() {
 
   try {
     const order = await fetchOrderDetail(orderId);
-    console.log(order.shippingAddress);
     const orderNumber = document.getElementById("order-number");
     orderNumber.textContent = order.orderNumber;
 
