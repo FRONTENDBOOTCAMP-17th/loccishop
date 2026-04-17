@@ -25,7 +25,7 @@ async function initPaymentPage() {
   const selectedAddress = sessionStorage.getItem("selectedAddress");
   if (!selectedAddress) {
     alert("배송지 정보가 없습니다.");
-    location.href = "/src/pages/order/shipping/index.html";
+    location.href = "/order/shipping";
     return;
   }
 

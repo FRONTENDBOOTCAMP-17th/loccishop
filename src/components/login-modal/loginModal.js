@@ -71,9 +71,9 @@ export function renderLoginModal() {
               로그인
             </button>
             <div class="text-center">
-              <a href="/src/pages/signup/admin/index.html" class="text-[14px] font-medium hover:underline">관리자 회원가입</a>
+              <a href="/signup/admin" class="text-[14px] font-medium hover:underline">관리자 회원가입</a>
               <span>/</span>
-              <a href="/src/pages/signup/user/index.html" class="text-[14px] font-medium hover:underline">회원가입</a>
+              <a href="/signup/user" class="text-[14px] font-medium hover:underline">회원가입</a>
             </div>
           </div>
         </form>
@@ -138,7 +138,7 @@ function setupModalEvents(modal) {
       window.location.reload();
 
       if (data.member?.role?.toLowerCase() === "admin") {
-        window.location.href = "/src/pages/admin/dashboard/index.html";
+        window.location.href = "/admin/dashboard";
       }
     } catch {
       idErrorIcon.classList.remove("hidden");

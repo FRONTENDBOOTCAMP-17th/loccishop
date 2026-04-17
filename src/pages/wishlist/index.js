@@ -64,7 +64,7 @@ function renderItems(items) {
     li.className = "relative flex flex-col";
 
     li.innerHTML = `
-      <a href="/src/pages/product/detail/?id=${item.productId}" class="block">
+      <a href="/product/detail/?id=${item.productId}" class="block">
         <div class="relative aspect-[4/5] overflow-hidden bg-gray-50">
           <img src="${item.thumbnailUrl}" alt="${item.name}" class="w-full h-full object-cover" />
           ${!item.isInStock ? `<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><span class="text-white text-xs">품절</span></div>` : ""}
@@ -75,7 +75,7 @@ function renderItems(items) {
             ${
               discountRate > 0
                 ? `<span class="text-xs text-empress line-through">${item.price.toLocaleString()}원</span>
-                   <span class="text-sm font-semibold text-woody-brown">${item.discountPrice.toLocaleString()}원</span>`
+                  <span class="text-sm font-semibold text-woody-brown">${item.discountPrice.toLocaleString()}원</span>`
                 : `<span class="text-sm font-semibold text-woody-brown">${item.price.toLocaleString()}원</span>`
             }
           </div>

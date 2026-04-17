@@ -246,7 +246,7 @@ async function initOrderDetailPage() {
     const from = params.get("from");
 
     if (from === "order") {
-      window.location.href = "/src/pages/mypage/index.html?menu=order";
+      window.location.href = "/mypage?menu=order";
     } else {
       history.back();
     }

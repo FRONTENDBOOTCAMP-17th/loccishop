@@ -64,7 +64,7 @@ async function initCategoryTags() {
     const tagSlug = slugMap[label];
     if (tagSlug) {
       li.addEventListener("click", () => {
-        location.href = `/src/pages/product/category/index.html?slug=${tagSlug}`;
+        location.href = `/product/category?slug=${tagSlug}`;
       });
     }
 
@@ -146,9 +146,7 @@ async function initCategoryCards() {
 
   config.categoryCards.forEach((item) => {
     const cardSlug = slugMap[item.label];
-    const href = cardSlug
-      ? `/src/pages/product/category/index.html?slug=${cardSlug}`
-      : "/";
+    const href = cardSlug ? `/product/category?slug=${cardSlug}` : "/";
     list.append(createCategoryCard({ ...item, href }));
   });
 }

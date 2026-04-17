@@ -97,7 +97,7 @@
             const { accessToken, member } = json.data;
             localStorage.setItem("adminToken", accessToken);
             localStorage.setItem("adminMember", JSON.stringify(member));
-            window.location.href = "/admin/dashboard.html";
+            window.location.href = "/admin/dashboard";
           } catch {
             document.getElementById("error-msg").classList.remove("hidden");
           }
@@ -108,7 +108,7 @@
       });
 
       if (localStorage.getItem("adminToken")) {
-        window.location.href = "/admin/dashboard.html";
+        window.location.href = "/admin/dashboard";
       }
     </script>
   </body>

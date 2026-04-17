@@ -177,7 +177,7 @@ async function fetchProductList(page = 1) {
       isWished: product.isWished,
     });
     card.addEventListener("click", () => {
-      window.location.href = `/src/pages/product/detail/?id=${product.id}`;
+      window.location.href = `/product/detail/?id=${product.id}`;
     });
     card.classList.add("cursor-pointer");
     productGrid.appendChild(card);
