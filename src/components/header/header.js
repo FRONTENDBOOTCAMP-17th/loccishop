@@ -94,7 +94,6 @@ function createDropdown(isLoggedIn) {
 }
 
 export async function renderHeader() {
-
   const temp = document.createElement("div");
   temp.innerHTML = `<nav class="bg-spring-wood shadow p-4 w-full h-16 sticky top-0 z-50">
   <div
@@ -187,6 +186,7 @@ export async function renderHeader() {
 
   // wishlist
   const wishlistIcon = nav.querySelector("#wishlist-icon");
+  const wishlistLink = wishlistIcon.closest("a");
   if (isLoggedIn) {
     try {
       const wishRes = await fetchWishList();
@@ -196,11 +196,23 @@ export async function renderHeader() {
     } catch (e) {
       console.error(e);
     }
+  } else {
+    wishlistLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      openLoginModal();
+    });
   }
 
   // cart
   cartWrapperEl = nav.querySelector("#cart-icon").parentElement;
   cartWrapperEl.classList.add("relative");
+  const cartLink = nav.querySelector("#cart-icon").closest("a");
+  if (!isLoggedIn) {
+    cartLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      openLoginModal();
+    });
+  }
   await updateCartBadge();
 
   return nav;
