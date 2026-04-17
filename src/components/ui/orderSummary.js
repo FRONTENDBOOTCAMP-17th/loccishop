@@ -4,7 +4,6 @@ let cachedTotal = 0;
 
 // 주문 요약 초기화
 export async function initOrderSummary({
-  showCoupon = false,
   showCartToggle = false,
   btnText = "결제 계속하기",
   onBtnClick = null,
@@ -20,7 +19,7 @@ export async function initOrderSummary({
   const { items, total, shipping } = data;
   cachedTotal = total;
 
-  // 1. 장바구니 보기 토글 (배송/결제 페이지)
+  // 장바구니 보기 토글 (배송/결제 페이지)
   if (showCartToggle) {
     const toggleWrapper = document.createElement("div");
     toggleWrapper.className = "border border-gray-200 rounded p-4";
@@ -70,39 +69,7 @@ export async function initOrderSummary({
     section.append(toggleWrapper);
   }
 
-  // 2. 쿠폰 영역 (장바구니 페이지)
-  if (showCoupon) {
-    const couponDiv = document.createElement("div");
-    couponDiv.className =
-      "border border-gray-200 rounded p-4 flex flex-col gap-3";
-
-    const couponTitle = document.createElement("p");
-    couponTitle.className = "text-sm font-bold";
-    couponTitle.textContent = "쿠폰 코드가 있으신가요?";
-
-    const couponRow = document.createElement("div");
-    couponRow.className = "flex gap-2";
-
-    const couponInput = document.createElement("input");
-    couponInput.type = "text";
-    couponInput.id = "coupon-input";
-    couponInput.placeholder = "쿠폰 코드 입력";
-    couponInput.className =
-      "flex-1 border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-woody-brown";
-
-    const couponBtn = document.createElement("button");
-    couponBtn.type = "button";
-    couponBtn.id = "coupon-btn";
-    couponBtn.className =
-      "px-4 py-2 border border-gray-300 rounded text-sm hover:bg-cararra transition-colors";
-    couponBtn.textContent = "적용";
-
-    couponRow.append(couponInput, couponBtn);
-    couponDiv.append(couponTitle, couponRow);
-    section.append(couponDiv);
-  }
-
-  // 3. 주문 요약
+  // 주문 요약
   const summaryDiv = document.createElement("div");
   summaryDiv.className =
     "border border-gray-200 rounded p-4 flex flex-col gap-3";
