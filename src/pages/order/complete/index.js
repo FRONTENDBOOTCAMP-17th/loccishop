@@ -1,7 +1,4 @@
-import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 import { fetchOrderDetail } from "/src/js/api/order/index.js";
-
-checkTokenValidity();
 import { renderOrderDetail } from "/src/components/ui/orderDetail.js";
 
 function checkOrderId() {

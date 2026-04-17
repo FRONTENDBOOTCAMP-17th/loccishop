@@ -9,7 +9,7 @@ const STATUS_MAP = {
   CANCELLED: { text: "주문 취소", class: "text-dark-woody" },
 };
 
-export async function renderOrderList(page = 1) {
+export async function renderOrderList(id, page = 1) {
   const container = document.querySelector("#mypage-content");
   if (!container) return;
 
@@ -89,7 +89,7 @@ function renderOrders(orders, listContainer) {
     li.className =
       "px-4 py-6 cursor-pointer hover:bg-cararra/10 transition-colors";
     li.addEventListener("click", () => {
-      window.location.href = `/src/pages/mypage/order-detail/?id=${order.orderId}&from=order`;
+      window.location.href = `/src/pages/mypage/index.html?menu=order-detail&id=${order.orderId}`;
     });
 
     li.innerHTML = `
