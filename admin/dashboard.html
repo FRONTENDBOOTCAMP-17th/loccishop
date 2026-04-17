@@ -686,7 +686,7 @@
       import { renderOrdersSection } from "/admin/js/orders.js";
 
       if (!getToken()) {
-        window.location.href = "/admin/index.html";
+        window.location.href = "/admin";
       }
 
       const member = JSON.parse(localStorage.getItem("adminMember") ?? "{}");
@@ -726,7 +726,7 @@
       document.getElementById("logout-btn").addEventListener("click", () => {
         removeToken();
         localStorage.removeItem("adminMember");
-        window.location.href = "/admin/index.html";
+        window.location.href = "/admin";
       });
 
       const initialSection = location.hash.replace("#", "") || "products";

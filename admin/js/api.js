@@ -28,7 +28,7 @@ export async function fetchAPI(path, options = {}) {
 
   if (res.status === 401 || res.status === 403) {
     removeToken();
-    window.location.href = "/admin/index.html";
+    window.location.href = "/admin";
     return;
   }
 
@@ -69,7 +69,7 @@ export async function fetchAPIWithMeta(path, options = {}) {
 
   if (res.status === 401 || res.status === 403) {
     removeToken();
-    window.location.href = "/admin/index.html";
+    window.location.href = "/admin";
     return;
   }
 

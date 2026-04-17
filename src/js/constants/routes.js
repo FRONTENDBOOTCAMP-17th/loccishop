@@ -1,6 +1,6 @@
 export const ROUTES = {
-  LOGIN: "/src/pages/login/index.html",
+  LOGIN: "/login",
   HOME: "/",
-  SIGNUP_USER: "/src/pages/signup/user/index.html",
-  SIGNUP_ADMIN: "/src/pages/signup/admin/index.html",
+  SIGNUP_USER: "/signup/user",
+  SIGNUP_ADMIN: "/signup/admin",
 };

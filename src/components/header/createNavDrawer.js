@@ -53,7 +53,7 @@ export function createNavDrawer() {
         if (cat.children?.length) {
           renderPanel2(cat);
         } else {
-          window.location.href = `/src/pages/product/category/index.html?slug=${cat.slug}`;
+          window.location.href = `/product/category?slug=${cat.slug}`;
           close();
         }
       });
@@ -107,8 +107,8 @@ export function createNavDrawer() {
 
     const viewAll = document.createElement("a");
     viewAll.href = LIST_PAGE_SLUGS.includes(cat.slug)
-      ? `/src/pages/product/list/index.html?slug=${cat.slug}`
-      : `/src/pages/product/category/index.html?slug=${cat.slug}`;
+      ? `/product/list?slug=${cat.slug}`
+      : `/product/category?slug=${cat.slug}`;
     viewAll.textContent = `${cat.name} 보기 ›`;
     viewAll.className = "text-sm text-empress hover:text-woody-brown";
 
@@ -126,7 +126,7 @@ export function createNavDrawer() {
     viewAllWrap.className = "px-4 py-3 border-b border-empress/20";
 
     const viewAllLink = document.createElement("a");
-    viewAllLink.href = `/src/pages/product/category/index.html?slug=${cat.slug}`;
+    viewAllLink.href = `/product/category?slug=${cat.slug}`;
     viewAllLink.textContent = `${cat.name} 전체 보기`;
     viewAllLink.className =
       "text-base tracking-wide text-woody-brown hover:text-ferra";
@@ -146,7 +146,7 @@ export function createNavDrawer() {
       const li = document.createElement("li");
       li.className = "border-b border-empress/10 py-2";
       const a = document.createElement("a");
-      a.href = `/src/pages/product/category/index.html?slug=${sub.slug}`;
+      a.href = `/product/category?slug=${sub.slug}`;
       a.textContent = sub.name;
       a.className =
         "text-sm text-woody-brown hover:text-ferra transition-colors duration-200";

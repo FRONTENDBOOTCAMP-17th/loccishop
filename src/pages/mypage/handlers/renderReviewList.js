@@ -124,7 +124,7 @@ function renderReviews(reviews, container) {
     productInfo.className =
       "flex flex-col gap-1 cursor-pointer hover:underline";
     productInfo.addEventListener("click", () => {
-      window.location.href = `/src/pages/product/detail/?id=${review.productId}`;
+      window.location.href = `/product/detail/?id=${review.productId}`;
     });
 
     const productName = document.createElement("p");

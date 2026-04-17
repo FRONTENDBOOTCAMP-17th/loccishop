@@ -41,10 +41,10 @@ function createDropdown(isLoggedIn) {
 
   if (isLoggedIn) {
     const items = [
-      { text: "내 정보", href: "/src/pages/mypage/index.html?menu=info" },
-      { text: "주문 내역", href: "/src/pages/mypage/index.html?menu=order" },
-      { text: "위시리스트", href: "/src/pages/mypage/index.html?menu=wish" },
-      { text: "내 리뷰", href: "/src/pages/mypage/index.html?menu=review" },
+      { text: "내 정보", href: "/mypage?menu=info" },
+      { text: "주문 내역", href: "/mypage?menu=order" },
+      { text: "위시리스트", href: "/mypage?menu=wish" },
+      { text: "내 리뷰", href: "/mypage?menu=review" },
     ];
 
     items.forEach(({ text, href }) => {
@@ -82,7 +82,7 @@ function createDropdown(isLoggedIn) {
     inner.append(loginMenuBtn);
 
     const signupA = document.createElement("a");
-    signupA.href = "/src/pages/signup/user/index.html";
+    signupA.href = "/signup/user";
     signupA.className =
       "block px-4 py-3 text-xs text-gray-800 bg-white hover:bg-cararra transition-colors tracking-wide";
     signupA.textContent = "회원가입";
@@ -136,7 +136,7 @@ export async function renderHeader() {
         </button>
       </li>
       <li>
-        <a href="/src/pages/wishlist/index.html" class="flex items-center"
+        <a href="/wishlist" class="flex items-center"
           ><img
             tabindex="-1"
             id="wishlist-icon"
@@ -146,7 +146,7 @@ export async function renderHeader() {
         /></a>
       </li>
       <li>
-        <a href="/src/pages/cart/index.html" class="flex items-center"
+        <a href="/cart" class="flex items-center"
           ><img
             tabindex="-1"
             id="cart-icon"

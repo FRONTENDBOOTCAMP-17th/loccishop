@@ -118,7 +118,7 @@ async function createCartDrawerContent(product, drawer, titleEl, onAddRelated) {
     fullWidth: true,
   });
   cartPageBtn.addEventListener("click", () => {
-    window.location.href = "/src/pages/cart/index.html";
+    window.location.href = "/cart";
   });
 
   const continueBtn = document.createElement("button");
@@ -140,7 +140,7 @@ export async function openCartDrawer(product) {
 
   await updateCartBadge();
 
-  let drawerCount = 1; 
+  let drawerCount = 1;
 
   const drawer = createDrawer({
     title: `장바구니에 추가 ${drawerCount}`,

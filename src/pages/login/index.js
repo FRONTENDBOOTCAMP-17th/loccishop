@@ -52,9 +52,9 @@ window.addEventListener("DOMContentLoaded", () => {
         alert("로그인에 성공하셨습니다.");
 
         if (result.data.member?.role?.toLowerCase() === "admin") {
-          window.location.href = "/src/pages/admin/dashboard/index.html";
+          window.location.href = "admin/dashboard";
         } else {
-          window.location.href = "/index.html";
+          window.location.href = "/";
         }
       } else {
         idErrorIcon.classList.remove("hidden");

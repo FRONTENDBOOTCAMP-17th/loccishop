@@ -94,7 +94,7 @@ export async function submitOrder() {
 
   if (!selectedAddress) {
     alert("배송지 정보가 없습니다. 배송지 페이지로 이동합니다.");
-    window.location.href = "/src/pages/order/shipping/index.html";
+    window.location.href = "/order/shipping";
     return;
   }
 
@@ -137,7 +137,7 @@ export async function submitOrder() {
 
     sessionStorage.setItem("orderId", result.orderId);
     alert(`주문이 완료되었습니다.\n주문번호 :${result.orderNumber}`);
-    window.location.href = "/src/pages/order/complete/index.html";
+    window.location.href = "/order/complete";
   } catch (e) {
     if (e.message.includes(404)) {
       alert("상품을 찾을 수 없습니다.");

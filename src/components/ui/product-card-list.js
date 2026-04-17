@@ -108,7 +108,7 @@ export function renderProductCards(products, containerEl = null) {
       if (hasDragged) {
         return;
       }
-      window.location.href = `/src/pages/product/detail/?id=${product.id}`;
+      window.location.href = `/product/detail/?id=${product.id}`;
     });
   });
 

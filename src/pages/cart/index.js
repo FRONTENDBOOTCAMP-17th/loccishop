@@ -17,6 +17,6 @@ await initOrderSummary({
   showCartToggle: false,
   btnText: "결제 계속하기",
   onBtnClick: () => {
-    window.location.href = "/src/pages/order/shipping/index.html";
+    window.location.href = "/order/shipping";
   },
 });

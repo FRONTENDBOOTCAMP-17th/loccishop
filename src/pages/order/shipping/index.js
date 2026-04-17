@@ -37,7 +37,7 @@ async function initShippingPage() {
         JSON.stringify(selectedAddress),
       );
       sessionStorage.setItem("deliveryMemo", memo);
-      location.href = "/src/pages/order/payment/index.html";
+      location.href = "/order/payment";
     },
   });
 

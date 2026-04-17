@@ -19,7 +19,7 @@ export async function renderCart({ items, total, shipping }) {
     const link = document.createElement("a");
     link.className =
       "text-sm underline underline-offset-2 text-woody-brown hover:opacity-70";
-    link.href = "/src/pages/product/list/index.html";
+    link.href = "/product/list";
     link.textContent = "쇼핑 계속하기";
 
     empty.append(msg, link);
@@ -72,7 +72,7 @@ function createCartItem(item) {
   nameEl.className =
     "text-sm font-bold leading-5 cursor-pointer hover:underline pr-8";
   nameEl.addEventListener("click", () => {
-    window.location.href = `/src/pages/product/detail/?id=${productId}`;
+    window.location.href = `/product/detail/?id=${productId}`;
   });
 
   //용량(옵션)
@@ -186,7 +186,7 @@ function createCartItem(item) {
         msg.textContent = "장바구니가 비어있습니다.";
 
         const link = document.createElement("a");
-        link.href = "/src/pages/product/list/index.html";
+        link.href = "/product/list";
         link.className =
           "text-sm underline underline-offset-2 text-woody-brown hover:opacity-70";
         link.textContent = "쇼핑 계속하기";

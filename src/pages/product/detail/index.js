@@ -25,8 +25,6 @@ import { getMainTemplate } from "./components/getMainTemplate.js";
 import { getRecommendedTemplate } from "./components/getRecommendedTemplate.js";
 import { getRitualStepsTemplate } from "./components/getRitualStepsTemplate.js";
 
-
-
 function getProductId() {
   const params = new URLSearchParams(window.location.search);
   return params.get("id");
@@ -70,7 +68,7 @@ function initOptionButtons(options) {
     }
 
     button.addEventListener("click", () => {
-      const baseURL = `/src/pages/product/detail/?id=`;
+      const baseURL = `/product/detail/?id=`;
       window.location.href = baseURL + option.id;
     });
 
@@ -120,9 +118,12 @@ async function initProductPage() {
 
     document.querySelector("#detail-main").innerHTML = getMainTemplate();
     document.querySelector("#product-info").innerHTML = getInfoTemplate();
-    document.querySelector("#detail-ritual-steps").innerHTML = getRitualStepsTemplate();
-    document.querySelector("#detail-recommended").innerHTML = getRecommendedTemplate();
-    document.querySelector("#product-best-review").innerHTML = getBestReviewTemplate();
+    document.querySelector("#detail-ritual-steps").innerHTML =
+      getRitualStepsTemplate();
+    document.querySelector("#detail-recommended").innerHTML =
+      getRecommendedTemplate();
+    document.querySelector("#product-best-review").innerHTML =
+      getBestReviewTemplate();
     document.querySelector("#detail-reviews").innerHTML = getReviewTemplate();
 
     renderProductMain(product);
