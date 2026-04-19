@@ -12,7 +12,7 @@ export function getMainTemplate() {
     <div class="lg:hidden relative overflow-hidden w-full h-[420px] sm:h-[520px]">
       <div
         id="slider-track"
-        class="flex transition-transform duration-300 ease-in-out"
+        class="flex transition-transform duration-300 ease-in-out h-full w-full"
       ></div>
       <button
         id="slider-prev"
