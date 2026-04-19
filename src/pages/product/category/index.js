@@ -173,6 +173,7 @@ async function fetchProductList(page = 1) {
       name: product.name,
       originalPrice: product.price,
       discountRate: product.discountRate || null,
+      discountPrice: product.discountPrice ?? null,
       badgeType: product.badge || null,
       isWished: product.isWished,
     });
