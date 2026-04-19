@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>L’OcciShop 클론 프로젝트</title>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/pages/login/index.js"></script>
+  </head>
+  <body>
+    <header id="header"></header>
+    <main>
+      <div
+        id="loginModal"
+        class="fixed inset-0 z-50 flex items-center px-4 overflow-x-hidden"
+      >
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm -z-10"></div>
+
+        <div
+          class="relative bg-grey-99 z-10 w-full max-w-200 mx-auto min-w-160 h-fit"
+        >
+          <button id="loginClose" class="absolute right-0 top-0 p-[21.67px]">
+            <img
+              tabindex="-1"
+              src="/src/assets/icon/login_xBtn.svg"
+              alt="로그인/회원가입 창 닫기버튼"
+            />
+          </button>
+
+          <div class="flex flex-col my-18 px-9.25 w-full mx-auto">
+            <div class="w-full">
+              <h1
+                class="text-woody-brown text-[30px] font-normal leading-normal mb-2"
+              >
+                로그인 / 회원가입
+              </h1>
+              <p class="text-abbey text-[14px] font-normal leading-5">
+                필수항목*
+              </p>
+              <p
+                class="pt-10 pb-6 text-woody-brown text-[12px] font-bold leading-4 tracking-[1.2px] uppercase"
+              >
+                아이디/비밀번호를 입력하세요.
+              </p>
+            </div>
+
+            <form
+              id="loginForm"
+              class="w-full bg-grey-96 px-10 py-6 flex flex-col gap-4"
+            >
+              <div
+                class="flex flex-col text-abbey text-[14px] font-semibold leading-5"
+              >
+                <label for="username">아이디*</label>
+                <div class="relative mt-2">
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="bg-grey-99 border border-grey-45 h-10 w-full px-3"
+                    required
+                  />
+                  <img
+                    tabindex="-1"
+                    src="/src/assets/icon/error.svg"
+                    alt="아이디 에러"
+                    id="idErrorIcon"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 hidden"
+                  />
+                </div>
+                <p
+                  id="idErrorText"
+                  class="text-error-red text-[12px] font-medium leading-4 mt-1 hidden"
+                >
+                  잘못된 형식입니다.
+                </p>
+              </div>
+
+              <div
+                class="flex flex-col text-abbey text-[14px] font-semibold leading-5"
+              >
+                <label for="password">비밀번호*</label>
+                <div class="relative mt-2 w-full">
+                  <input
+                    type="password"
+                    id="password"
+                    class="w-full bg-grey-99 border border-grey-45 h-10 px-3 pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    id="togglePassword"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 hidden"
+                    tabindex="-1"
+                  >
+                    <img
+                      tabindex="-1"
+                      src="/src/assets/icon/passwordEye.svg"
+                      alt="비밀번호 보기"
+                      class="w-5 h-5"
+                    />
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-center mt-2">
+                <button
+                  type="submit"
+                  class="px-25 py-2 bg-woody-brown text-white-solid text-[14px] font-medium leading-6"
+                >
+                  로그인
+                </button>
+                <div class="flex flex-col sm:flex-row sm:items-center">
+                  <a
+                    href="/signup/admin"
+                    class="text-[14px] font-medium hover:underline"
+                    >관리자 회원가입
+                  </a>
+                  <span class="hidden sm:inline sm:mx-1">/</span>
+                  <a
+                    href="/signup"
+                    class="text-[14px] font-medium hover:underline"
+                  >
+                    회원가입
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer id="footer"></footer>
+  </body>
+</html>

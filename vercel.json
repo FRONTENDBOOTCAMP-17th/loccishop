@@ -1,0 +1,111 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://api.fullstackfamily.com/api/:path*"
+    },
+    {
+      "source": "/login/:path*",
+      "destination": "/src/pages/login/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/src/pages/login/index.html"
+    },
+    {
+      "source": "/signup/user/:path*",
+      "destination": "/src/pages/signup/user/index.html"
+    },
+    {
+      "source": "/signup/user",
+      "destination": "/src/pages/signup/user/index.html"
+    },
+    {
+      "source": "/signup/admin/:path*",
+      "destination": "/src/pages/signup/admin/index.html"
+    },
+    {
+      "source": "/signup/admin",
+      "destination": "/src/pages/signup/admin/index.html"
+    },
+    {
+      "source": "/mypage/:path*",
+      "destination": "/src/pages/mypage/index.html"
+    },
+    {
+      "source": "/mypage",
+      "destination": "/src/pages/mypage/index.html"
+    },
+    {
+      "source": "/product/list/:path*",
+      "destination": "/src/pages/product/list/index.html"
+    },
+    {
+      "source": "/product/list",
+      "destination": "/src/pages/product/list/index.html"
+    },
+    {
+      "source": "/product/detail/:path*",
+      "destination": "/src/pages/product/detail/index.html"
+    },
+    {
+      "source": "/product/detail",
+      "destination": "/src/pages/product/detail/index.html"
+    },
+
+    {
+      "source": "/product/category/:path*",
+      "destination": "/src/pages/product/category/index.html"
+    },
+    {
+      "source": "/product/category",
+      "destination": "/src/pages/product/category/index.html"
+    },
+    {
+      "source": "/cart/:path*",
+      "destination": "/src/pages/cart/index.html"
+    },
+    {
+      "source": "/cart",
+      "destination": "/src/pages/cart/index.html"
+    },
+    {
+      "source": "/wishlist/:path*",
+      "destination": "/src/pages/wishlist/index.html"
+    },
+    {
+      "source": "/wishlist",
+      "destination": "/src/pages/wishlist/index.html"
+    },
+    {
+      "source": "/order/shipping/:path*",
+      "destination": "/src/pages/order/shipping/index.html"
+    },
+    {
+      "source": "/order/shipping",
+      "destination": "/src/pages/order/shipping/index.html"
+    },
+    {
+      "source": "/order/payment/:path*",
+      "destination": "/src/pages/order/payment/index.html"
+    },
+    {
+      "source": "/order/payment",
+      "destination": "/src/pages/order/payment/index.html"
+    },
+    {
+      "source": "/order/complete/:path*",
+      "destination": "/src/pages/order/complete/index.html"
+    },
+    {
+      "source": "/order/complete",
+      "destination": "/src/pages/order/complete/index.html"
+    },
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/dashboard", "destination": "/admin/dashboard.html" },
+    {
+      "source": "/admin/dashboard/:path*",
+      "destination": "/admin/dashboard.html"
+    }
+  ]
+}

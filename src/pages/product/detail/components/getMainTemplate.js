@@ -1,0 +1,99 @@
+export function getMainTemplate() {
+  return `
+  <article
+  class="content-wrapper flex flex-col lg:flex-row lg:mt-8 mb-7 w-full mx-auto max-w-7xl overflow-hidden"
+>
+  <!-- 좌측 이미지 영역 -->
+  <figure
+    id="product-gallery"
+    class="relative w-full lg:w-1/2 overflow-hidden max-w-full"
+  >
+    <!-- 모바일 슬라이더 -->
+    <div class="lg:hidden relative overflow-hidden w-full aspect-square">
+      <div
+        id="slider-track"
+        class="flex transition-transform duration-300 ease-in-out h-full w-full"
+      ></div>
+      <button
+        id="slider-prev"
+        class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-white/80 rounded-full shadow"
+      >
+        ‹
+      </button>
+      <button
+        id="slider-next"
+        class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center bg-white/80 rounded-full shadow"
+      >
+        ›
+      </button>
+      <div id="slider-dots" class="flex justify-center gap-2 py-3"></div>
+    </div>
+
+    <!-- 데스크탑: 메인 + 서브 그리드 -->
+    <div class="hidden lg:flex flex-col gap-2">
+      <div id="main-thumbnail" class="aspect-3/4 overflow-hidden">
+        <img
+          class="bg-merino w-full h-full object-cover"
+          src=""
+          alt="상품 메인 이미지"
+        />
+      </div>
+      <ul id="sub-thumbnail" class="grid grid-cols-2 gap-2"></ul>
+    </div>
+  </figure>
+
+  <!-- 우측 정보영역 -->
+  <section
+    id="product-main"
+    class="flex flex-col gap-4 w-full mt-6 px-4 lg:w-1/2 lg:mt-0 lg:px-8 lg:pl-20 lg:sticky lg:top-0 lg:self-start"
+  >
+    <header class="flex flex-col gap-4">
+      <!-- 뱃지 + 별점 -->
+      <div id="badge-rating-wrapper" class="flex items-center justify-between">
+        <strong id="badge"></strong>
+        <div id="product-rating" class="flex items-center gap-2">
+          <!-- JS에서 동적 삽입 -->
+          <div
+            id="product-rating-stars"
+            class="flex"
+            role="img"
+            aria-label=""
+          ></div>
+          <span id="product-review-count" class="underline text-sm"></span>
+        </div>
+      </div>
+
+      <h1
+        id="product-title"
+        class="text-3xl lg:text-5xl font-medium leading-tight lg:leading-12"
+      ></h1>
+      <p
+        id="short-description"
+        class="text-base lg:text-xl leading-7 text-stone-500"
+      ></p>
+
+      <div id="price-wrapper">
+        <p
+          id="product-Price"
+          class="text-sm font-normal line-through text-stone-500"
+        ></p>
+        <div class="flex gap-2 items-center">
+          <p id="product-discountRate" class="text-xl font-semibold"></p>
+          <p id="product-discountPrice" class="text-2xl font-bold"></p>
+        </div>
+      </div>
+    </header>
+
+    <section class="flex flex-col gap-1">
+      <span id="options-title" class="text-zambezi"></span>
+      <div id="optionsBtn" class="flex gap-2"></div>
+    </section>
+
+    <div id="cart-button"></div>
+    <div id="product-info"></div>
+    <div id="product-best-review"></div>
+  </section>
+</article>
+
+  `;
+}

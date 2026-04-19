@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- 카카오 말풍선 배경 -->
+  <ellipse cx="32" cy="29" rx="24" ry="20" fill="#FFE812" />
+  <!-- 말풍선 꼬리 -->
+  <polygon points="26,47 32,58 38,47" fill="#FFE812" />
+  <!-- K 텍스트 대신 pay 텍스트 -->
+  <text x="32" y="34" font-family="Arial, sans-serif" font-weight="900" font-size="16" fill="#3A1D1D" text-anchor="middle" letter-spacing="-0.5">pay</text>
+</svg>

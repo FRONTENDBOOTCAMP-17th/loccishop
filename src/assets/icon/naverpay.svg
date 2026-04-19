@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- 네이버 초록 배경 사각형 -->
+  <rect x="8" y="10" width="48" height="44" rx="8" ry="8" fill="#03C75A" />
+  <!-- N + Pay 텍스트 -->
+  <text x="32" y="29" font-family="Arial, sans-serif" font-weight="900" font-size="13" fill="white" text-anchor="middle">N</text>
+  <text x="32" y="45" font-family="Arial, sans-serif" font-weight="700" font-size="11" fill="white" text-anchor="middle">Pay</text>
+</svg>
