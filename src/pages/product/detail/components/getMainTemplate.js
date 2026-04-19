@@ -1,6 +1,6 @@
 export function getMainTemplate() {
   return `
-   <article
+  <article
   class="content-wrapper flex flex-col lg:flex-row lg:mt-8 mb-7 w-full mx-auto max-w-7xl overflow-hidden"
 >
   <!-- 좌측 이미지 영역 -->
@@ -12,7 +12,7 @@ export function getMainTemplate() {
     <div class="lg:hidden relative overflow-hidden w-full h-[420px] sm:h-[520px]">
       <div
         id="slider-track"
-        class="flex transition-transform duration-300 ease-in-out h-[420px] sm:h-[520px] w-full"
+        class="flex transition-transform duration-300 ease-in-out h-full w-full"
       ></div>
       <button
         id="slider-prev"
