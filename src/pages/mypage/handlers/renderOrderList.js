@@ -39,7 +39,7 @@ export async function renderOrderList(id, page = 1) {
     const pagination = createPagination({
       totalPages,
       currentPage,
-      onPageChange: (newPage) => renderOrderList(newPage),
+      onPageChange: (newPage) => renderOrderList(id, gnewPage),
     });
     pagination.className += " justify-center mt-6";
 
