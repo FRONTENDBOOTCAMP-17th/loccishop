@@ -36,7 +36,7 @@ export function renderProductMain(product) {
     li.className = "aspect-square overflow-hidden";
 
     const img = document.createElement("img");
-    img.className = "bg-merino w-full h-full object-contain";
+    img.className = "bg-merino w-full h-full object-cover";
     img.src = src;
     img.alt = `${product.name} 서브 이미지`;
 
@@ -60,7 +60,7 @@ export function renderProductMain(product) {
       "min-w-full flex-shrink-0 aspect-square flex items-center justify-center overflow-hidden";
 
     const img = document.createElement("img");
-    img.className = "bg-merino w-full h-full object-contain";
+    img.className = "bg-merino w-full h-full object-cover";
     img.src = src;
     img.alt = `${product.name} 이미지 ${i + 1}`;
 
