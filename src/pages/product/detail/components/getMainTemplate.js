@@ -9,7 +9,7 @@ export function getMainTemplate() {
     class="relative w-full lg:w-1/2 overflow-hidden max-w-full"
   >
     <!-- 모바일 슬라이더 -->
-    <div class="lg:hidden relative overflow-hidden w-full h-[420px] sm:h-[520px]">
+    <div class="lg:hidden relative overflow-hidden w-full aspect-square">
       <div
         id="slider-track"
         class="flex transition-transform duration-300 ease-in-out h-full w-full"
