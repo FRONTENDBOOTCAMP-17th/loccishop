@@ -630,16 +630,6 @@ import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
 checkTokenValidity();
 ```
 
-```js
-// pages/main/index.js — 다른 페이지와 동일한 패턴으로 통일
-async function initMainPage() { ... }
-checkTokenValidity();
-initMainPage().catch((err) => console.error("초기화 실패:", err));
-
-// js/main.js — import만 하면 자동 실행
-import "/src/pages/main/index.js";
-```
-
 <br/>
 
 ---
