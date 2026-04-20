@@ -461,11 +461,108 @@ server: {
 }
 ```
 
+#### 6. 배너 데이터 없을 때 캐러셀 오류 (메인)
+
+- **문제**: `buildTrack()` 함수가 빈 배열을 받으면 `slides[slides.length - 1]`에서 `undefined`를 참조해 에러가 발생하고 메인 페이지 자체가 열리지 않을 수 있었음
+- **원인**: 배너 API가 빈 배열을 반환하거나 네트워크 오류가 나는 경우에 대한 방어 처리 누락
+- **해결**: 슬라이드 개수(0개 / 1개 / 복수)에 따른 조기 종료 분기를 추가하고, `buildTrack()`이 `false`를 반환할 경우 후속 로직이 실행되지 않도록 처리
+
+```js
+function buildTrack(newSlides) {
+  slides = Array.isArray(newSlides) ? newSlides : [];
+  track.innerHTML = "";
+
+  if (slides.length === 0) {
+    track.innerHTML = `<div class="...">등록된 배너가 없습니다.</div>`;
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    return false;
+  }
+
+  if (slides.length === 1) {
+    track.append(createCarouselSlide(slides[0]));
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    return false;
+  }
+
+  prevBtn.disabled = false;
+  nextBtn.disabled = false;
+  track.append(createCarouselSlide(slides[slides.length - 1]));
+  slides.forEach((s) => track.append(createCarouselSlide(s)));
+  track.append(createCarouselSlide(slides[0]));
+  return true;
+}
+```
+
+#### 7. 캐러셀 슬라이드 innerHTML XSS 취약점 (메인)
+
+- **문제**: `createCarouselSlide()`가 외부 API 응답 값(`imageUrl`, `name`)을 템플릿 리터럴로 `innerHTML`에 그대로 삽입해 XSS 취약점이 발생할 수 있었음
+- **원인**: 외부 데이터를 HTML 문자열로 삽입하면 악의적인 값이 스크립트로 해석될 수 있음
+- **해결**: `innerHTML` 대신 `createElement`로 요소를 생성하고 속성을 직접 할당하는 방식으로 교체. `??` 연산자로 `undefined`/`null`도 빈 문자열로 안전하게 처리
+
+```js
+// 수정 전
+el.innerHTML = `
+  <figure ...>
+    <img src="${imageUrl}" alt="${name}" />
+  </figure>
+`;
+
+// 수정 후
+const figure = document.createElement("figure");
+const img = document.createElement("img");
+img.src = imageUrl ?? "";
+img.alt = name ?? "";
+figure.append(img);
+el.append(figure);
+```
+
+#### 8. 비로그인 상태에서 헤더 아이콘 클릭 시 위시리스트·장바구니 페이지로 이동되는 버그 (헤더)
+
+- **문제**: 비로그인 상태에서 헤더의 위시리스트·장바구니 아이콘을 클릭하면 로그인 모달이 표시되지만, 모달을 닫았을 때 현재 페이지가 아닌 위시리스트·장바구니 페이지에 도착해 있는 버그 발생
+- **원인**: 아이콘이 `<a>` 태그로 감싸져 있어 클릭 시 인증 여부 확인 없이 바로 페이지를 이동시켰고, 로그인 모달은 해당 페이지에서 API 401 응답 후에야 뒤늦게 열렸음
+- **해결**: `header.js`에서 비로그인 상태일 때 링크의 기본 동작(`e.preventDefault()`)을 막고 로그인 모달을 즉시 표시하도록 처리
+
+```js
+// 수정 전 — 인증 확인 없이 <a> 태그로 바로 페이지 이동
+// → 위시리스트 페이지에서 API 401 → alert → 모달 (3단계 방해)
+
+// 수정 후
+if (!isLoggedIn) {
+  wishlistLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    openLoginModal();
+  });
+  cartLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    openLoginModal();
+  });
+}
+```
+
+#### 9. 서브 페이지에서 메인 페이지 전용 API가 불필요하게 호출되는 문제 (공통)
+
+- **문제**: 상품 리스트 페이지 등 서브 페이지 진입 시 메인 페이지 전용 API(`/banners`, `/products` 등) 4개가 불필요하게 호출됨
+- **원인**: `main.js`가 `pages/main/index.js` 전체를 import하고 있었고, `main/index.js`에 헤더·푸터 공통 초기화 코드와 메인 전용 API 호출 코드가 혼재해 있어 모든 페이지에서 메인 전용 로직이 함께 실행됨
+- **해결**: 공통 초기화 코드만 담은 `src/js/layout.js`를 신규 생성하고, `main.js`의 import 대상을 `layout.js`로 교체. 메인 전용 `index.js`는 루트 `index.html`에서만 직접 로드
+
+```js
+// 변경 전
+import "/src/pages/main/index.js"; // 공통 + 메인 전용 코드 전부 실행
+
+// 변경 후 — main.js
+import "/src/js/layout.js"; // header / footer / loginModal 공통 초기화만
+
+// 루트 index.html에만 추가
+// <script type="module" src="/src/pages/main/index.js"></script>
+```
+
 ---
 
 ### 구조 개선
 
-#### 6. index.js 단일 파일 → 역할별 파일 분리
+#### 1. index.js 단일 파일 → 역할별 파일 분리
 
 > **Before** — 상품 상세페이지의 모든 로직을 `index.js` 하나에 작성하면 파일이 비대해져 유지보수가 어려울 것이라 예측
 
@@ -481,7 +578,7 @@ client.js              — 공통 API 클라이언트
 
 파일당 단일 책임 원칙 적용 → 버그 발생 위치 즉시 특정 가능
 
-#### 7. 컴포넌트 복사 시도 → 레이아웃 옵션 확장
+#### 2. 컴포넌트 복사 시도 → 레이아웃 옵션 확장
 
 > **Before** — 리추얼 스텝 영역의 가로 배치를 위해 `createProductCard()`를 통째로 복사하려는 시도 발생
 
@@ -493,7 +590,7 @@ createProductCard(data, { horizontal: true });
 
 코드 중복 없이 단일 함수로 통합 → 리추얼 스텝, 위시리스트, 마이페이지에서 동일 패턴 재사용
 
-#### 8. 리뷰 이미지 미표시 → 2단계 업로드 분리
+#### 3. 리뷰 이미지 미표시 → 2단계 업로드 분리
 
 > **Before** — 이미지와 리뷰 데이터를 한 번의 API 호출로 함께 전송 시도 → 이미지 URL이 없어 렌더링 불가
 
@@ -504,17 +601,44 @@ createProductCard(data, { horizontal: true });
 ② POST /products/:id/reviews   — 받은 URL을 images 필드에 담아 리뷰 등록
 ```
 
-#### 9. 중복된 회원가입 로직 → 공통 함수 통합
+#### 4. 중복된 회원가입 로직 → 공통 함수 통합
 
 > **Before** — 일반 · 관리자 회원가입 페이지에 폼 유효성 검사, 에러 표시, API 호출 로직이 중복
 
 > **After** — `createSignupPage()` 함수로 통합, `data-field` 속성으로 필드 조회 방식 통일, `style.display` 제거 후 Tailwind `hidden` 클래스로 전환
 
-#### 10. 불필요 API 호출 → 모듈 분리로 제거
+#### 5. 토큰 유효성 검사 로직 리팩토링
 
-> **Before** — `main.js`가 `main/index.js` 전체를 import해 메인 전용 코드가 모든 페이지에서 실행 → 불필요한 API 4개 호출
+> **Before** — 만료된 토큰 정리를 위한 `fetchMe()` 호출이 `main.js`에 인라인으로 작성되어 메인 페이지 진입 시에만 동작. 사용자가 장바구니·마이페이지로 직접 접속하면 만료 토큰이 정리되지 않았고, 메인 페이지만 다른 페이지와 다른 실행 패턴(export 후 `main.js`가 대신 실행)을 가짐
 
-> **After** — `layout.js` 신규 생성(공통 코드만 담기) → 리스트 페이지에서 불필요 API 4개 전부 제거
+> **After** — `src/js/utils/checkTokenValidity.js` 유틸 함수로 분리, login·signup을 제외한 모든 페이지 entry 파일에 동일하게 적용. 메인 페이지도 다른 페이지와 동일하게 본인이 직접 실행하는 패턴으로 통일
+
+```js
+// src/js/utils/checkTokenValidity.js
+import { fetchMe } from "/src/js/api/auth/index.js";
+
+export function checkTokenValidity() {
+  if (localStorage.getItem("token")) {
+    fetchMe().catch(() => {}); // 만료 시 서버 401 → token/role/member 자동 제거
+  }
+}
+```
+
+```js
+// 각 페이지 entry 파일 (login · signup 제외한 10개 페이지)
+import { checkTokenValidity } from "/src/js/utils/checkTokenValidity.js";
+checkTokenValidity();
+```
+
+```js
+// pages/main/index.js — 다른 페이지와 동일한 패턴으로 통일
+async function initMainPage() { ... }
+checkTokenValidity();
+initMainPage().catch((err) => console.error("초기화 실패:", err));
+
+// js/main.js — import만 하면 자동 실행
+import "/src/pages/main/index.js";
+```
 
 <br/>
 
