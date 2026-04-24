@@ -9,7 +9,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "/src": resolve(__dirname, "src"),
-      "/admin": resolve(__dirname, "admin"), // 추가
     },
   },
   server: {
@@ -38,8 +37,6 @@ export default defineConfig({
         payment: resolve(__dirname, "src/pages/order/payment/index.html"),
         complete: resolve(__dirname, "src/pages/order/complete/index.html"),
         wishlist: resolve(__dirname, "src/pages/wishlist/index.html"),
-        adminLogin: resolve(__dirname, "admin/index.html"),
-        dashboard: resolve(__dirname, "admin/dashboard.html"),
       },
     },
   },
